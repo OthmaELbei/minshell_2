@@ -1,0 +1,63 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
+/*   Updated: 2025/04/28 11:34:37 by oelbied          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
+
+int ft_tchk_egal(char *str)
+
+{
+		int j;
+		j = 0;
+		while (str[j] != '\0')
+		{
+			if(str[j] == '=')
+			break;
+			j++;
+		}
+		return j;
+}
+int env_copy(char *env, char *str)
+{
+	int k =0;
+	int	j = 0;
+		while (env[j] != '\0')
+		{
+			str[j] = env[j];
+			k++;
+			if(env[j] == '=')
+				break;
+			j++;
+		}
+		str[k] = '\0';
+	return j;
+}
+
+void ft_env(char **env, t_listenv **head)
+{
+	int i = 0;
+	int j;
+	char *str;
+	char *pat;
+
+	while(env[i])
+	{
+		j = ft_tchk_egal(env[i]);	
+		str = (char *)malloc((j + 1) * sizeof(char));
+		j = 0;
+	    j = env_copy(env[i], str);
+		pat = ft_strdup(env[i] + j + 1);
+		if(!pat)
+			return ;
+		ft_lstadd_back_ex(head,ft_lstnew_env(str,pat));
+		i++;
+	}
+}
