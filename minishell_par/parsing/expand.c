@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:37:40 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void handle_double_quote(t_expand *ex, char *str)
+#include "../include/minishell.h"
+
+void handle_double_quote(t_expand *ex, char *str, t_listenv *head)
 {
 	ex->i++;
 	while (str[ex->i] && str[ex->i] != '"')
 	{
 		if (str[ex->i] == '$')
 		{
-			process_dollar(ex, str);
+			process_dollar(ex, str, head);
 		}
 		else
 		{
@@ -56,7 +58,7 @@ char **split(t_expand *ex, int *flag)
 	return (result);
 }
 
-char **expand_string(char *str, int *flag)
+char **expand_string(char *str, int *flag, t_listenv *head)
 {
 	t_expand ex;
 
@@ -70,11 +72,11 @@ char **expand_string(char *str, int *flag)
 			handle_single_quote(&ex, str, flag);
 		else if (str[ex.i] == '"')
 		{
-			handle_double_quote(&ex, str);
+			handle_double_quote(&ex, str, head);
 			*flag = 1;
 		}
 		else if (str[ex.i] == '$')
-			process_dollar(&ex, str);
+			process_dollar(&ex, str, head);
 		else
 		{
 			append_char(&ex, str[ex.i]);
@@ -96,7 +98,7 @@ int	ft_null(char *s)
 	return (0);
 }
 
-void ft_expand(t_token *tokens, int i)
+void ft_expand(t_token *tokens, int i, t_listenv *head)
 {
 	char **expanded;
 	int flag;
@@ -107,7 +109,7 @@ void ft_expand(t_token *tokens, int i)
 			&& tokens->value[0] && !ft_null(tokens->value[0]))
 		{
 			flag = 0;
-			expanded = expand_string(tokens->value[0], &flag);
+			expanded = expand_string(tokens->value[0], &flag, head);
 			if (tokens->value)
 			{
 				i = 0;

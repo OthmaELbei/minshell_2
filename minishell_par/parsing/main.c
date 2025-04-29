@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/28 18:27:55 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:38:32 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int check_quotes(char *line, int i, int count_quote)
 	return (0);
 }
 
-t_token *lexing(char *line, int *flag)
+t_token *lexing(char *line, int *flag, t_listenv *head)
 {
 	int		i;
 	int		count_quote;
@@ -63,7 +63,7 @@ t_token *lexing(char *line, int *flag)
 		return (tokens);
 	}
 	ft_rename(tokens);
-	ft_expand(tokens, i);
+	ft_expand(tokens, i, head);
 	ft_herdoc(&tokens);
 	return (tokens);
 }
@@ -138,13 +138,12 @@ t_token *lexing(char *line, int *flag)
 
 
 
-void	helper_main(t_token *tokens, int *flag,char **env, t_listenv **head)
+void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 {
 	t_data	*data;
 	t_token *temp;
 	// t_listenv *head = NULL;
-	if(  *head == NULL)
-		ft_env(env,head);
+
 
 	temp = NULL;
 	if (*flag == 0)
@@ -152,7 +151,7 @@ void	helper_main(t_token *tokens, int *flag,char **env, t_listenv **head)
 		data = parsing(&tokens, temp);
 		//	execution
 			// ft_excution(data);
-		ft_tchc_data(data,head);
+		ft_tchc_data(data, &head);
 	
 	//   char **ennver =	ft_ar_env(head);
 		// ft_execoshen(data,*head);
@@ -168,15 +167,18 @@ void	helper_main(t_token *tokens, int *flag,char **env, t_listenv **head)
 
 int main(int ac, char **av, char **env)
 {
+	(void)ac, (void)av;
 	// atexit(f);
-	((void)ac, (void)av);
-	(void)env; // I am voiding env cause in expand i am using function getenv() !!!!! and should check if env is not NULL also should work with env of execution
-
 	char	*line;
 	int		flag;
 	t_token	*tokens;
-	t_listenv *head = NULL;
+	t_listenv *head;
 
+	head = NULL;
+
+	/* do some change here i change the place from helper_main to main*/
+	if (head == NULL)
+		ft_env(env, &head);
 	while (1)
 	{
 		flag = 0;
@@ -187,8 +189,8 @@ int main(int ac, char **av, char **env)
 			// free_tokens(tokens);
 			break;
 		}
-		tokens = lexing(line, &flag);
-		helper_main(tokens, &flag,env,&head);
+		tokens = lexing(line, &flag, head);
+		helper_main(tokens, &flag, head);
 		
 		if (line[0] != '\0')
 			add_history(line);
@@ -199,7 +201,6 @@ int main(int ac, char **av, char **env)
 	}
 	return (0);
 }
-
 
 
 

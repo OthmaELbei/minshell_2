@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/28 17:28:56 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:39:26 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ typedef struct t_list
 {
 	char *data;
 	struct t_list *next;
-}t_list;
+}	t_list;
+
 typedef struct t_listenv
 {
 	char *constvrble;
 	char *pat;
 	struct t_listenv *next;
-}t_listenv;
+}	t_listenv;
 
 typedef struct s_quote_data
 {
@@ -117,7 +118,7 @@ typedef struct	s_var_data
 
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
-t_token *lexing(char *line, int *flag);
+t_token *lexing(char *line, int *flag, t_listenv *head);
 // void lexing(char *line);
 
 /*---------------tokenization---------------*/
@@ -137,10 +138,10 @@ int	is_pipe(t_keyword type);
 int	pipe_check(t_token *prev, t_token *next);
 
 /*---------------expand---------------*/
-void ft_expand(t_token *tokens, int i);
+void ft_expand(t_token *tokens, int i, t_listenv *head);
 void handle_single_quote(t_expand *ex, char *str, int *flag);
-void process_dollar(t_expand *ex, char *str);
-void handle_odd_dollars(t_expand *ex, char *str);
+void process_dollar(t_expand *ex, char *str, t_listenv *head);
+void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head);
 void extract_var(t_expand *ex, char *str);
 void handle_even_dollars(t_expand *ex);
 void append_char(t_expand *ex, char c);

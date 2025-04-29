@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/28 19:51:33 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:40:27 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,42 @@ void extract_var(t_expand *ex, char *str)
 	ex->var_name = ft_substr(str, start, ex->var_len);
 }
 
-void handle_odd_dollars(t_expand *ex, char *str)
+
+char	*ft_getenv(char	*var_name, t_listenv *head)
+{
+	char	*new_varname;
+	char	*env_name;
+
+	env_name = NULL;
+	new_varname = ft_strjoin(var_name, "=");
+
+	// printf("head->constvrble: %s\n", head->constvrble);
+	// printf("head->path: %s\n", head->pat);
+
+	while (head)
+	{
+		if (ft_strcmp(new_varname, head->constvrble) == 0)
+		{
+			env_name = head->pat;
+			break ;
+		}
+		head = head->next;
+	}
+	printf("env_>name: %s\n", env_name);
+	free(new_varname);
+	return (env_name);
+}
+
+
+void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head)
 {
 	char *val;
 	char *new_res;
-
+	
 	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_') // || ?
 	{
 		extract_var(ex, str);
-		val = getenv(ex->var_name); // if I remove the export should check if THERE is NO EXPORT TO PREVENT THE SEGV
+		val = ft_getenv(ex->var_name, head); // if I remove the export should check if THERE is NO EXPORT TO PREVENT THE SEGV
 		if (!val)
 			val = "";
 		new_res = ft_strjoin(ex->res, val);
@@ -62,7 +89,7 @@ void handle_odd_dollars(t_expand *ex, char *str)
 	}
 }
 
-void process_dollar(t_expand *ex, char *str)
+void process_dollar(t_expand *ex, char *str, t_listenv *head)
 {
 	ex->dollar_count = 0;
 	while (str[ex->i] == '$')
@@ -71,7 +98,7 @@ void process_dollar(t_expand *ex, char *str)
 		ex->i++;
 	}
 	if (ex->dollar_count % 2)
-		handle_odd_dollars(ex, str);
+		handle_odd_dollars(ex, str, head);
 	else
 		handle_even_dollars(ex);
 }
