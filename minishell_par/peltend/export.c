@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 19:40:29 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:31:58 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,16 @@ t_listenv *find_variable(t_listenv *head, char *name)
     }
     return NULL;
 }
+int find_varble(t_listenv *head, char *name)
+{
+    while (head)
+    {
+        if (!ft_strcmp(head->constvrble, name))
+            return 1;
+        head = head->next;
+    }
+    return 0;
+}
 
 void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal)
 {
@@ -152,22 +162,20 @@ void function_call(t_listenv **head, t_data *data)
                 {
                     ft_egal_pacslash(data, splt_egal, splt_plus, joune, *head);
                 }
-                else if (data->args[x][t - 1] == '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
+                else if (t > 0 &&  data->args[x][t - 1] == '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
                 {
                     pluss_egal(data, x, *head,splt_egal);
                 }
-                else if (data->args[x][t - 1] != '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
+                else if (t > 0 && data->args[x][t - 1] != '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
                 {
                     pluss_egal_pacslash(data, x, head,splt_egal);
                 }
 				
                 t++;
             }
-        }else if(!thcking_pluss(data->args[x]))
-		{
-					printf("klkldkld");
-				
-			
+        }else 
+		{  if(!find_varble( *head,data->args[x]))
+			   ft_lstadd_back_ex(head, ft_lstnew_env(data->args[x],"\0"));
 		}
 
         x++;
@@ -176,7 +184,8 @@ void function_call(t_listenv **head, t_data *data)
 
 void ft_export(t_listenv **head, t_data *data)
 {
-    int i = 0, d = 0;
+    int d = 0;
+    int x = 0;
     // t_listenv *joune = *head;
     char *stralfa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
     // int x = 1;
@@ -187,7 +196,6 @@ void ft_export(t_listenv **head, t_data *data)
     {
         while (stralfa[d])
         {
-            i = 0;
             t_listenv *tmp = *head;
             while (tmp)
             {
@@ -196,12 +204,15 @@ void ft_export(t_listenv **head, t_data *data)
                 {
                     char *consdt = ft_tchk_cotachen(tmp->constvrble);
                     char *pats_cotch = ft_tchk_cotachen(tmp->pat);
+					if(tchking_egal(consdt))
                     printf("%s\"%s\"\n", consdt, pats_cotch);
+					else
+					 printf("%s%s\n", consdt, pats_cotch);
                     free(consdt);
                     free(pats_cotch);
                 }
+				x++;
                 tmp = tmp->next;
-                i++;
             }
             d++;
         }

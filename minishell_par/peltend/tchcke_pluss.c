@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 10:42:53 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 08:35:11 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int  thcking_pluss(char *str)
 		}
 		i++;
 	}
-	return 1;
+	return 0;
 }
 int tchking_egal(char *str)
 {
