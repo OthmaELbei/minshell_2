@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 19:15:52 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 10:10:29 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ int tchck_head(t_data *data,t_listenv *head)
 	// 	printf("%s%s\n",cont->constvrble,cont->pat);
 	// 	cont = cont->next;
 	// }
-		
+		if(!head || !data->args[1])
     while (head)
     {
-		if(!ft_strcmp (data->args[1] , head->pat))
+		if(head->pat && !ft_strcmp (data->args[1] , head->pat))
 		{
 			// printf("%s",data->args[1]);
 			printf("%s++++++++++++++++",head->pat);
@@ -118,7 +118,7 @@ void ft_echo(t_data *data,t_listenv **head)
 	return ;
     if (!data || !data->args || !data->args[0])
         return;
-	if(tchck_head(data, *head))
+	if(data->args[1] &&  tchck_head(data, *head))
 	{
 		printf("\n");
 	}
@@ -130,7 +130,7 @@ void ft_echo(t_data *data,t_listenv **head)
 
         while (data->args[i])
         {
-            printf("%s-------", data->args[i]);
+            printf("%s", data->args[i]);
             i++;
             if (data->args[i])
                 printf(" ");

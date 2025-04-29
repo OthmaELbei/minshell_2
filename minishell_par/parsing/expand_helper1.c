@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 09:40:27 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/29 10:04:31 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*ft_getenv(char	*var_name, t_listenv *head)
 		}
 		head = head->next;
 	}
-	printf("env_>name: %s\n", env_name);
+	// printf("env_>name: %s\n", env_name);
 	free(new_varname);
 	return (env_name);
 }

@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/29 09:31:58 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 09:57:36 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listen
     if (flags == 0)
         ft_lstadd_back_ex(&head, ft_lstnew_env(juny, pats));
     else if (flags == 1 && findd)
-        findd->pat = "\"\"";
+        findd->pat = ft_strdup("\"\"");
 }
 
 void extract_name_and_value(char *arg, char **name, char **value)
