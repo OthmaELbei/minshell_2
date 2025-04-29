@@ -6,30 +6,11 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 12:04:06 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:02:58 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
-char	*ft_delimter(char *delimter)
-{
-	//printf("%s\n", delimter);
-	char	*new_delimter;
-	int		i;
-	
-	i = 0;
-	new_delimter = delimter;
-	if (delimter[0] == '\'' || delimter[0] == '\"')
-	{
-		new_delimter = ft_substr(delimter, 0 + 1, ft_strlen(delimter) - 2);
-		printf("he ente here\n");
-	}
-		printf("%s\n", new_delimter);
-		
-	return (new_delimter);
-}
 
 int	open_herdoc(char *delimter, int helper_fd, int *n)
 {
@@ -37,10 +18,6 @@ int	open_herdoc(char *delimter, int helper_fd, int *n)
 	char 	*line;
 	char	**exp;
 	char	*new_line;
-	char	*new_delimter;
-	
-	new_delimter = ft_delimter(delimter);
-	while (1);
 
 	helper_fd = open("/tmp/random_name", O_RDWR | O_CREAT, 0777);
 	fd = open ("/tmp/random_name", O_RDONLY | O_CREAT, 0777);
@@ -49,14 +26,15 @@ int	open_herdoc(char *delimter, int helper_fd, int *n)
 	while (1)
 	{
 		line = readline("> ");
-		if ((!line) || ft_strcmp(line, new_delimter) == 0)
+		if ((!line) || ft_strcmp(line, delimter) == 0)
 		{
 			free(line);
 			break;
 		}
 		exp = ft_expand_herdoc(line, n);
 		new_line = exp[0];
-		(write(helper_fd, new_line, ft_strlen(new_line)), write(helper_fd, "\n", 1));
+		write(helper_fd, new_line, ft_strlen(new_line));
+		write(helper_fd, "\n", 1);
 		(free(line), free(new_line), free(exp));
 	}
 	return (close(helper_fd), fd); // should close the return file descriptor
