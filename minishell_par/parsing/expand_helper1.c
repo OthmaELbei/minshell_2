@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:14:04 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:42:13 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_keyword type)
 {
 	char	*new_varname;
 	char	*env_name;
-
+	t_data	data;
+	
+	data.ambigous = 0;
 	env_name = NULL;
 	new_varname = ft_strjoin(var_name, "=");
 	while (head)
@@ -64,8 +66,13 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_keyword type)
 	if (type >= FREAD_IN && type <= F_APPEND)
 	{
 		if (type != F_HERDOC && (env_name == NULL || word_count(env_name , ' ') > 1) && ex->flag == 0)
-			printf("ambiguous redirect\n");
+		{
+			data.ambigous = 1;
+			//printf("ambiguous redirect\n");
+		}
 	}
+//	data.ambigous = 0; I don't Know if I should add this line --> icjeck i don't need it
+	printf("ambigous: %d\n", data.ambigous);
 	free(new_varname);
 	return (env_name);
 }

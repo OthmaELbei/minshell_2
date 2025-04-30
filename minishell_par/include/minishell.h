@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 09:44:35 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:35:16 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_data
 	char *cmd;
 	char **args;
 	t_redir *file;
+	int		ambigous;
 	struct s_data *next;
 } t_data;
 

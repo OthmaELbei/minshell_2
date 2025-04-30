@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:28:02 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:45:14 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ char **expand_string(char *str, t_listenv *head, t_keyword type)
 		else if (str[ex.i] == '$' && type != F_HERDOC)
 			process_dollar(&ex, str, head, type);
 		else
-		{
-			append_char(&ex, str[ex.i]);
-			ex.i++;
-		}
+			(append_char(&ex, str[ex.i]), ex.i++);
 	}
 	return (split(&ex));
 }
