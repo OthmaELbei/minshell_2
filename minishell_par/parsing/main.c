@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/29 15:57:47 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/04/29 15:19:18 by oelbied          ###   ########.fr       */
+>>>>>>> add export
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +158,7 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 		ft_tchc_data(data, &head);
 	
 	//   char **ennver =	ft_ar_env(head);
-		// ft_execoshen(data,*head);
+		ft_execoshen(data,head);
 		//
 		free_data(data);
 		free_tokens(tokens);
