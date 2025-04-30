@@ -6,20 +6,20 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 15:01:41 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:28:02 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void handle_double_quote(t_expand *ex, char *str, t_listenv *head)
+void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_keyword type)
 {
 	ex->i++;
 	while (str[ex->i] && str[ex->i] != '"')
 	{
-		if (str[ex->i] == '$')
+		if (str[ex->i] == '$' && type != F_HERDOC)
 		{
-			process_dollar(ex, str, head);
+			process_dollar(ex, str, head, type);
 		}
 		else
 		{
@@ -31,13 +31,11 @@ void handle_double_quote(t_expand *ex, char *str, t_listenv *head)
 		ex->i++;
 }
 
-char **split(t_expand *ex, int *flag)
+char **split(t_expand *ex)
 {
 	char **result;
 
-	//printf("==>flag: %d\n", *flag);
-
-	if (*flag == 0)
+	if (ex->flag == 0)
 	{
 		result = ft_split(ex->res, ' ');
 		free(ex->res);
@@ -56,7 +54,7 @@ char **split(t_expand *ex, int *flag)
 	return (result);
 }
 
-char **expand_string(char *str, int *flag, t_listenv *head)
+char **expand_string(char *str, t_listenv *head, t_keyword type)
 {
 	t_expand ex;
 
@@ -67,21 +65,24 @@ char **expand_string(char *str, int *flag, t_listenv *head)
 	while (str[ex.i])
 	{
 		if (str[ex.i] == '\'')
-			handle_single_quote(&ex, str, flag);
+		{
+			ex.flag = 2; //you don't need it for ambigous
+			handle_single_quote(&ex, str); // change the vlage for ambgious
+		}
 		else if (str[ex.i] == '"')
 		{
-			handle_double_quote(&ex, str, head);
-			*flag = 1;
+			ex.flag = 1;
+			handle_double_quote(&ex, str, head, type);
 		}
-		else if (str[ex.i] == '$')
-			process_dollar(&ex, str, head);
+		else if (str[ex.i] == '$' && type != F_HERDOC)
+			process_dollar(&ex, str, head, type);
 		else
 		{
 			append_char(&ex, str[ex.i]);
 			ex.i++;
 		}
 	}
-	return (split(&ex, flag));
+	return (split(&ex));
 }
 
 int	ft_null(char *s)
@@ -96,35 +97,16 @@ int	ft_null(char *s)
 	return (0);
 }
 
-int	check_herdoc(t_keyword type, char *delimter)
-{
-	int	i;
-
-	i = 0;
-	if (type == F_HERDOC)
-	{
-		while (delimter[i])
-		{
-			if (delimter[i] == '$')
-				return (0);
-			i++;
-		}
-	}
-	return (1);
-}
-
 void ft_expand(t_token *tokens, int i, t_listenv *head)
 {
 	char **expanded;
-	int flag;
 
 	while (tokens)
 	{
-		if (check_herdoc(tokens->type, tokens->value[0]) && tokens->value
+		if (tokens->value
 			&& tokens->value[0] && !ft_null(tokens->value[0]))
 		{
-			flag = 0;
-			expanded = expand_string(tokens->value[0], &flag, head);
+			expanded = expand_string(tokens->value[0], head, tokens->type);
 			if (tokens->value)
 			{
 				i = 0;
