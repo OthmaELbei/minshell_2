@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 15:57:47 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:27:13 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ int check_quotes(char *line, int i, int count_quote)
 	return (0);
 }
 
-t_token *lexing(char *line, int *flag, t_listenv *head)
+t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 {
+
+	printf("ambigous(lexing): %d\n", *ambigous);
+
 	int		i;
 	int		count_quote;
 	t_token	*tokens;
@@ -63,7 +66,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 		return (tokens);
 	}
 	ft_rename(tokens);
-	ft_expand(tokens, i, head);
+	ft_expand(tokens, i, head, ambigous);
 	ft_herdoc(&tokens);
 	return (tokens);
 }
@@ -138,7 +141,7 @@ void ft_excution(t_data *data)
 
 
 
-void	helper_main(t_token *tokens, int *flag, t_listenv *head)
+void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 {
 	t_data	*data;
 	t_token *temp;
@@ -149,6 +152,9 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 	if (*flag == 0)
 	{
 		data = parsing(&tokens, temp);
+
+	
+
 		//	execution
 			ft_excution(data);
 		ft_tchc_data(data, &head);
@@ -158,6 +164,8 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 		//
 		free_data(data);
 		free_tokens(tokens);
+		if (*ambigous)
+			printf("ambiguous redirect\n");
 	}
 	else
 	{
@@ -168,36 +176,26 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	// atexit(f);
-	char	*line;
-	int		flag;
-	t_token	*tokens;
-	t_listenv *head;
+	t_token		*tokens;
+	t_listenv 	*head;
+	t_v_main	variable;
 
+	printf("variable.ambigous: %d\n", variable.ambigous);
 	head = NULL;
-
-	/* do some change here i change the place from helper_main to main*/
 	if (head == NULL)
 		ft_env(env, &head);
 	while (1)
 	{
-		flag = 0;
-		line = readline("Minishell: ");
-		if (line == NULL)
-		{
-			// free_data(data);
-			// free_tokens(tokens);
+		variable.ambigous = 0;
+		variable.flag = 0;
+		variable.line = readline("\nMinishell: ");
+		if (variable.line == NULL)
 			break;
-		}
-		tokens = lexing(line, &flag, head);
-		helper_main(tokens, &flag, head);
-		
-		if (line[0] != '\0')
-			add_history(line);
-		//		test: lexing(line);
-
-		free(line);
-		// flag = 0;
+		tokens = lexing(variable.line, &variable.flag, head, &variable.ambigous);
+		helper_main(tokens, &variable.flag, head, &variable.ambigous);
+		if (variable.line[0] != '\0')
+			add_history(variable.line);
+		free(variable.line);
 	}
 	return (0);
 }

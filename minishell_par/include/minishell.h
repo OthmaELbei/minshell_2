@@ -6,12 +6,12 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:35:16 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:24:29 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-// MAZAL ERROR F HERDOC TEST:  << "$VAR"
+// MAZAL ERROR F HERDOC TEST:  << "$VAR" || $"$var"$HOME
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -66,7 +66,7 @@ typedef struct s_quote_data
 	char *line;
 	int *i;
 	char **buffer;
-} t_quote_data;
+}	t_quote_data;
 
 typedef	struct s_initalize
 {
@@ -94,6 +94,25 @@ typedef struct s_expand
 	int		flag;
 }	t_expand;
 
+
+// compoufnd litteral for type and I use for ambigous especially
+// cause I an't declare 5 variable in function
+typedef struct	s_tg // I mean s_type_ambigous
+{
+	t_keyword	type;
+	int			*ambigous;
+}	t_tg;
+
+// the int	main(){} function has 5 variable, so should decrease the variable
+
+typedef struct s_v_main // I mean varible in main
+{
+	char	*line;
+	int		flag;
+	int		ambigous;
+}	t_v_main;
+
+
 /*              ******************************************************************************************        */
 typedef struct s_redir
 {
@@ -108,7 +127,6 @@ typedef struct s_data
 	char *cmd;
 	char **args;
 	t_redir *file;
-	int		ambigous;
 	struct s_data *next;
 } t_data;
 
@@ -127,7 +145,7 @@ typedef struct	s_var_data
 
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
-t_token *lexing(char *line, int *flag, t_listenv *head);
+t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous);
 // void lexing(char *line);
 
 /*---------------tokenization---------------*/
@@ -147,12 +165,12 @@ int	is_pipe(t_keyword type);
 int	pipe_check(t_token *prev, t_token *next);
 
 /*---------------expand---------------*/
-void ft_expand(t_token *tokens, int i, t_listenv *head);
+void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous);
 void handle_single_quote(t_expand *ex, char *str);
-void process_dollar(t_expand *ex, char *str, t_listenv *head, t_keyword type);
-void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head, t_keyword type);
+void process_dollar(t_expand *ex, char *str, t_listenv *head, t_tg *data);
+void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head,t_tg *data);
 void extract_var(t_expand *ex, char *str);
-void handle_even_dollars(t_expand *ex);
+// void handle_even_dollars(t_expand *ex);
 void append_char(t_expand *ex, char c);
 
 /*---------------ft_rename------------*/

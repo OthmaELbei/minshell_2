@@ -6,20 +6,20 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 11:45:14 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:38:26 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_keyword type)
+void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_tg *data)
 {
 	ex->i++;
 	while (str[ex->i] && str[ex->i] != '"')
 	{
-		if (str[ex->i] == '$' && type != F_HERDOC)
+		if (str[ex->i] == '$')
 		{
-			process_dollar(ex, str, head, type);
+				process_dollar(ex, str, head, data);
 		}
 		else
 		{
@@ -54,10 +54,23 @@ char **split(t_expand *ex)
 	return (result);
 }
 
-char **expand_string(char *str, t_listenv *head, t_keyword type)
+// void	init_ambigous(t_ambigous *ambigous)
+// {
+// 	printf("his enter to init_ambigous\n");
+// 	ambigous->ambigous = 0;
+// 	printf("===> ambigous->ambigous: %d\n", ambigous->ambigous);
+// }
+
+char **expand_string(char *str, t_listenv *head, t_tg *data)
 {
 	t_expand ex;
 
+	// printf("yes is here\n");
+
+	// init_ambigous(&ambigous);
+	
+	// printf("after call(init_ambigous)===> ambigous->ambigous: %d\n", *ambigous);
+	
 	ft_memset(&ex, 0, sizeof(ex));
 	ex.res = ft_strdup("");
 	if (!ex.res)
@@ -66,16 +79,16 @@ char **expand_string(char *str, t_listenv *head, t_keyword type)
 	{
 		if (str[ex.i] == '\'')
 		{
-			ex.flag = 2; //you don't need it for ambigous
-			handle_single_quote(&ex, str); // change the vlage for ambgious
+			ex.flag = 2;
+			handle_single_quote(&ex, str);
 		}
 		else if (str[ex.i] == '"')
 		{
 			ex.flag = 1;
-			handle_double_quote(&ex, str, head, type);
+			handle_double_quote(&ex, str, head, data);
 		}
-		else if (str[ex.i] == '$' && type != F_HERDOC)
-			process_dollar(&ex, str, head, type);
+		else if (str[ex.i] == '$')
+			process_dollar(&ex, str, head, data);
 		else
 			(append_char(&ex, str[ex.i]), ex.i++);
 	}
@@ -94,7 +107,7 @@ int	ft_null(char *s)
 	return (0);
 }
 
-void ft_expand(t_token *tokens, int i, t_listenv *head)
+void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 {
 	char **expanded;
 
@@ -103,7 +116,7 @@ void ft_expand(t_token *tokens, int i, t_listenv *head)
 		if (tokens->value
 			&& tokens->value[0] && !ft_null(tokens->value[0]))
 		{
-			expanded = expand_string(tokens->value[0], head, tokens->type);
+			expanded = expand_string(tokens->value[0], head, &(t_tg){tokens->type, ambigous});
 			if (tokens->value)
 			{
 				i = 0;
