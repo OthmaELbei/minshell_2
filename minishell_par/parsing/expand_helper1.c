@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 15:43:45 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:59:26 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,19 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_tg *data)
 		}
 		head = head->next;
 	}
+	printf("======>ex->flag: %d\n", ex->flag);
 	if (data->type >= FREAD_IN && data->type <= F_APPEND)
 	{
 		if (data->type != F_HERDOC
-			&&(env_name == NULL || word_count(env_name , ' ') > 1)
-			&& ex->flag == 0)
+			&&(env_name == NULL || word_count(env_name , ' ') > 1))
 			{
-				*data->ambigous = 1;
+				if ((env_name == NULL && ex->flag == 0)
+					|| (ex->flag == 0 && word_count(env_name , ' ') > 1))
+					*data->ambigous = 1;
 			}
 	}
 	printf("after: %d\n", *data->ambigous);
+	// printf("env_name: %s\n", env_name);
 	free(new_varname);
 	return (env_name);
 }

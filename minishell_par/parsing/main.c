@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 16:27:13 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:03:44 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ int check_quotes(char *line, int i, int count_quote)
 
 t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 {
-
-	printf("ambigous(lexing): %d\n", *ambigous);
-
 	int		i;
 	int		count_quote;
 	t_token	*tokens;
@@ -145,18 +142,14 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 {
 	t_data	*data;
 	t_token *temp;
-	// t_listenv *head = NULL;
 
 
 	temp = NULL;
 	if (*flag == 0)
 	{
 		data = parsing(&tokens, temp);
-
-	
-
 		//	execution
-			ft_excution(data);
+			ft_excution(data); // just send ambigous in 	``ft_tchc_data(data, &head, ambigous);``
 		ft_tchc_data(data, &head);
 	
 	//   char **ennver =	ft_ar_env(head);
@@ -164,7 +157,7 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 		//
 		free_data(data);
 		free_tokens(tokens);
-		if (*ambigous)
+		if (*ambigous) // just for test the execution will print this message
 			printf("ambiguous redirect\n");
 	}
 	else
@@ -180,7 +173,6 @@ int main(int ac, char **av, char **env)
 	t_listenv 	*head;
 	t_v_main	variable;
 
-	printf("variable.ambigous: %d\n", variable.ambigous);
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);

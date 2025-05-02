@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 16:24:29 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:00:50 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ typedef struct s_redir
 
 typedef struct s_data
 {
-	char *cmd;
-	char **args;
-	t_redir *file;
+	char	*cmd;
+	char	**args;
+	t_redir	*file;
 	struct s_data *next;
 } t_data;
 
