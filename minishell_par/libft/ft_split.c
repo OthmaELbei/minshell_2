@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 02:01:21 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/03/17 03:35:54 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:06:13 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*fill_word(char *s, int *preffix, char c)
 	return (word);
 }
 
-static int	word_count(char *s, char c)
+int	word_count(char *s, char c)
 {
 	int	i;
 	int	words;

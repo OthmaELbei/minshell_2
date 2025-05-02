@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 15:19:18 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:35:39 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,10 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 		data = parsing(&tokens, temp);
 		//	execution
 			// ft_excution(data);
-		ft_tchc_data(data, &head);
+		if(ft_tchc_data(data, &head) == 0)
+			ft_execoshen(data,head);
 	
 	//   char **ennver =	ft_ar_env(head);
-		ft_execoshen(data,head);
 		//
 		free_data(data);
 		free_tokens(tokens);

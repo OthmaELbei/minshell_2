@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:02:58 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	open_herdoc(char *delimter, int helper_fd, int *n)
 		}
 		exp = ft_expand_herdoc(line, n);
 		new_line = exp[0];
-		(write(helper_fd, new_line, ft_strlen(new_line)), write(helper_fd, "\n", 1));
+		write(helper_fd, new_line, ft_strlen(new_line));
+		write(helper_fd, "\n", 1);
 		(free(line), free(new_line), free(exp));
 	}
 	return (close(helper_fd), fd); // should close the return file descriptor

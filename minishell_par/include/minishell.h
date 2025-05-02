@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 09:39:26 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:36:39 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+// MAZAL ERROR F HERDOC TEST:  << "$VAR" || $"$var"$HOME
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -41,6 +44,8 @@ typedef enum s_keyword
 	F_APPEND,
 	CMD,
 } t_keyword;
+
+/*****************************************/
 typedef struct t_list
 {
 	char *data;
@@ -52,14 +57,17 @@ typedef struct t_listenv
 	char *constvrble;
 	char *pat;
 	struct t_listenv *next;
+	char *old_pwd;
 }	t_listenv;
+/*****************************************/
+
 
 typedef struct s_quote_data
 {
 	char *line;
 	int *i;
 	char **buffer;
-} t_quote_data;
+}	t_quote_data;
 
 typedef	struct s_initalize
 {
@@ -79,12 +87,32 @@ typedef struct s_token
 
 typedef struct s_expand
 {
-	char *res;
-	int i;
-	int dollar_count;
-	int var_len;
-	char *var_name;
-} t_expand;
+	char	*res;
+	int		i;
+	int		dollar_count;
+	int		var_len;
+	char	*var_name;
+	int		flag;
+}	t_expand;
+
+
+// compoufnd litteral for type and I use for ambigous especially
+// cause I an't declare 5 variable in function
+typedef struct	s_tg // I mean s_type_ambigous
+{
+	t_keyword	type;
+	int			*ambigous;
+}	t_tg;
+
+// the int	main(){} function has 5 variable, so should decrease the variable
+
+typedef struct s_v_main // I mean varible in main
+{
+	char	*line;
+	int		flag;
+	int		ambigous;
+}	t_v_main;
+
 
 /*              ******************************************************************************************        */
 typedef struct s_redir
@@ -118,7 +146,7 @@ typedef struct	s_var_data
 
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
-t_token *lexing(char *line, int *flag, t_listenv *head);
+t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous);
 // void lexing(char *line);
 
 /*---------------tokenization---------------*/
@@ -138,12 +166,12 @@ int	is_pipe(t_keyword type);
 int	pipe_check(t_token *prev, t_token *next);
 
 /*---------------expand---------------*/
-void ft_expand(t_token *tokens, int i, t_listenv *head);
-void handle_single_quote(t_expand *ex, char *str, int *flag);
-void process_dollar(t_expand *ex, char *str, t_listenv *head);
-void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head);
+void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous);
+void handle_single_quote(t_expand *ex, char *str);
+void process_dollar(t_expand *ex, char *str, t_listenv *head, t_tg *data);
+void handle_odd_dollars(t_expand *ex, char *str, t_listenv *head,t_tg *data);
 void extract_var(t_expand *ex, char *str);
-void handle_even_dollars(t_expand *ex);
+// void handle_even_dollars(t_expand *ex);
 void append_char(t_expand *ex, char c);
 
 /*---------------ft_rename------------*/
@@ -183,7 +211,7 @@ int ft_strcmp(char *s1, char *s2);
 /***************ft_split************* */
 void *ft_free(char **strs, int count);
 char **ft_split(char *s, char c);
-
+int	word_count(char *s, char c);
 
 
 
@@ -193,12 +221,12 @@ t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
 void ft_env(char **env, t_listenv **head);
-void ft_tchc_data(t_data *data,t_listenv **head);
+int ft_tchc_data(t_data *data,t_listenv **head);
 void ft_pwd(t_listenv *head);
 void ft_echo(t_data *data,t_listenv **head);
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
-int ft_cd(t_data *data);
+int ft_cd(t_data *data ,t_listenv *head);
 void ft_export(t_listenv **head, t_data *data);
 int  thcking_pluss(char *str);
 int tchking_egal(char *str);
