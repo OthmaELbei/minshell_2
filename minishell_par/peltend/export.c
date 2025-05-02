@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/30 11:27:14 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/30 14:34:10 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,17 +207,13 @@ void function_call(t_listenv **head, t_data *data)
 			{
 				t_listenv *found = tcchk_untel_egall(splt_egal[0], *head);
 				free(found->constvrble);
-				found->constvrble = ft_strjoin(splt_egal[0],"=");
-				printf("%s++++++++++++++++++++++++++++++\n",found->constvrble);
-				
+				found->constvrble = ft_strjoin(splt_egal[0],"=");	
 			}
 			else if(tcchk_untel_egll(splt_plus[0],*head) ==  1 && ft_strchr(data->args[x],'+'))
 			{
-				printf("%s++++++++++++++++++\n",splt_plus[0]);
 				t_listenv *found = tcchk_untel_egall(splt_plus[0], *head);
 				free(found->constvrble);
 				found->constvrble = ft_strjoin(splt_plus[0],"=");
-				// found->constvrble = ft_strjoin(found->constvrble,"=");
 			}
 			
             while (data->args[x][t] != '\0')
@@ -234,7 +230,6 @@ void function_call(t_listenv **head, t_data *data)
                 {
                     pluss_egal_pacslash(data, x, head,splt_egal);
                 }
-				
                 t++;
             }
         }
@@ -245,8 +240,7 @@ void function_call(t_listenv **head, t_data *data)
 			{
 				data->args[x] = splt_plus[0];
 			}
-			
-						 if(  !tcchk_untel_egall(data->args[x], *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
+			 if(  !tcchk_untel_egall(data->args[x], *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
 			   ft_lstadd_back_ex(head, ft_lstnew_env(data->args[x],"\0")); 
 		}
 

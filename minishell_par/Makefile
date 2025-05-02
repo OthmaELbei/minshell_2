@@ -16,7 +16,7 @@ SRC = parsing/main.c parsing/tokenization.c parsing/tokenization_helper.c parsin
 	libft/ft_lstsize_bonus.c peltend/ft_tchc_data.c peltend/pwd.c peltend/echo.c\
 	peltend/unset.c peltend/exit.c peltend/cd.c peltend/export.c peltend/tchcke_pluss.c\
 	peltend/ft_thchk_cotchen.c libft/ft_strchr.c peltend/are_env.c libft/ft_strlcpy.c\
-	peltend/excoshen.c peltend/excoshen_n_test.c libft/ft_strcpy.c
+	peltend/excoshen.c peltend/excoshen_n_test.c libft/ft_strcpy.c libft/word_count.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 02:01:21 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/29 18:06:13 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:40:49 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,6 @@ static char	*fill_word(char *s, int *preffix, char c)
 		word[i++] = s[(*preffix)++];
 	word[i] = '\0';
 	return (word);
-}
-
-int	word_count(char *s, char c)
-{
-	int	i;
-	int	words;
-
-	words = 0;
-	i = 0;
-	while (s[i])
-	{
-		if (!is_sep(s[i], c))
-		{
-			words++;
-			while (s[i] && !is_sep(s[i], c))
-				i++;
-		}
-		else
-			i++;
-	}
-	return (words);
 }
 
 char	**ft_split(char *s, char c)

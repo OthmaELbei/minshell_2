@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:55:50 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv *head)
 			cmd_path = get_command_path(current->args[0], env_ar);
 			if (!cmd_path)
 			{
-				// fprintf(stderr, "%s: command not found\n", current->args[0]);
 				exit(127);
 			}
 			execve(cmd_path, current->args,env_ar);

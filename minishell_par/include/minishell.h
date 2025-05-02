@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/30 09:44:35 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:45:55 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct t_list
 {
 	char *data;
 	struct t_list *next;
+	
 }	t_list;
 
 typedef struct t_listenv
@@ -57,6 +58,7 @@ typedef struct t_listenv
 	char *constvrble;
 	char *pat;
 	struct t_listenv *next;
+	char *old_env;
 }	t_listenv;
 /*****************************************/
 
@@ -201,12 +203,12 @@ t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
 void ft_env(char **env, t_listenv **head);
-void ft_tchc_data(t_data *data,t_listenv **head);
+int  ft_tchc_data(t_data *data,t_listenv **head);
 void ft_pwd(t_listenv *head);
 void ft_echo(t_data *data,t_listenv **head);
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
-int ft_cd(t_data *data);
+int ft_cd(t_data *data ,t_listenv *head);
 void ft_export(t_listenv **head, t_data *data);
 int  thcking_pluss(char *str);
 int tchking_egal(char *str);

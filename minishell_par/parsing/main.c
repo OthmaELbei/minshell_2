@@ -6,13 +6,10 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/29 15:57:47 by sidrissi         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/29 15:19:18 by oelbied          ###   ########.fr       */
->>>>>>> add export
+/*   Updated: 2025/05/01 15:33:06 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -74,69 +71,69 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 
 
 
-void ft_excution(t_data *data)
-{
-	/*		printe cause leaks				*/
-			// PRINT
-			t_data *tmp = data;
-			while (tmp)
-			{
+// void ft_excution(t_data *data)
+// {
+// 	/*		printe cause leaks				*/
+// 			// PRINT
+// 			t_data *tmp = data;
+// 			while (tmp)
+// 			{
 
-				printf("\n\n");
-				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
+// 				printf("\n\n");
+// 				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
 
-				// Print arguments
-				printf("Arguments:");
-				if (tmp->args)
-				{
-					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
-					for (int i = 0; tmp->args[i]; i++)
-						printf(" |%s|", tmp->args[i]);
-				}
-				//Print files
-				printf("\n");
-				if (tmp->file)
-				{
-					while (tmp->file)
-					{
-						if (tmp->file->type != F_HERDOC)
-						{
-							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
-							free(tmp->file->name);
-						}
-						else
-						{
-							// if (tmp->file->fd < 0)
-							// {
-							// 	printf("error in fd \n");
-							// 	return ;
-							// }
-							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+// 				// Print arguments
+// 				printf("Arguments:");
+// 				if (tmp->args)
+// 				{
+// 					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
+// 					for (int i = 0; tmp->args[i]; i++)
+// 						printf(" |%s|", tmp->args[i]);
+// 				}
+// 				//Print files
+// 				printf("\n");
+// 				if (tmp->file)
+// 				{
+// 					while (tmp->file)
+// 					{
+// 						if (tmp->file->type != F_HERDOC)
+// 						{
+// 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
+// 							free(tmp->file->name);
+// 						}
+// 						else
+// 						{
+// 							// if (tmp->file->fd < 0)
+// 							// {
+// 							// 	printf("error in fd \n");
+// 							// 	return ;
+// 							// }
+// 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
-								char	buffer[1337];
-								int		reads_size;
-								if (tmp->file->fd < 0)
-									printf("fd is failed\n");
+// 								char	buffer[1337];
+// 								int		reads_size;
+// 								if (tmp->file->fd < 0)
+// 									printf("fd is failed\n");
 								
 
 
-								reads_size = read(tmp->file->fd, buffer, 1337);
-								printf("reads_size: %d\n", reads_size);
+// 								reads_size = read(tmp->file->fd, buffer, 1337);
+// 								printf("reads_size: %d\n", reads_size);
 								
-								buffer[reads_size] = '\0';
+// 								buffer[reads_size] = '\0';
 								
-								printf("buffer: %s\n", buffer);
-								if (reads_size <= 0)
-									printf("reads_size read nothing\n");
-						}
+// 								printf("buffer: %s\n", buffer);
+// 								if (reads_size <= 0)
+// 									printf("reads_size read nothing\n");
+// 						}
 						
-						tmp->file = tmp->file->next;
-					}
+// 						tmp->file = tmp->file->next;
+// 					}
 					
-				}
-				tmp = tmp->next;
-			}
-}
+// 				}
+// 				tmp = tmp->next;
+// 			}
+// }
 
 
 
@@ -154,11 +151,11 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 	{
 		data = parsing(&tokens, temp);
 		//	execution
-			ft_excution(data);
-		ft_tchc_data(data, &head);
-	
-	//   char **ennver =	ft_ar_env(head);
+			// ft_excution(data);
+		if(ft_tchc_data(data, &head) == 0)
+		{
 		ft_execoshen(data,head);
+		}
 		//
 		free_data(data);
 		free_tokens(tokens);
