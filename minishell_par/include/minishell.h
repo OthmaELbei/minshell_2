@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/02 11:00:50 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:08:11 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct t_listenv
 	char *constvrble;
 	char *pat;
 	struct t_listenv *next;
+	char *old_pwd;
 }	t_listenv;
 /*****************************************/
 
@@ -220,12 +221,12 @@ t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
 void ft_env(char **env, t_listenv **head);
-void ft_tchc_data(t_data *data,t_listenv **head);
+int ft_tchc_data(t_data *data,t_listenv **head);
 void ft_pwd(t_listenv *head);
 void ft_echo(t_data *data,t_listenv **head);
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
-int ft_cd(t_data *data);
+int ft_cd(t_data *data ,t_listenv *head);
 void ft_export(t_listenv **head, t_data *data);
 int  thcking_pluss(char *str);
 int tchking_egal(char *str);

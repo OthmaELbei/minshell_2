@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 00:59:09 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:43:50 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 void ft_pwd(t_listenv *head)
 {
-	(void )head;
-	printf("%s\n" , getcwd(NULL, 0));
+	if( getcwd(NULL, 0) == NULL)
+	{
+		if(head->old_pwd == NULL)
+		head->old_pwd = getenv("pwd");
+		printf("%s\n",head->old_pwd);
+	}
+	else
+	{
+		head->old_pwd = getcwd(NULL,0);
+		printf("%s",head->old_pwd);
+	}
 }

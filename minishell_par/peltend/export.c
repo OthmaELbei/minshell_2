@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/29 09:57:36 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:27:14 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,22 +143,86 @@ void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal
     free(name);
     free(value);
 }
+t_listenv *tcchk_untel_egall(char *data,t_listenv *head)
+{
+	while(head)
+	{
+		if(!ft_strcmp(data,head->constvrble))
+		{
+			return head;
+		}
+		head = head->next;
+	}
+	return NULL;
+}
+int tcchk_untel_egll(char *data, t_listenv *head)
+{
+	while (head)
+	{
+		if (strcmp(data, head->constvrble) == 0)
+		{
+			return 1;
+		}
+		head = head->next;
+	}
+	return 0;
+}
+int ft_tchck_data(char *data)
+{
+	int i = 0;
+if (!data || !(ft_isalpha(data[0]) || data[0] == '_'))
+		return 0;
+
+	while (data[i] && data[i] != '=' && !(data[i] == '+' && data[i+1] == '='))
+	{
+		if (!(ft_isalnum(data[i]) || data[i] == '_'))
+			return 0;
+		i++;
+	}
+	return 1;
+}
 void function_call(t_listenv **head, t_data *data)
 {
 	
 	     t_listenv *joune = *head;
 		  int x = 1;
+		  int flags;
 		   while (data->args[x])
     {
         int t = 0;
+		flags = 0;
         char **splt_egal = ft_split(data->args[x], '=');
         char **splt_plus = ft_split(data->args[x], '+');
+		
+		if(!ft_tchck_data(data->args[x]))
+		{
+			printf("export: '%s': not a valid identifier", data->args[x]);
+			x++;
+			continue;
+		}
 
-        if (thcking_pluss(data->args[x]) || tchking_egal(data->args[x]))
+     if ( thcking_pluss(data->args[x]) || tchking_egal(data->args[x]))
         {
+			if(tcchk_untel_egll(splt_egal[0],*head) ==  1)
+			{
+				t_listenv *found = tcchk_untel_egall(splt_egal[0], *head);
+				free(found->constvrble);
+				found->constvrble = ft_strjoin(splt_egal[0],"=");
+				printf("%s++++++++++++++++++++++++++++++\n",found->constvrble);
+				
+			}
+			else if(tcchk_untel_egll(splt_plus[0],*head) ==  1 && ft_strchr(data->args[x],'+'))
+			{
+				printf("%s++++++++++++++++++\n",splt_plus[0]);
+				t_listenv *found = tcchk_untel_egall(splt_plus[0], *head);
+				free(found->constvrble);
+				found->constvrble = ft_strjoin(splt_plus[0],"=");
+				// found->constvrble = ft_strjoin(found->constvrble,"=");
+			}
+			
             while (data->args[x][t] != '\0')
             {
-                if (data->args[x][t] == '=' && data->args[x][t + 1] == '\0')
+				 if (data->args[x][t] == '=' && data->args[x][t + 1] == '\0')
                 {
                     ft_egal_pacslash(data, splt_egal, splt_plus, joune, *head);
                 }
@@ -173,9 +237,17 @@ void function_call(t_listenv **head, t_data *data)
 				
                 t++;
             }
-        }else 
-		{  if(!find_varble( *head,data->args[x]))
-			   ft_lstadd_back_ex(head, ft_lstnew_env(data->args[x],"\0"));
+        }
+		else 
+		{
+			char *strnig = ft_strjoin(data->args[x],"=");
+			if(tcchk_untel_egll(splt_plus[0],*head) ==  1)
+			{
+				data->args[x] = splt_plus[0];
+			}
+			
+						 if(  !tcchk_untel_egall(data->args[x], *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
+			   ft_lstadd_back_ex(head, ft_lstnew_env(data->args[x],"\0")); 
 		}
 
         x++;

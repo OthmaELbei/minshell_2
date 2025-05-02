@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/02 11:03:44 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:07:31 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 {
 	t_data	*data;
 	t_token *temp;
+	// t_listenv *head = NULL;
 
 
 	temp = NULL;
