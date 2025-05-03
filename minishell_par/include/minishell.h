@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/02 11:08:11 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/03 11:42:38 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ typedef struct t_listenv
 	struct t_listenv *next;
 	char *old_pwd;
 }	t_listenv;
+typedef struct t_listexport
+{
+	char *constvrble;
+	char *pat;
+	struct t_listenv *next;
+	char *old_pwd;
+}	t_listexport;
 /*****************************************/
 
 
@@ -227,7 +234,7 @@ void ft_echo(t_data *data,t_listenv **head);
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
 int ft_cd(t_data *data ,t_listenv *head);
-void ft_export(t_listenv **head, t_data *data);
+void ft_export(t_listenv *head, t_data *data);
 int  thcking_pluss(char *str);
 int tchking_egal(char *str);
 char	*ft_strchr(const char *s, int c);
@@ -239,7 +246,22 @@ int	ft_strncmp(const char *s1, const char *d2, size_t n);
 char *get_command_path(char *commnd, char **ary_envp);
 char	*ft_strcpy(char *dst, const char *src,int i);
 int	ft_isalpha(int c);
+void	ft_lstclear(t_listenv **lst, void (*del)(void*));
 
+// export
+
+t_listenv *tcchk_untel_egall(char *data,t_listenv *head);
+int tcchk_untel_egll(char *data, t_listenv *head);
+int ft_tchck_argmo_exat(char *data);
+void tchek_only_key(char *data,char **splt_egal , char **splt_plus,t_listenv **head);
+void free_copy_listenv(t_listenv *head);
+void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head);
+void extract_name_and_value(char *arg, char **name, char **value);
+void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head);
+void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal);
+void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
+t_listenv *find_variable(t_listenv *head, char *name);
+int find_varble(t_listenv *head, char *name);
 /* just remove them cause we don't use them*/
 // int		ft_strncmp(char *s1, char *s2, int n);/*not use it check before remove it */
 // char	*ft_strndup(char *s, size_t n);/*not use it check before remove it */

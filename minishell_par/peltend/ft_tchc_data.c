@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/02 10:35:11 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/03 09:58:41 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int ft_tchc_data(t_data *data,t_listenv **head)
 			printf("%s",tamp->constvrble);
 			printf("%s\n",tamp->pat);
 			tamp =  tamp->next;
-			return 1;
+			// return 1;
 			}
 	}
 	else if(!ft_strcmp(data->cmd,"pwd"))
@@ -39,6 +39,6 @@ int ft_tchc_data(t_data *data,t_listenv **head)
 	else if(!ft_strcmp(data->cmd,"cd"))
 		return (ft_cd(data,*head),1);
 	else if(!ft_strcmp(data->cmd,"export"))
-		return (ft_export(head ,data),1);
+		return (ft_export(*head ,data),1);
 	return 0;
 }

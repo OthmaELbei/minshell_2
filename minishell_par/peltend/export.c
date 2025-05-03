@@ -6,287 +6,125 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/30 11:27:14 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/03 11:44:12 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-
-void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head)
+void only_key(char *data,char **splt_plus,t_listenv **head)
 {
-    char *juny;
-    int x = 1;
-    int flags = 0;
-    char *pats = "";
-
-    if (ft_strchr(data->args[x], '+'))
-        juny = ft_strjoin(splt_plus[0], "=");
-    else if (tchking_egal(data->args[x]))
-        juny = ft_strjoin(splt_egal[0], "=");
-    joune = head;
-    t_listenv *findd = NULL;
-    while (joune)
-    {
-        if (!ft_strcmp(joune->constvrble, juny))
-        {
-            flags = 1;
-            findd = joune;
-            break;
-        }
-        joune = joune->next;
-    }
-    if (flags == 0)
-        ft_lstadd_back_ex(&head, ft_lstnew_env(juny, pats));
-    else if (flags == 1 && findd)
-        findd->pat = ft_strdup("\"\"");
+	char *strnig = ft_strjoin(data,"=");
+	if (tcchk_untel_egll(splt_plus[0],*head) ==  1)
+		data = splt_plus[0];
+	if (!tcchk_untel_egall(data, *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
+		ft_lstadd_back_ex(head, ft_lstnew_env(data,"\0")); 
 }
 
-void extract_name_and_value(char *arg, char **name, char **value)
-{
-    int i;
-	int value_len;
-	int name_len;
-	
-	name_len = 0;
-	value_len = 0;
-	i = 0;
-    while (arg[i] != '=')
-    {
-        if (arg[i] != '+')
-            name_len++;
-        i++;
-    }
-    *name = malloc(name_len + 2); 
-    int name_idx = 0, j = 0;
-    while (arg[j] != '=')
-    {
-        if (arg[j] != '+')
-            (*name)[name_idx++] = arg[j];
-        j++;
-    }
-    (*name)[name_idx++] = '=';
-    (*name)[name_idx] = '\0';
-    value_len = strlen(arg + i + 1);
-    *value = malloc(value_len + 1);
-    strcpy(*value, arg + i + 1);
-}
-
-t_listenv *find_variable(t_listenv *head, char *name)
-{
-    while (head)
-    {
-        if (!ft_strcmp(head->constvrble, name))
-            return head;
-        head = head->next;
-    }
-    return NULL;
-}
-int find_varble(t_listenv *head, char *name)
-{
-    while (head)
-    {
-        if (!ft_strcmp(head->constvrble, name))
-            return 1;
-        head = head->next;
-    }
-    return 0;
-}
-
-void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal)
-{
-    char *name;
-    char *value;
-    t_listenv *findd;
-
-    extract_name_and_value(data->args[x], &name, &value);
-    findd = find_variable(head, name);
-    if (!findd)
-        ft_lstadd_back_ex(&head, ft_lstnew_env(name, value));
-    else
-    {
-        if (findd->pat)
-        {
-            char *new_pat = ft_strjoin(findd->pat, splt_egal[1]);
-            free(findd->pat);
-            findd->pat = new_pat;
-        }
-        else
-            findd->pat = ft_strdup(splt_egal[1]);
-    }
-    free(name);
-    free(value);
-}
-
-
-void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal)
-{
-    char *name;
-    char *value;
-    t_listenv *findd;
-
-    extract_name_and_value(data->args[x], &name, &value);
-    findd = find_variable(*head, name);
-
-    if (!findd)
-    {
-        printf("Adding new variable\n");
-        ft_lstadd_back_ex(head, ft_lstnew_env(name, value));
-    }
-    else
-    {
-        printf("Updating existing variable\n");
-        free(findd->pat);
-        findd->pat = strdup(splt_egal[1]);
-    }
-
-    free(name);
-    free(value);
-}
-t_listenv *tcchk_untel_egall(char *data,t_listenv *head)
-{
-	while(head)
-	{
-		if(!ft_strcmp(data,head->constvrble))
-		{
-			return head;
-		}
-		head = head->next;
-	}
-	return NULL;
-}
-int tcchk_untel_egll(char *data, t_listenv *head)
-{
-	while (head)
-	{
-		if (strcmp(data, head->constvrble) == 0)
-		{
-			return 1;
-		}
-		head = head->next;
-	}
-	return 0;
-}
-int ft_tchck_data(char *data)
-{
-	int i = 0;
-if (!data || !(ft_isalpha(data[0]) || data[0] == '_'))
-		return 0;
-
-	while (data[i] && data[i] != '=' && !(data[i] == '+' && data[i+1] == '='))
-	{
-		if (!(ft_isalnum(data[i]) || data[i] == '_'))
-			return 0;
-		i++;
-	}
-	return 1;
-}
 void function_call(t_listenv **head, t_data *data)
 {
-	
-	     t_listenv *joune = *head;
-		  int x = 1;
-		  int flags;
-		   while (data->args[x])
+	char **splt_egal;
+	char **splt_plus; 
+	int x;
+
+	x = 1;
+	while (data->args[x])
     {
-        int t = 0;
-		flags = 0;
-        char **splt_egal = ft_split(data->args[x], '=');
-        char **splt_plus = ft_split(data->args[x], '+');
-		
-		if(!ft_tchck_data(data->args[x]))
+       	splt_egal = ft_split(data->args[x], '=');
+	   	if(!splt_egal || !splt_plus)
+	    	return;
+       	splt_plus = ft_split(data->args[x], '+');
+		if(!ft_tchck_argmo_exat(data->args[x]))
 		{
-			printf("export: '%s': not a valid identifier", data->args[x]);
+			printf("export: '%s': not a valid identifier\n", data->args[x]);
 			x++;
 			continue;
 		}
-
-     if ( thcking_pluss(data->args[x]) || tchking_egal(data->args[x]))
+   	  	if (thcking_pluss(data->args[x]) || tchking_egal(data->args[x]))
         {
-			if(tcchk_untel_egll(splt_egal[0],*head) ==  1)
-			{
-				t_listenv *found = tcchk_untel_egall(splt_egal[0], *head);
-				free(found->constvrble);
-				found->constvrble = ft_strjoin(splt_egal[0],"=");
-				printf("%s++++++++++++++++++++++++++++++\n",found->constvrble);
-				
-			}
-			else if(tcchk_untel_egll(splt_plus[0],*head) ==  1 && ft_strchr(data->args[x],'+'))
-			{
-				printf("%s++++++++++++++++++\n",splt_plus[0]);
-				t_listenv *found = tcchk_untel_egall(splt_plus[0], *head);
-				free(found->constvrble);
-				found->constvrble = ft_strjoin(splt_plus[0],"=");
-				// found->constvrble = ft_strjoin(found->constvrble,"=");
-			}
-			
-            while (data->args[x][t] != '\0')
-            {
-				 if (data->args[x][t] == '=' && data->args[x][t + 1] == '\0')
-                {
-                    ft_egal_pacslash(data, splt_egal, splt_plus, joune, *head);
-                }
-                else if (t > 0 &&  data->args[x][t - 1] == '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
-                {
-                    pluss_egal(data, x, *head,splt_egal);
-                }
-                else if (t > 0 && data->args[x][t - 1] != '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
-                {
-                    pluss_egal_pacslash(data, x, head,splt_egal);
-                }
-				
-                t++;
-            }
+			tchek_only_key(data->args[x],splt_egal ,splt_plus,head);
+			separe_egal_pluss(data,  x,splt_egal,splt_plus,head);
         }
 		else 
-		{
-			char *strnig = ft_strjoin(data->args[x],"=");
-			if(tcchk_untel_egll(splt_plus[0],*head) ==  1)
-			{
-				data->args[x] = splt_plus[0];
-			}
-			
-						 if(  !tcchk_untel_egall(data->args[x], *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
-			   ft_lstadd_back_ex(head, ft_lstnew_env(data->args[x],"\0")); 
-		}
-
+			only_key(data->args[x],splt_plus,head);
         x++;
     }
 }
 
-void ft_export(t_listenv **head, t_data *data)
+t_listenv *copy_listenv(t_listenv *head)
 {
-    int d = 0;
-    int x = 0;
-    // t_listenv *joune = *head;
-    char *stralfa = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
-    // int x = 1;
+	t_listenv *new_head = NULL;
+	t_listenv *last = NULL;
 
-   
- 	function_call(head, data);
-    if (!ft_strcmp(data->args[0], "export"))
-    {
-        while (stralfa[d])
-        {
-            t_listenv *tmp = *head;
-            while (tmp)
+	while (head)
+	{
+		t_listenv *new_node = malloc(sizeof(t_listenv));
+		if (!new_node)
+			return NULL;
+
+		new_node->constvrble = strdup(head->constvrble);
+		new_node->pat = strdup(head->pat);
+		new_node->next = NULL;
+
+		if (!new_head)
+			new_head = new_node;
+		else
+			last->next = new_node;
+
+		last = new_node;
+		head = head->next;
+	}
+	return new_head;
+}
+
+t_listenv *sort_export(t_listenv *head)
+{
+	t_listenv *timp = NULL;
+	char *first_cont;
+	char *first_part;
+
+	int swap = 1 ;
+	while(swap){
+		swap =0;
+	timp = head;
+		
+	while(timp && timp->next)
+	{
+		if(ft_strcmp(timp->constvrble,timp->next->constvrble) > 0)
+		{
+		   first_cont = timp->constvrble;
+		   first_part = timp->pat;
+		   timp->constvrble = timp->next->constvrble;
+		   timp->pat= timp->next->pat;
+		   timp->next->constvrble = first_cont;
+		   timp->next->pat = first_part ;
+		   swap = 1;
+		}
+		timp = timp->next;
+	}	
+	}
+	return head;	
+}
+void ft_export(t_listenv *head, t_data *data)
+{
+	t_listenv *copy = copy_listenv(head);
+    t_listenv *sort_head = sort_export(copy );
+
+ 	function_call(&head, data);
+            while (sort_head)
             {
-                char *strr = tmp->constvrble;
-                if (stralfa[d] == strr[0])
-                {
-                    char *consdt = ft_tchk_cotachen(tmp->constvrble);
-                    char *pats_cotch = ft_tchk_cotachen(tmp->pat);
-					if(tchking_egal(consdt))
-                    printf("%s\"%s\"\n", consdt, pats_cotch);
-					else
-					 printf("%s%s\n", consdt, pats_cotch);
+             char *consdt = ft_tchk_cotachen(sort_head->constvrble);
+            char *pats_cotch = ft_tchk_cotachen(sort_head->pat);
+					 if (!ft_strcmp(data->args[0], "export") && data->args[1] == NULL)
+					 {
+						if(tchking_egal(consdt))
+                   		 printf("%s\"%s\"\n", consdt, pats_cotch);
+						else
+						 printf("%s%s\n", consdt, pats_cotch);
+					 }
                     free(consdt);
                     free(pats_cotch);
-                }
-				x++;
-                tmp = tmp->next;
-            }
-            d++;
-        }
-    }
+                    sort_head = sort_head->next;
+              }
+			free_copy_listenv(copy);
 }
