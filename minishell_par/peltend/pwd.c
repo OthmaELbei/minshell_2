@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 00:59:09 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/02 10:43:50 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/05 08:42:31 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void ft_pwd(t_listenv *head)
 	else
 	{
 		head->old_pwd = getcwd(NULL,0);
-		printf("%s",head->old_pwd);
+		printf("%s\n",head->old_pwd);
 	}
 }

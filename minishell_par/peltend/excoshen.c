@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/28 14:55:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/03 19:22:12 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int ft_execoshen(t_data *data, t_listenv *head)
     pid_t pid;
     t_data *current = data;
 
+	// if( data)
+	// 	return 0;
     while (current)
     {
         if (current->next && pipe(pipe_fd) == -1)

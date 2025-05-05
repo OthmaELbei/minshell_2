@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/02 11:33:31 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:44:02 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,10 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 		if(ft_tchc_data(data, &head) == 0)
 			ft_execoshen(data,head);
 		
-	
+
 	//   char **ennver =	ft_ar_env(head);
 		//
+		
 		free_data(data);
 		free_tokens(tokens);
 		if (*ambigous) // just for test the execution will print this message
@@ -168,21 +169,28 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 	}
 }
 
+void	f()
+{
+	system("leaks minishell ");
+}
+
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
 	t_token		*tokens;
 	t_listenv 	*head;
 	t_v_main	variable;
-
+	atexit(f);
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
+	
 	while (1)
 	{
+
 		variable.ambigous = 0;
 		variable.flag = 0;
-		variable.line = readline("\nMinishell: ");
+		variable.line = readline("Minishell: ");
 		if (variable.line == NULL)
 			break;
 		tokens = lexing(variable.line, &variable.flag, head, &variable.ambigous);
@@ -191,6 +199,8 @@ int main(int ac, char **av, char **env)
 			add_history(variable.line);
 		free(variable.line);
 	}
+	// (head);
+		free_copy_listenv(head);
 	return (0);
 }
 
