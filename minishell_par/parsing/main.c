@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 12:54:00 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:32:48 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 	}
 	ft_rename(tokens);
 	ft_expand(tokens, i, head, ambigous);
-	ft_herdoc(&tokens);
+	ft_herdoc(&tokens, head);
 	return (tokens);
 }
 
@@ -134,8 +134,6 @@ t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 // 				tmp = tmp->next;
 // 			}
 // }
-
-
 
 
 
@@ -211,7 +209,7 @@ int main(int ac, char **av, char **env)
 	
 	while (1)
 	{
-		signal(SIGINT, siginl_hendel); 
+
 		variable.ambigous = 0;
 		variable.flag = 0;
 		variable.line = readline("Minishell: ");

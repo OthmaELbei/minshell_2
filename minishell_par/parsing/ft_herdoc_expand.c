@@ -6,13 +6,13 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:54:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/24 09:59:40 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/10 10:48:21 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void process_dollar_herdoc(t_expand *ex, char *str)
+void process_dollar_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
 {
 	ex->dollar_count = 0;
 	while (str[ex->i] == '$')
@@ -21,28 +21,35 @@ void process_dollar_herdoc(t_expand *ex, char *str)
 		ex->i++;
 	}
 	if (ex->dollar_count % 2)
-		handle_odd_dollars_herdoc(ex, str);
-	else
-		handle_even_dollars_herdoc(ex);
+		handle_odd_dollars_herdoc(ex, str, flag, head);
 }
 
-
-void handle_herdoc(t_expand *ex, char *str)
+void handle_quote_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
 {
-	while (str[ex->i])
-	{
-		if (str[ex->i] == '$')
-		{
-			process_dollar_herdoc(ex, str);
-		}
-		else
+	if (*flag == 10)
+	{		
+		ex->i++;
+		while (str[ex->i] && (str[ex->i] != '"' && str[ex->i] != '\''))
 		{
 			append_char_herdoc(ex, str[ex->i]);
 			ex->i++;
-		}	
+		}
+		if (str[ex->i] == '"' || str[ex->i] == '\'')
+			ex->i++;
 	}
-	if (str[ex->i] == '"')
-		ex->i++;
+	else
+	{
+		while (str[ex->i])
+		{
+			if (str[ex->i] == '$' && *flag != 10)
+				process_dollar_herdoc(ex, str, flag, head);
+			else
+			{
+				append_char_herdoc(ex, str[ex->i]);
+				ex->i++;
+			}
+		}
+	}
 }
 
 char **split_herdoc(t_expand *ex, int *flag)
@@ -68,7 +75,7 @@ char **split_herdoc(t_expand *ex, int *flag)
 	return (result);
 }
 
-char **ft_expand_herdoc(char *str, int *flag)
+char **ft_expand_herdoc(char *str, int *flag, t_listenv *head)
 {
 	t_expand ex;
 
@@ -78,15 +85,12 @@ char **ft_expand_herdoc(char *str, int *flag)
 		return (NULL);
 	while (str[ex.i])
 	{
-		
-		handle_herdoc(&ex, str);
-		if (str[ex.i] == '$')
-			process_dollar_herdoc(&ex, str);
+		if (str[ex.i] == '"' || str[ex.i] == '\'')
+			handle_quote_herdoc(&ex, str, flag, head);
+		else if (str[ex.i] == '$' && *flag != 10)
+			process_dollar_herdoc(&ex, str, flag, head);
 		else
-		{
-			append_char_herdoc(&ex, str[ex.i]);
-			ex.i++;
-		}
+			(append_char_herdoc(&ex, str[ex.i]), ex.i++);
 	}
 	return (split_herdoc(&ex, flag));
 }
