@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/29 10:10:29 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:08:45 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,32 +85,10 @@
 // 		 	printf("\n");
 // 	}
 // }
-int tchck_head(t_data *data,t_listenv *head)
-{
-    if (!head)
-        return 1;
 
-    // t_listenv *cont = head;
-	// while(cont)
-	// {
-	// 	printf("%s%s\n",cont->constvrble,cont->pat);
-	// 	cont = cont->next;
-	// }
-		if(!head || !data->args[1])
-    while (head)
-    {
-		if(head->pat && !ft_strcmp (data->args[1] , head->pat))
-		{
-			// printf("%s",data->args[1]);
-			printf("%s++++++++++++++++",head->pat);
-        return 1 ;
-		}
-        head = head->next;
-    }
-	
-	return 0;
-}
-void ft_echo(t_data *data,t_listenv **head)
+
+
+void ft_echo(t_data *data, int fd )
 {
     int i = 1;
     int newline = 1;
@@ -118,10 +96,7 @@ void ft_echo(t_data *data,t_listenv **head)
 	return ;
     if (!data || !data->args || !data->args[0])
         return;
-	if(data->args[1] &&  tchck_head(data, *head))
-	{
-		printf("\n");
-	}
+	
  if (data->args[1] && !ft_strcmp(data->args[1], "-n"))
         {
             newline = 0;
@@ -130,13 +105,16 @@ void ft_echo(t_data *data,t_listenv **head)
 
         while (data->args[i])
         {
-            printf("%s", data->args[i]);
+            // printf("%s", data->args[i]);
+      
+			
+			ft_putstr_fd(data->args[i],fd);
             i++;
             if (data->args[i])
-                printf(" ");
+              	ft_putstr_fd(" ",fd);
         }
 
         if (newline)
-            printf("\n");
+          	ft_putstr_fd("\n",fd);
     
 }

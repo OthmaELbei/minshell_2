@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/05 10:15:37 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:27:27 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ t_listenv *copy_listenv(t_listenv *head)
 {
 	t_listenv *new_head = NULL;
 	t_listenv *last = NULL;
-
+	if (head == NULL)
+		return (NULL);
+	
 	while (head)
 	{
 		t_listenv *new_node = malloc(sizeof(t_listenv));
@@ -108,6 +110,8 @@ t_listenv *sort_export(t_listenv *head)
 void ft_export(t_listenv *head, t_data *data)
 {
 	t_listenv *copy = copy_listenv(head);
+	if (!copy)
+		return ;
     t_listenv *sort_head = sort_export(copy );
 
  	function_call(&head, data);

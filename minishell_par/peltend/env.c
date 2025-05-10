@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/05 10:46:54 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/05 11:45:03 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void ft_env(char **env, t_listenv **head)
             i++;
             continue; 
         }
-		
 		str = (char *)malloc((name_len + 2) * sizeof(char));
 		if(!str)
 		return ;
@@ -69,10 +68,7 @@ void ft_env(char **env, t_listenv **head)
 	    j = env_copy(env[i], str);
 		pat = ft_strdup(env[i] + j + 1);
 		if(!pat)
-		{
-			free(str);
-			return ;
-		}
+			return (free(str));
 		t_listenv *node_env = ft_lstnew_env(str,pat);
 		if(!node_env)
 		{

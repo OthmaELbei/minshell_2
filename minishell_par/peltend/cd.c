@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:54 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/05 09:51:18 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/09 20:53:16 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int ft_cd(t_data *data ,t_listenv *head)
 		if(chdir(data->args[1]) == -1)
 		{
 			 printf("%s: No such \n",data->args[1]);	
-			
 			 return 1;
 		}
 	}

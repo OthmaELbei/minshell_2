@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/03 19:22:12 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:20:21 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void ft_erorr(char *str)
 	 perror(str);
      exit(EXIT_FAILURE);
 }
-void tf_tchee_redercter( t_data *current)
+
+void tf_tchee_redercter( t_data *current , t_listenv **head)
 {
 	t_redir	*redir;
-	int		fd;
 
+  int fd = -1;
 	redir = current->file;
 		while (redir)
 		{
@@ -57,9 +58,17 @@ void tf_tchee_redercter( t_data *current)
 			else if(redir->type == F_HERDOC)
 			{
 				ft_tchek_herdok(redir);
+					redir = redir->next;
 				continue;
 			}
+         if (fd < 0) {
+            perror("Error opening file");
+            exit(1);
+        }
 			thcke_fd(fd);
+			// ft_echo(current,&head,fd);
+			(*head)->fdd = fd;
+		// ft_tchc_data(current,&head,head->fdd);
 		  	if (redir->type == FWRITE_OUT || redir->type == F_APPEND) 
             dup2(fd, STDOUT_FILENO);
     		 else if (redir->type == FREAD_IN)
@@ -76,10 +85,11 @@ void ft_close_pip(int *pipe_fd)
     close(pipe_fd[1]);
 }
 
-void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv *head)
+void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 {
 	char **env_ar;
 	char *cmd_path;
+
 	
 	if (prev_fd != -1)
             {
@@ -89,20 +99,32 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv *head)
             if (current->next)
                ft_close_pip(pipe_fd);
             if ( current->file)
-              tf_tchee_redercter( current);
-			env_ar = ft_ar_env(head);
+              tf_tchee_redercter( current ,head);
+
+			
+			env_ar = ft_ar_env(*head);
 			cmd_path = get_command_path(current->args[0], env_ar);
-			if (!cmd_path)
+			// if (!cmd_path && ft_tchc_data(current, &head ) == 0)
+			if (!cmd_path )
 			{
-				// fprintf(stderr, "%s: command not found\n", current->args[0]);
+				fprintf(stderr, "%s: command not found\n", current->args[0]);
 				exit(127);
 			}
-			execve(cmd_path, current->args,env_ar);
-			perror("execve");
-			free(cmd_path);
-			exit(EXIT_FAILURE);
-            perror("execvp");
-            exit(EXIT_FAILURE);
+			if (ft_strcmp(current->args[0], "echo") == 0)
+			{
+				if (current->file)
+					tf_tchee_redercter(current, head); 
+
+				ft_echo(current, STDOUT_FILENO);
+				exit(0); 
+			}
+			if (ft_tchc_data(current,head,(*head)->fdd) == 0)
+			{
+				execve(cmd_path, current->args,env_ar);
+				perror("execve");
+				free(cmd_path);
+				exit(EXIT_FAILURE);
+			}
 }
 
 int ft_execoshen(t_data *data, t_listenv *head)
@@ -122,7 +144,7 @@ int ft_execoshen(t_data *data, t_listenv *head)
         if (pid == -1)
 			 ft_erorr("fork");
         if (pid == 0)
-            ft_child_proses(current,prev_fd,pipe_fd,head);
+            ft_child_proses(current,prev_fd,pipe_fd,&head);
         if (prev_fd != -1)
             close(prev_fd); 
         if (current->next)

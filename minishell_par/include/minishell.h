@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/03 11:42:38 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:09:07 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,16 @@ typedef struct t_listenv
 	char *pat;
 	struct t_listenv *next;
 	char *old_pwd;
+	int fdd;
 }	t_listenv;
-typedef struct t_listexport
-{
-	char *constvrble;
-	char *pat;
-	struct t_listenv *next;
-	char *old_pwd;
-}	t_listexport;
+// typedef struct t_listexport
+// {
+// 	char *constvrble;
+// 	char *pat;
+// 	struct t_listenv *next;
+// 	char *old_pwd;
+	
+// }	t_listexport;
 /*****************************************/
 
 
@@ -228,9 +230,9 @@ t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
 void ft_env(char **env, t_listenv **head);
-int ft_tchc_data(t_data *data,t_listenv **head);
+int ft_tchc_data(t_data *data,t_listenv **head ,int fd );
 void ft_pwd(t_listenv *head);
-void ft_echo(t_data *data,t_listenv **head);
+void ft_echo(t_data *data , int fd);
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
 int ft_cd(t_data *data ,t_listenv *head);
@@ -262,7 +264,8 @@ void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal
 void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
 t_listenv *find_variable(t_listenv *head, char *name);
 int find_varble(t_listenv *head, char *name);
-/* just remove them cause we don't use them*/
+int	ft_lstsize_data(t_data *lst);
+
 // int		ft_strncmp(char *s1, char *s2, int n);/*not use it check before remove it */
 // char	*ft_strndup(char *s, size_t n);/*not use it check before remove it */
 // char	*ft_allocate(char **res, int len);/*not use it check before remove it */

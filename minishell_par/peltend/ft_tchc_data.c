@@ -6,15 +6,15 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/05 09:01:43 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:08:57 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int ft_tchc_data(t_data *data,t_listenv **head)
+int ft_tchc_data(t_data *data,t_listenv **head ,int fd )
 {
-	(void)head, (void)data;
+
 	if(!data || !head)
 	 return 0;
 	    //  printf("ft_tchc_data called with command: %s\n", data->cmd);
@@ -31,7 +31,7 @@ int ft_tchc_data(t_data *data,t_listenv **head)
 	else if(!ft_strcmp(data->cmd,"pwd"))
 		return (ft_pwd(*head),1);
 	else if(!ft_strcmp(data->cmd,"echo"))
-		return (ft_echo(data,head),1);
+		return (ft_echo(data,fd),1);
 	else if(!ft_strcmp(data->cmd,"unset"))
 		return (ft_unset(data,head),1);
 	else if(!ft_strcmp(data->cmd,"exit"))

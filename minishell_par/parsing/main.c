@@ -6,12 +6,13 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/05 10:44:02 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/10 12:54:00 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int check_quotes(char *line, int i, int count_quote)
 {
@@ -150,9 +151,24 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 	{
 		data = parsing(&tokens, temp);
 		//	execution
-			// ft_excution(data); // just send ambigous in 	``ft_tchc_data(data, &head, ambigous);``
-		if(ft_tchc_data(data, &head) == 0)
-			ft_execoshen(data,head);
+		// int  d = ft_lstsize_data(data);
+		// 	// ft_excution(data); // just send ambigous in 	``ft_tchc_data(data, &head, ambigous);``
+	if (data->file) 
+        {
+            ft_execoshen(data, head);
+        }
+        else
+        {
+            if (ft_tchc_data(data, &head, STDOUT_FILENO) == 0)
+                ft_execoshen(data, head);
+        }
+			
+		// }	else
+		// {	
+		// }
+			
+		
+		// ft_tchc_data(data, &head) ;
 		
 
 	//   char **ennver =	ft_ar_env(head);
@@ -169,25 +185,33 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 	}
 }
 
-void	f()
+// void	f()
+// {
+// 	system("leaks minishell ");
+// }
+void siginl_hendel(int sig)
 {
-	system("leaks minishell ");
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1); 
+	rl_replace_line("",0);
+	rl_on_new_line();
+	rl_redisplay();
 }
-
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
 	t_token		*tokens;
 	t_listenv 	*head;
 	t_v_main	variable;
-	atexit(f);
+	//atexit(f);
+	
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
 	
 	while (1)
 	{
-
+		signal(SIGINT, siginl_hendel); 
 		variable.ambigous = 0;
 		variable.flag = 0;
 		variable.line = readline("Minishell: ");
