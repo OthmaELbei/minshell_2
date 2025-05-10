@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/03 11:42:38 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/09 23:31:57 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,11 +185,11 @@ void append_char(t_expand *ex, char c);
 void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
-void ft_herdoc(t_token **tokens);
-char **ft_expand_herdoc(char *str, int *flag);
-void handle_odd_dollars_herdoc(t_expand *ex, char *str);
+void ft_herdoc(t_token **tokens, t_listenv *head);
+char **ft_expand_herdoc(char *str, int *flag, t_listenv *head);
+void handle_odd_dollars_herdoc(t_expand *ex, char *str,
+								int *flag, t_listenv *head);
 void extract_var_herdoc(t_expand *ex, char *str);
-void handle_even_dollars_herdoc(t_expand *ex);
 void append_char_herdoc(t_expand *ex, char c);
 
 /*-------------parsing--------------*/

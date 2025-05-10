@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:00:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/24 10:00:39 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:58:21 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,6 @@ void append_char_herdoc(t_expand *ex, char c)
 	ex->res = new_res;
 }
 
-void handle_even_dollars_herdoc(t_expand *ex)
-{
-	int num;
-	char *dollars;
-	char *new_res;
-
-	num = ex->dollar_count / 2;
-	dollars = malloc(num + 1);
-	if (!dollars)
-		return;
-	ft_memset(dollars, '$', num);
-	dollars[num] = '\0';
-	new_res = ft_strjoin(ex->res, dollars);
-	free(ex->res);
-	free(dollars);
-	ex->res = new_res;
-}
-
 void extract_var_herdoc(t_expand *ex, char *str)
 {
 	int start;
@@ -56,15 +38,35 @@ void extract_var_herdoc(t_expand *ex, char *str)
 	ex->var_name = ft_substr(str, start, ex->var_len);
 }
 
-void handle_odd_dollars_herdoc(t_expand *ex, char *str)
+char	*ft_getenv_herdoc(char *var_name, t_listenv *head)
 {
+	char	*new_varname;
+	char	*env_name;
+
+	env_name = NULL;
+	new_varname = ft_strjoin(var_name, "=");
+	while (head)
+	{
+		if (ft_strcmp(new_varname, head->constvrble) == 0)
+		{
+			env_name = head->pat;
+			break ;
+		}
+		head = head->next;
+	}
+	return (free(new_varname), env_name);
+}
+
+void handle_odd_dollars_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
+{
+	(void)flag;
 	char *val;
 	char *new_res;
 
-	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_')
+	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_') //?
 	{
 		extract_var_herdoc(ex, str);
-		val = getenv(ex->var_name);
+		val = ft_getenv_herdoc(ex->var_name, head);
 		if (!val)
 			val = "";
 		new_res = ft_strjoin(ex->res, val);

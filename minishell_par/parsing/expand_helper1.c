@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/02 10:59:26 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/09 08:45:57 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_tg *data)
 {
 	char	*new_varname;
 	char	*env_name;
-	
-
-	printf("before: %d\n", *data->ambigous);
 
 	env_name = NULL;
 	new_varname = ft_strjoin(var_name, "=");
@@ -63,7 +60,6 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_tg *data)
 		}
 		head = head->next;
 	}
-	printf("======>ex->flag: %d\n", ex->flag);
 	if (data->type >= FREAD_IN && data->type <= F_APPEND)
 	{
 		if (data->type != F_HERDOC
@@ -74,10 +70,7 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_tg *data)
 					*data->ambigous = 1;
 			}
 	}
-	printf("after: %d\n", *data->ambigous);
-	// printf("env_name: %s\n", env_name);
-	free(new_varname);
-	return (env_name);
+	return (free(new_varname), env_name);
 }
 
 

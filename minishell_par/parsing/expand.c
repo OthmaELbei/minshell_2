@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 15:38:26 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:55:28 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_tg *data)
 	{
 		if (str[ex->i] == '$')
 		{
-				process_dollar(ex, str, head, data);
+			process_dollar(ex, str, head, data);
 		}
 		else
 		{
@@ -54,23 +54,10 @@ char **split(t_expand *ex)
 	return (result);
 }
 
-// void	init_ambigous(t_ambigous *ambigous)
-// {
-// 	printf("his enter to init_ambigous\n");
-// 	ambigous->ambigous = 0;
-// 	printf("===> ambigous->ambigous: %d\n", ambigous->ambigous);
-// }
-
 char **expand_string(char *str, t_listenv *head, t_tg *data)
 {
 	t_expand ex;
 
-	// printf("yes is here\n");
-
-	// init_ambigous(&ambigous);
-	
-	// printf("after call(init_ambigous)===> ambigous->ambigous: %d\n", *ambigous);
-	
 	ft_memset(&ex, 0, sizeof(ex));
 	ex.res = ft_strdup("");
 	if (!ex.res)
@@ -113,10 +100,11 @@ void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 
 	while (tokens)
 	{
-		if (tokens->value
+		if (tokens->value && tokens->type != F_HERDOC
 			&& tokens->value[0] && !ft_null(tokens->value[0]))
 		{
-			expanded = expand_string(tokens->value[0], head, &(t_tg){tokens->type, ambigous});
+			expanded = expand_string(tokens->value[0], head
+									,&(t_tg){tokens->type, ambigous});
 			if (tokens->value)
 			{
 				i = 0;
