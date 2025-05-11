@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/10 13:08:45 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/11 11:03:42 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,43 @@
 void ft_echo(t_data *data, int fd )
 {
     int i = 1;
-    int newline = 1;
-    if(!data)
-	return ;
+    int newline = 0;
+    int flag = 0;
     if (!data || !data->args || !data->args[0])
         return;
 	
- if (data->args[1] && !ft_strcmp(data->args[1], "-n"))
+ 		if (data->args[1] && data->args[1][0] ==  '-' && data->args[1][1] ==  'n')
         {
-            newline = 0;
-            i = 2;
+			flag = 1;
+				int j = 1;
+			while(data->args[i] && !newline && data->args[i][0] == '-' && data->args[i][1] == 'n')
+		{
+			j = 2;
+			while(data->args[i][j] != '\0' )
+			{
+				
+					if(data->args[i][j] != 'n' )
+					{
+						 if(data->args[i][j] ==  'e')
+						 {
+							j++; 
+							
+						 }
+							else
+							{
+								newline = 1;
+								if(!(data->args[1][0] ==  '-' && data->args[1][1] ==  'n' && i > 1))
+								 flag = 0;
+								break;
+							}
+					}
+				j++;
+			}
+			i++;
+		}
         }
+	if(newline == 1)
+		 i -= 1;
 
         while (data->args[i])
         {
@@ -113,8 +139,8 @@ void ft_echo(t_data *data, int fd )
             if (data->args[i])
               	ft_putstr_fd(" ",fd);
         }
-
-        if (newline)
+     
+        if (!flag)
           	ft_putstr_fd("\n",fd);
     
 }
