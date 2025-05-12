@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/10 13:08:57 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/12 08:59:20 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ int ft_tchc_data(t_data *data,t_listenv **head ,int fd )
 		{
 			t_listenv *tamp = *head;
 			while(tamp){
-			printf("%s",tamp->constvrble);
-			printf("%s\n",tamp->pat);
+			if(ft_strchr(tamp->constvrble,'='))
+			{
+				printf("%s",tamp->constvrble);
+				printf("%s\n",tamp->pat);				
+			}
 			tamp =  tamp->next;
 			// return 1;
 			}
