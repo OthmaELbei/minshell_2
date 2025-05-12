@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 08:59:20 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/12 13:12:47 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int ft_tchc_data(t_data *data,t_listenv **head ,int fd )
 
 	if(!data || !head)
 	 return 0;
-	    //  printf("ft_tchc_data called with command: %s\n", data->cmd);
 	if(!ft_strcmp(data->cmd,"env"))
 		{
 			t_listenv *tamp = *head;
@@ -28,8 +27,7 @@ int ft_tchc_data(t_data *data,t_listenv **head ,int fd )
 				printf("%s\n",tamp->pat);				
 			}
 			tamp =  tamp->next;
-			// return 1;
-			}
+		}
 	}
 	else if(!ft_strcmp(data->cmd,"pwd"))
 		return (ft_pwd(*head),1);

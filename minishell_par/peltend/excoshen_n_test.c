@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:23:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/04/25 17:43:15 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/12 11:18:08 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char *get_command_path(char *commnd, char **ary_envp)
 	int		i;
 
 	i = 0;
+		if (commnd[0] == '/' || commnd[0] == '.')
+		return ft_strdup(commnd);
 	cmd_path = ft_tcheck_path(commnd);
 	if (cmd_path)
 		return (cmd_path);

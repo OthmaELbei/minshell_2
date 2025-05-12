@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/11 21:04:25 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/12 09:19:15 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 				{
 					if(execve(current->args[0],current->args,env_ar) == -1)
 					{
-						printf("%s: is a directory\n",current->args[0]);
+						printf("Minishell: %s: is a directory\n",current->args[0]);
 						exit(0); 
 					}
 				}

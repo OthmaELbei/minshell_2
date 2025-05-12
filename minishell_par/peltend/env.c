@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 08:57:43 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/12 13:16:44 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,19 @@ void ft_env(char **env, t_listenv **head)
 	    int name_len;
 	char *str;
 	char *pat;
-
+if(!env ||!env[0])
+{
+		t_listenv *node_env;
+	node_env = ft_lstnew_env("PATH=","/bin:/usr/bin");
+	ft_lstadd_back_ex(head,node_env);
+	node_env = ft_lstnew_env("PWD=","/mnt/homes/oelbied/Desktop/minshell_2/minishell_par");
+	ft_lstadd_back_ex(head,node_env);
+	node_env = ft_lstnew_env("SHLVL=","1");
+	ft_lstadd_back_ex(head,node_env);
+	node_env = ft_lstnew_env("_=","/usr/bin/env");
+	ft_lstadd_back_ex(head,node_env);
+	
+}
 	while(env[i])
 	{
 		  name_len = ft_tchk_egal(env[i]);
