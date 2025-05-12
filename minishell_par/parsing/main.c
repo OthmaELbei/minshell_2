@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 15:32:48 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:11:42 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,8 @@ int main(int ac, char **av, char **env)
 	t_listenv 	*head;
 	t_v_main	variable;
 	//atexit(f);
-	
+	signal(SIGINT, siginl_hendel);
+	signal(SIGQUIT, SIG_IGN);
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
