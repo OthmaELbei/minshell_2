@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/12 13:11:54 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:43:25 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,16 +151,24 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 		//	execution
 		// int  d = ft_lstsize_data(data);
 		// 	// ft_excution(data); // just send ambigous in 	``ft_tchc_data(data, &head, ambigous);``
-	if (data->file) 
-        {
+	// if (data->file) 
+    //     {
 
-            ft_execoshen(data, head);
-        }
-        else
-        {
-            if (ft_tchc_data(data, &head, STDOUT_FILENO) == 0)
-                ft_execoshen(data, head);
-        }
+        if (data->file || data->next) 
+		{
+			ft_execoshen(data, head);
+		}
+		else
+		{
+			if (ft_tchc_data(data, &head, STDOUT_FILENO) == 0)
+				ft_execoshen(data, head);
+		}
+        // }
+        // else
+        // {
+        //    if (ft_tchc_data(data, &head, STDOUT_FILENO) == 0)
+        //         ft_execoshen(data, head);
+        // }
 			
 		// }	else
 		// {	

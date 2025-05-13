@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 09:19:15 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:12:03 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,7 @@ void tf_tchee_redercter( t_data *current , t_listenv **head)
 		}
 }
 
-void ft_close_pip(int *pipe_fd)
-{
-	close(pipe_fd[0]);
-	dup2(pipe_fd[1], STDOUT_FILENO);
-    close(pipe_fd[1]);
-}
+
 
 void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 {
@@ -97,15 +92,20 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
                 close(prev_fd);
             }
             if (current->next)
-               ft_close_pip(pipe_fd);
+			{	
+					close(pipe_fd[0]);
+					dup2(pipe_fd[1], STDOUT_FILENO);
+    				close(pipe_fd[1]);
+			}
             if ( current->file)
               tf_tchee_redercter( current ,head);
 
 			
-			env_ar = ft_ar_env(*head);
-			cmd_path = get_command_path(current->args[0], env_ar);
-			// if (!cmd_path && ft_tchc_data(current, &head ) == 0)
-		
+			
+			if (ft_tchc_data(current, head, 1) == 0)
+			{
+				env_ar = ft_ar_env(*head);
+				cmd_path = get_command_path(current->args[0], env_ar);		
 				if(ft_strcmp (current->args[0] ,"\"\"") == 0 ||ft_strcmp (current->args[0] ,"\'\'") == 0  )
 				{
 					printf("Minishell: :command not found\n");
@@ -133,15 +133,15 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 			}
 			if (ft_strcmp(current->args[0], "echo") == 0)
 			{
-				if (current->file)
-					tf_tchee_redercter(current, head); 
+				// if (current->file)
+				// 	tf_tchee_redercter(current, head); 
 
 				ft_echo(current, STDOUT_FILENO);
 				exit(0); 
 			}
 			if (ft_tchc_data(current,head,(*head)->fdd) == 0)
 			{
-				if (access(current->args[0], X_OK) == 0)
+				if (access(current->args[0], X_OK | F_OK) == 0)
 				{
 					if(execve(current->args[0],current->args,env_ar) == -1)
 					{
@@ -150,7 +150,9 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 					}
 				}
 				else
+				{
 				execve(cmd_path, current->args,env_ar);
+				}
 				// if(!cmd_path || access(cmd_path, X_OK) != 0 )
 			
 				if(ft_strcmp (current->args[0] ,"\0") == 0)
@@ -158,12 +160,12 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 				else if(current->args[0] != NULL)
 				{
 					// printf("Minishell:%s :command not found\n",current->args[0]);
-					printf("%s",current->args[0]);
 					perror(current->args[0] );
 				}
 				
 				free(cmd_path);
 				exit(EXIT_FAILURE);
+			}
 			}
 }
 
@@ -184,14 +186,17 @@ int ft_execoshen(t_data *data, t_listenv *head)
         if (pid == -1)
 			 ft_erorr("fork");
         if (pid == 0)
+		{
             ft_child_proses(current,prev_fd,pipe_fd,&head);
+			exit(EXIT_FAILURE);
+		}
         if (prev_fd != -1)
             close(prev_fd); 
         if (current->next)
         {
             close(pipe_fd[1]);       
             prev_fd = pipe_fd[0];   
-        }
+        } 
         current = current->next;
     }
     while (wait(NULL) > 0);
