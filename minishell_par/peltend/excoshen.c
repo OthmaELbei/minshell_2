@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/13 11:12:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:20:56 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 
 			
 			
-			if (ft_tchc_data(current, head, 1) == 0)
-			{
+			// if (ft_tchc_data(current, head, 1) == 0)
+			// {
 				env_ar = ft_ar_env(*head);
 				cmd_path = get_command_path(current->args[0], env_ar);		
 				if(ft_strcmp (current->args[0] ,"\"\"") == 0 ||ft_strcmp (current->args[0] ,"\'\'") == 0  )
@@ -166,7 +166,7 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 				free(cmd_path);
 				exit(EXIT_FAILURE);
 			}
-			}
+			// }
 }
 
 int ft_execoshen(t_data *data, t_listenv *head)
@@ -188,7 +188,7 @@ int ft_execoshen(t_data *data, t_listenv *head)
         if (pid == 0)
 		{
             ft_child_proses(current,prev_fd,pipe_fd,&head);
-			exit(EXIT_FAILURE);
+			// exit(EXIT_FAILURE);
 		}
         if (prev_fd != -1)
             close(prev_fd); 
