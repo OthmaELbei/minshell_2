@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:54:18 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 15:11:41 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:11:31 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,14 @@ t_token *tokenization(char *line, int i)
 	head = ft_lstnew(ft_strdup("."), START);
 	if (!head)
 		return (NULL);
+	ft_memset(head, 0, sizeof(t_token));
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')
 			handle_mixed_words(line, &i, &head);
 		else if (sp(line[i]))
 		{
-			if (line[i] == ' ')
+			if (line[i] == ' ' || line[i] == '\t')
 				i++;
 			else
 				handle_special_chars(line, &i, &head);

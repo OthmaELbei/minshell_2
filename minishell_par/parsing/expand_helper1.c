@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/09 08:45:57 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:05:37 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,23 @@ char	*ft_getenv(t_expand *ex, char *var_name, t_listenv *head, t_tg *data)
 		}
 		head = head->next;
 	}
-	if (data->type >= FREAD_IN && data->type <= F_APPEND)
-	{
-		if (data->type != F_HERDOC
-			&&(env_name == NULL || word_count(env_name , ' ') > 1))
-			{
-				if ((env_name == NULL && ex->flag == 0)
-					|| (ex->flag == 0 && word_count(env_name , ' ') > 1))
-					*data->ambigous = 1;
-			}
-	}
+	
+	// printf("env_name: %s | ex->falg; %d | data->quote: %d\n | word_count(env_name , ' '): %d", env_name, ex->flag , data->quote, word_count(env_name , ' '));
+
+	(void)ex, (void)data;
+
+
+	// if (data->type >= FREAD_IN && data->type <= F_APPEND)
+	// {
+	// 	if (data->type != F_HERDOC
+	// 		&& (env_name == NULL || word_count(env_name , ' ') > 1))
+	// 		{
+	// 			// printf();
+	// 			if ((env_name == NULL && ex->flag == 0 && data->quote == 0)
+	// 				|| (ex->flag == 0 && word_count(env_name , ' ') > 1))
+	// 				*data->ambigous = 1;
+	// 		}
+	// }
 	return (free(new_varname), env_name);
 }
 

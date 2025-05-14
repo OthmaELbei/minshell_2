@@ -3,8 +3,8 @@ RM = rm -f
 # FLAGS = -Wall -Wextra -Werror -fsanitize=address
 # FLAGS = -Wall -Wextra -Werror
 READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include 
-# CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -I$(READLINE)/include
+# CFLAGS = -Wall -Wextra -Werror  -fsanitize=address 
 LDFLAGS =   $(CFLAGS) -L$(READLINE)/lib -lreadline
 
 SRC = parsing/main.c parsing/tokenization.c parsing/tokenization_helper.c parsing/grabage.c parsing/error.c\

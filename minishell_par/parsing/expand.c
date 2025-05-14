@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/09 16:55:28 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:06:52 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ char **split(t_expand *ex)
 	return (result);
 }
 
-char **expand_string(char *str, t_listenv *head, t_tg *data)
+char	**expand_string(char *str, t_listenv *head, t_tg *data)
 {
-	t_expand ex;
+	t_expand	ex;
 
 	ft_memset(&ex, 0, sizeof(ex));
 	ex.res = ft_strdup("");
@@ -94,17 +94,37 @@ int	ft_null(char *s)
 	return (0);
 }
 
+int	q(char *s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '"')
+		{
+			if (s[i + 1] == '\'' || s[i + 1] == '"')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 {
-	char **expanded;
+	char	**expanded;
 
 	while (tokens)
 	{
 		if (tokens->value && tokens->type != F_HERDOC
 			&& tokens->value[0] && !ft_null(tokens->value[0]))
 		{
-			expanded = expand_string(tokens->value[0], head
-									,&(t_tg){tokens->type, ambigous});
+			printf("tokens->value[0]: %s || q(tokens->value[0]): %d\n", tokens->value[0], q(tokens->value[0]));
+			expanded = expand_string(tokens->value[0], head,
+					&(t_tg){tokens->type, ambigous, q(tokens->value[0])});
 			if (tokens->value)
 			{
 				i = 0;

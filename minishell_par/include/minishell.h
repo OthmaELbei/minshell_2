@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 15:33:11 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:21:38 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_token
 	char 			**value;
 	int				fd;
 	t_keyword 		type;
+	int				error;
 	struct s_token 	*next;
 } t_token;
 
@@ -111,6 +112,7 @@ typedef struct	s_tg // I mean s_type_ambigous
 {
 	t_keyword	type;
 	int			*ambigous;
+	int			quote;
 }	t_tg;
 
 // the int	main(){} function has 5 variable, so should decrease the variable
@@ -151,6 +153,17 @@ typedef struct	s_var_data
 	int		i;
 }	t_var_data;
 
+
+/*********************Max_Herdoc*************************/
+
+typedef struct s_max_herdoc
+{
+	int	max_herdoc;
+	int	pos;
+	int	error;
+}	t_max_herdoc;
+/*********************Max_Herdoc*************************/
+
 /*********************Parsing**********************/
 
 /*main.c*/
@@ -187,7 +200,7 @@ void append_char(t_expand *ex, char c);
 void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
-void ft_herdoc(t_token **tokens, t_listenv *head);
+void	ft_herdoc(t_token **tokens, t_listenv *head);
 char **ft_expand_herdoc(char *str, int *flag, t_listenv *head);
 void handle_odd_dollars_herdoc(t_expand *ex, char *str,
 								int *flag, t_listenv *head);
