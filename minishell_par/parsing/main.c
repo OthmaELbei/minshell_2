@@ -6,7 +6,11 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/14 13:23:37 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/13 14:24:29 by oelbied          ###   ########.fr       */
+>>>>>>> 83b936fbe6b0c333af173756c6af3bc078681fbc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +190,7 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 	{
 		data = parsing(&tokens, temp);
 		//	execution
+<<<<<<< HEAD
 		// int  d = ft_lstsize_data(data);
 		ft_excution(data); // just send ambigous in 	``ft_tchc_data(data, &head, ambigous);``
 	if (data->file) 
@@ -201,6 +206,20 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 		// }	else
 		// {	
 		// }
+=======
+		
+
+        if (data->file || data->next) 
+		{
+			ft_execoshen(data, head);
+		}
+		else
+		{
+			if (ft_tchc_data(data, &head, STDOUT_FILENO) == 0)
+				ft_execoshen(data, head);
+		}
+      
+>>>>>>> 83b936fbe6b0c333af173756c6af3bc078681fbc
 			
 		
 		// ft_tchc_data(data, &head) ;
@@ -242,7 +261,9 @@ int main(int ac, char **av, char **env)
 	t_listenv 	*head;
 	t_v_main	variable;
 	//atexit(f);
-	
+	signal(SIGINT, siginl_hendel);
+	signal(SIGQUIT, SIG_IGN);
+
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
