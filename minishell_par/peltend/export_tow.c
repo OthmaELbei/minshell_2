@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:37:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 17:35:55 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:46:12 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void pluss_egal(t_data *data, int x, t_listenv *head,char *segal)
         {
             char *new_pat = ft_strjoin(findd->pat, segal);
             free(findd->pat);
-            findd->pat = new_pat;
+            findd->pat = ft_strdup(new_pat);
         }
         else
             findd->pat = ft_strdup(segal);
     }
-    free(name);
-    free(value);
+    // free(name);
+    // free(value);
 }
 
 void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal)
@@ -54,8 +54,8 @@ void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal)
        	free(findd->pat);
         findd->pat = ft_strdup(segal);
     }
-    free(name);
-    free(value);
+    // free(name);
+    // free(value);
 }
 
 void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head)
@@ -88,7 +88,7 @@ void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv
 	}
     else if (flags == 1 && findd)
 	{
-		// free(findd->pat);
+		free(findd->pat);
         findd->pat = ft_strdup("");
 	}
 	// free(juny);

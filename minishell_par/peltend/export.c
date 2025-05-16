@@ -6,23 +6,23 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 17:34:03 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:45:50 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-void ft_free_ex(char **exx_fr)
-{
-	int i = 0;
-	while(exx_fr[i])
-	{
-		free(exx_fr[i]);
-		i++;
-	}
-	free(exx_fr);
-}
+// void ft_free_ex(char **exx_fr)
+// {
+// 	int i = 0;
+// 	while(exx_fr[i])
+// 	{
+// 		free(exx_fr[i]);
+// 		i++;
+// 	}
+// 	free(exx_fr);
+// }
 
 void only_key(char *data,char **splt_plus,t_listenv **head)
 {
@@ -172,9 +172,9 @@ void ft_export(t_listenv *head, t_data *data)
 						else
 						 printf("declare -x %s%s\n", consdt, pats_cotch);
 					 }
-                    free(consdt);
-                    free(pats_cotch);
+                    // free(consdt);
+                    // free(pats_cotch);
                     sort_head = sort_head->next;
               }
-			free_copy_listenv(copy);
+			// free_copy_listenv(copy);
 }

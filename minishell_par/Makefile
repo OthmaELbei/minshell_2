@@ -3,7 +3,7 @@ RM = rm -f
 # FLAGS = -Wall -Wextra -Werror -fsanitize=address
 # FLAGS = -Wall -Wextra -Werror
 READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include  
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -g -fsanitize=address
 # CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
 LDFLAGS =   $(CFLAGS) -L$(READLINE)/lib -lreadline
 

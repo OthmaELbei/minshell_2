@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:18:45 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 17:22:19 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:52:58 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void tchek_only_key(char *data,char *splt_egal , char **splt_plus,t_listenv **he
 			found->constvrble = ft_strjoin(splt_plus[0],"=");
 
 		}
-	free_copy_listenv(found);
+	
 }
 
 void free_copy_listenv(t_listenv *head)
