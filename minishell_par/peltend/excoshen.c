@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/13 14:20:56 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:35:55 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void ft_erorr(char *str)
      exit(EXIT_FAILURE);
 }
 
-void tf_tchee_redercter( t_data *current , t_listenv **head)
+void tf_tchee_redercter( t_data *data , t_listenv **head)
 {
 	t_redir	*redir;
 
-  int fd = -1;
-	redir = current->file;
+  	int fd = -1;
+	redir = data->file;
 		while (redir)
 		{
 			if (redir->type == FWRITE_OUT)
@@ -78,14 +78,51 @@ void tf_tchee_redercter( t_data *current , t_listenv **head)
 		}
 }
 
+void ft_tchick_slash(char *str_data)
+{
+					if(ft_strchr(&str_data[0],'/') && access(&str_data[0], X_OK) == -1)
+				perror(&str_data[0] );
+				else
+				{
+					if(ft_strcmp(&str_data[0],"ls") == 0)
+					printf("Minishell: %s : No such file or directory\n",&str_data[0]);
+					else
+					printf("Minishell: %s :command not found\n", &str_data[0]);
+				}
+				exit(127);
+}
+
+void ft_tchk_not_peltend(t_data *data,char **env_ar,char *cmd_path)
+{
+					if (access(data->args[0], X_OK | F_OK) == 0)
+				{
+					if(execve(data->args[0],data->args,env_ar) == -1)
+					{
+						printf("Minishell: %s: is a directory\n",data->args[0]);
+						exit(0); 
+					}
+				}
+				else
+				{
+				execve(cmd_path, data->args,env_ar);
+				}
+				// if(!cmd_path || access(cmd_path, X_OK) != 0 )
+			
+				if(ft_strcmp (data->args[0] ,"\0") == 0)
+				printf("Minishell: :command not found\n");
+				else if(data->args[0] != NULL)
+					perror(data->args[0] );
+				// free(cmd_path);
+				exit(EXIT_FAILURE);
+}
 
 
 void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 {
 	char **env_ar;
 	char *cmd_path;
-
-	
+ 	if(!*head || !head)
+ 		return ;
 	if (prev_fd != -1)
             {
                 dup2(prev_fd, STDIN_FILENO);
@@ -97,76 +134,33 @@ void ft_child_proses(t_data *current,int prev_fd, int *pipe_fd,t_listenv **head)
 					dup2(pipe_fd[1], STDOUT_FILENO);
     				close(pipe_fd[1]);
 			}
+			
             if ( current->file)
               tf_tchee_redercter( current ,head);
-
-			
-			
-			// if (ft_tchc_data(current, head, 1) == 0)
-			// {
 				env_ar = ft_ar_env(*head);
+				if(current->args ==  NULL)
+				 return ;
 				cmd_path = get_command_path(current->args[0], env_ar);		
-				if(ft_strcmp (current->args[0] ,"\"\"") == 0 ||ft_strcmp (current->args[0] ,"\'\'") == 0  )
+				if(!current->args || !current->args[0])
+				{
+				printf("Minishell:%s:command not found\n",current->args[0] );
+					exit(127);	
+				}
+				else if(ft_strcmp (current->args[0] ,"\"\"") == 0 ||ft_strcmp (current->args[0] ,"\'\'") == 0  )
 				{
 					printf("Minishell: :command not found\n");
 					exit(127);
 				}
-				else if(!current->args)
-				{
-				printf("Minishell:%s:command not found\n",current->args[0] );
-					exit(127);
-					
-				}
+				
 			if (!cmd_path )
-			{
-				// ft_putstr_fd("command not found\n",2);
-				if(ft_strchr(current->args[0],'/') && access(current->args[0], X_OK) == -1)
-				perror(current->args[0] );
-				else
-				{
-					if(ft_strcmp(current->args[0],"ls") == 0)
-					printf("Minishell: %s :Permission denied\n", current->args[0]);
-					else
-					printf("Minishell: %s :No such file or directory\n", current->args[0]);
-				}
-				exit(127);
-			}
+				ft_tchick_slash(current->args[0]);
 			if (ft_strcmp(current->args[0], "echo") == 0)
 			{
-				// if (current->file)
-				// 	tf_tchee_redercter(current, head); 
-
 				ft_echo(current, STDOUT_FILENO);
 				exit(0); 
 			}
 			if (ft_tchc_data(current,head,(*head)->fdd) == 0)
-			{
-				if (access(current->args[0], X_OK | F_OK) == 0)
-				{
-					if(execve(current->args[0],current->args,env_ar) == -1)
-					{
-						printf("Minishell: %s: is a directory\n",current->args[0]);
-						exit(0); 
-					}
-				}
-				else
-				{
-				execve(cmd_path, current->args,env_ar);
-				}
-				// if(!cmd_path || access(cmd_path, X_OK) != 0 )
-			
-				if(ft_strcmp (current->args[0] ,"\0") == 0)
-				printf("Minishell: :command not found\n");
-				else if(current->args[0] != NULL)
-				{
-					// printf("Minishell:%s :command not found\n",current->args[0]);
-					perror(current->args[0] );
-				}
-				
-				free(cmd_path);
-				exit(EXIT_FAILURE);
-			}
-			// }
+				ft_tchk_not_peltend(current,env_ar,cmd_path);
 }
 
 int ft_execoshen(t_data *data, t_listenv *head)
@@ -176,19 +170,20 @@ int ft_execoshen(t_data *data, t_listenv *head)
     pid_t pid;
     t_data *current = data;
 
-	// if( data)
-	// 	return 0;
+	if( !data || !head)
+		return 0;
     while (current)
     {
         if (current->next && pipe(pipe_fd) == -1)
             ft_erorr("pipe");
-        pid = fork();
-        if (pid == -1)
-			 ft_erorr("fork");
-        if (pid == 0)
+
+		if( data->next)
 		{
-            ft_child_proses(current,prev_fd,pipe_fd,&head);
-			// exit(EXIT_FAILURE);
+			pid = fork();
+			if (pid == -1)
+				ft_erorr("fork");
+			if (pid == 0)
+				ft_child_proses(current,prev_fd,pipe_fd,&head);
 		}
         if (prev_fd != -1)
             close(prev_fd); 

@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/13 15:36:14 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:22:28 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@
 
 int ft_tche_n_tow_flag(char  **args, int i , int *j,  int *flag)
 {
+	if(!args[i])
+	 return 1;
 	    while (args[i][*j] != '\0')
             {
                 if (args[i][*j] != 'n')
@@ -82,11 +84,11 @@ int ft_tche_n_tow_flag(char  **args, int i , int *j,  int *flag)
                         (*j)++;
                     else
                     {
-                        if (!(args[1][0] == '-' && args[1][1] == 'n' && i > 1))
+                        if (!( args[1] && args[1][0] == '-' && args[1][1] == 'n' && i > 1))
                             *flag = 0;
                        return 1;
                     }
-                }
+                }else
                 (*j)++;
             }
 			return 0;
@@ -116,14 +118,14 @@ void ft_print_echo_args(char **args, int i, int fd)
 {
     while (args[i])
     {
-        if (ft_strcmp(args[i], "\"\"") == 0 || ft_strcmp(args[i], "\'\'") == 0)
-        {
-            ft_putstr_fd("", fd);
-        }
-        else
-        {
+        // if (ft_strcmp(args[i], "\"\"") == 0 || ft_strcmp(args[i], "\'\'") == 0)
+        // {
+        //     ft_putstr_fd("", fd);
+        // }
+        // else
+        // {
             ft_putstr_fd(args[i], fd);
-        }
+        // }
         i++;
         if (args[i])
             ft_putstr_fd(" ", fd);

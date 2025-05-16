@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:54 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/10 15:32:17 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/14 08:43:19 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 
 int ft_cd(t_data *data ,t_listenv *head)
 {
-
-	// char cwd[1024];
-	// if(getcwd(NULL, 0) == NULL)
 	if((getcwd(NULL, 0) == NULL) && (ft_strcmp(data->args[1],"..") == 0 ))
 	{
 		 perror("cd: error retrieving current directory: getcwd: cannot access parent directories");
@@ -27,7 +24,6 @@ int ft_cd(t_data *data ,t_listenv *head)
 		
 	}else if((getcwd(NULL, 0) == NULL) && (ft_strcmp(data->args[1],".") == 0 ))
 	{
-		// perror("cd: error retrieving current directory: getcwd: cannot access parent directories");
 		head->old_pwd = ft_strjoin(head->old_pwd,"/");
 		head->old_pwd = ft_strjoin(head->old_pwd,".");
 	}
@@ -41,9 +37,7 @@ int ft_cd(t_data *data ,t_listenv *head)
 	if(!ft_strcmp(data->cmd, "cd") && !data->args[1])
 	{
 		if(chdir(getenv("HOME")) ==  -1)
-		{
 			perror("chdir failed");
-		}
 	} 
     return 0;
 }

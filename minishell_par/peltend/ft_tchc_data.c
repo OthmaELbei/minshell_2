@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 13:12:47 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:23:58 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int ft_tchc_data(t_data *data,t_listenv **head ,int fd )
 {
 
-	if(!data || !head)
+	if(!data || !head || !*head)
 	 return 0;
 	if(!ft_strcmp(data->cmd,"env"))
 		{

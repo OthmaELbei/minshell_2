@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:37:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 08:49:00 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:25:33 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,30 @@ void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal
 {
     char *name;
     char *value;
-    t_listenv *findd;
-
+    t_listenv *findd = NULL;
+   (void )splt_egal;
     extract_name_and_value(data->args[x], &name, &value);
     findd = find_variable(*head, name);
-
     if (!findd)
     {
-        printf("Adding new variable\n");
         ft_lstadd_back_ex(head, ft_lstnew_env(name, value));
     }
-    else
+    else 
     {
-        printf("Updating existing variable\n");
-        free(findd->pat);
-        findd->pat = strdup(splt_egal[1]);
-    }
+		int k = 0;
+		int flags = 0;
+		while (value[k] != '\0')
+		{
+		  if(value[k] == '=')
+		  	flags++;
+		k++;
+		}
+		
+		if(findd->pat)
+       		 free(findd->pat);
 
+        findd->pat = ft_strdup(value);
+    }
     free(name);
     free(value);
 }
@@ -71,6 +78,7 @@ void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listen
 
     if (ft_strchr(data->args[x], '+'))
         juny = ft_strjoin(splt_plus[0], "=");
+
     else if (tchking_egal(data->args[x]))
         juny = ft_strjoin(splt_egal[0], "=");
     joune = head;
@@ -86,9 +94,16 @@ void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listen
         joune = joune->next;
     }
     if (flags == 0)
-        ft_lstadd_back_ex(&head, ft_lstnew_env(juny, pats));
+	{
+        ft_lstadd_back_ex(&head, ft_lstnew_env(juny, pats));	
+	}
     else if (flags == 1 && findd)
+	{
+		free(findd->pat);
         findd->pat = ft_strdup("");
+	}
+	free(juny);
+
 }
 
 void extract_name_and_value(char *arg, char **name, char **value)
@@ -116,9 +131,10 @@ void extract_name_and_value(char *arg, char **name, char **value)
     }
     (*name)[name_idx++] = '=';
     (*name)[name_idx] = '\0';
-    value_len = strlen(arg + i + 1);
+    value_len = ft_strlen(arg + i + 1);
     *value = malloc(value_len + 1);
-    strcpy(*value, arg + i + 1);
+	
+    ft_strcpy(*value, (arg + i + 1));
 }
 
 void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head)
@@ -138,5 +154,6 @@ void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_l
             pluss_egal_pacslash(data, x, head,splt_egal);
 		t++;
 	}
-	
+		printf("%s\n",data->args[x]);
+
 }

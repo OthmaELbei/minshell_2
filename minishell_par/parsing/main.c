@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/13 14:24:29 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:29:59 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,17 +180,28 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
 	}
 }
 
-// void	f()
-// {
-// 	system("leaks minishell ");
-// }
+void	f()
+{
+	system("leaks minishell ");
+}
+void disable_echoctl(void)
+{
+	struct termios term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 void siginl_hendel(int sig)
 {
+	
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1); 
 	rl_replace_line("",0);
 	rl_on_new_line();
 	rl_redisplay();
+	
 }
 int main(int ac, char **av, char **env)
 {
@@ -198,10 +209,10 @@ int main(int ac, char **av, char **env)
 	t_token		*tokens;
 	t_listenv 	*head;
 	t_v_main	variable;
-	//atexit(f);
+	// atexit(f);
 	signal(SIGINT, siginl_hendel);
 	signal(SIGQUIT, SIG_IGN);
-
+	disable_echoctl();
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
@@ -212,6 +223,11 @@ int main(int ac, char **av, char **env)
 		variable.ambigous = 0;
 		variable.flag = 0;
 		variable.line = readline("Minishell: ");
+		if(!variable.line)
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if (variable.line == NULL)
 			break;
 		tokens = lexing(variable.line, &variable.flag, head, &variable.ambigous);
@@ -220,7 +236,6 @@ int main(int ac, char **av, char **env)
 			add_history(variable.line);
 		free(variable.line);
 	}
-	// (head);
 		free_copy_listenv(head);
 	return (0);
 }

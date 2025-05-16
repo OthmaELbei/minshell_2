@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:04:48 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/05 10:08:30 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 09:13:45 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ char **ft_ar_env(t_listenv *head)
 				joune = joune->next;
 			}
 		to_pt[p] = NULL;
-free_copy_listenv(head);
+// free_copy_listenv(head);
 	return to_pt;
 }

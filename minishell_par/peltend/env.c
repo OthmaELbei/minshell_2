@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/12 13:16:44 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/14 08:49:37 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,9 @@ int env_copy(char *env, char *str)
 	return j;
 }
 
-void ft_env(char **env, t_listenv **head)
+void tchick_env ( t_listenv **head)
 {
-	int i = 0;
-	int j = 0;
-	    int name_len;
-	char *str;
-	char *pat;
-if(!env ||!env[0])
-{
-		t_listenv *node_env;
+			t_listenv *node_env;
 	node_env = ft_lstnew_env("PATH=","/bin:/usr/bin");
 	ft_lstadd_back_ex(head,node_env);
 	node_env = ft_lstnew_env("PWD=","/mnt/homes/oelbied/Desktop/minshell_2/minishell_par");
@@ -63,8 +56,18 @@ if(!env ||!env[0])
 	ft_lstadd_back_ex(head,node_env);
 	node_env = ft_lstnew_env("_=","/usr/bin/env");
 	ft_lstadd_back_ex(head,node_env);
-	
 }
+
+
+void ft_env(char **env, t_listenv **head)
+{
+	int i = 0;
+	int j = 0;
+	    int name_len;
+	char *str;
+	char *pat;
+	if (!env ||!env[0])
+		tchick_env (head);
 	while(env[i])
 	{
 		  name_len = ft_tchk_egal(env[i]);
@@ -75,23 +78,17 @@ if(!env ||!env[0])
         }
 		str = (char *)malloc((name_len + 2) * sizeof(char));
 		if(!str)
-		return ;
-	
+			return ;
 	    j = env_copy(env[i], str);
 		pat = ft_strdup(env[i] + j + 1);
 		if(!pat)
 			return (free(str));
 		t_listenv *node_env = ft_lstnew_env(str,pat);
 		if(!node_env)
-		{
-			free(str);
-			free(pat);
-			return;
-		}
+			return (free(str),free(pat));
 		ft_lstadd_back_ex(head,node_env);
 		i++;
 		free(str);
 		free(pat);
 	}
-
 }

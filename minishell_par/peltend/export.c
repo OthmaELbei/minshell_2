@@ -6,19 +6,39 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/09 16:27:27 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:32:53 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+
+void ft_free_ex(char **exx_fr)
+{
+	int i = 0;
+	while(exx_fr[i])
+	{
+		free(exx_fr[i]);
+		i++;
+	}
+	free(exx_fr);
+}
+
 void only_key(char *data,char **splt_plus,t_listenv **head)
 {
-	char *strnig = ft_strjoin(data,"=");
+		char *strnig;
+	strnig = ft_strjoin(data,"=");
+	if(!strnig)
+		return;
 	if (tcchk_untel_egll(splt_plus[0],*head) ==  1)
+	{
 		data = splt_plus[0];
+			free(splt_plus[0]);
+				free(strnig);
+	}
 	if (!tcchk_untel_egall(data, *head) && !(tcchk_untel_egll(strnig,*head) ==  1) )
-		ft_lstadd_back_ex(head, ft_lstnew_env(data,"\0")); 
+		ft_lstadd_back_ex(head, ft_lstnew_env(data,ft_strdup("\0"))); 
+		free(strnig);
 }
 
 void function_call(t_listenv **head, t_data *data)
@@ -31,12 +51,19 @@ void function_call(t_listenv **head, t_data *data)
 	while (data->args[x])
     {
        	splt_egal = ft_split(data->args[x], '=');
-	   	if(!splt_egal || !splt_plus)
-	    	return;
+		if(!splt_egal )
+			return;
        	splt_plus = ft_split(data->args[x], '+');
+		if(!splt_plus )
+		{
+			ft_free_ex(splt_egal);
+			return;
+		}
 		if(!ft_tchck_argmo_exat(data->args[x]))
 		{
 			printf("export: '%s': not a valid identifier\n", data->args[x]);
+			ft_free_ex(splt_egal);
+			ft_free_ex(splt_plus);
 			x++;
 			continue;
 		}
@@ -45,10 +72,16 @@ void function_call(t_listenv **head, t_data *data)
 			tchek_only_key(data->args[x],splt_egal ,splt_plus,head);
 			separe_egal_pluss(data,  x,splt_egal,splt_plus,head);
         }
-		else 
+		else {
 			only_key(data->args[x],splt_plus,head);
+			// ft_free(splt_plus, x);
+		}
+		ft_free_ex(splt_egal);
+			ft_free_ex(splt_plus);
         x++;
+		
     }
+
 }
 
 t_listenv *copy_listenv(t_listenv *head)
@@ -107,6 +140,7 @@ t_listenv *sort_export(t_listenv *head)
 	}
 	return head;	
 }
+
 void ft_export(t_listenv *head, t_data *data)
 {
 	t_listenv *copy = copy_listenv(head);
@@ -122,9 +156,9 @@ void ft_export(t_listenv *head, t_data *data)
 					 if (!ft_strcmp(data->args[0], "export") && data->args[1] == NULL)
 					 {
 						if(tchking_egal(consdt))
-                   		 printf("%s\"%s\"\n", consdt, pats_cotch);
+                   		 printf("declare -x %s\"%s\"\n", consdt, pats_cotch);
 						else
-						 printf("%s%s\n", consdt, pats_cotch);
+						 printf("declare -x %s%s\n", consdt, pats_cotch);
 					 }
                     free(consdt);
                     free(pats_cotch);

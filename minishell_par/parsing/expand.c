@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/09 16:55:28 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/16 09:22:10 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 
 void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_tg *data)
 {
@@ -82,17 +83,17 @@ char **expand_string(char *str, t_listenv *head, t_tg *data)
 	return (split(&ex));
 }
 
-int	ft_null(char *s)
-{
-	char	*s_q;
-	char	*d_q;
+// int	ft_null(char *s)
+// {
+// 	char	*s_q;
+// 	char	*d_q;
 
-	d_q = "\"\"";
-	s_q = "\'\'";
-	if (!ft_strcmp(s, s_q) || !ft_strcmp(s, d_q))
-		return (1);
-	return (0);
-}
+// 	d_q = "\"\"";
+// 	s_q = "\'\'";
+// 	if (!ft_strcmp(s, s_q) || !ft_strcmp(s, d_q))
+// 		return (1);
+// 	return (0);
+// }
 
 void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 {
@@ -101,7 +102,7 @@ void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 	while (tokens)
 	{
 		if (tokens->value && tokens->type != F_HERDOC
-			&& tokens->value[0] && !ft_null(tokens->value[0]))
+			&& tokens->value[0] )
 		{
 			expanded = expand_string(tokens->value[0], head
 									,&(t_tg){tokens->type, ambigous});

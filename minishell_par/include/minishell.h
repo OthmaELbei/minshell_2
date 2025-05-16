@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 15:33:11 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:06:45 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #include <readline/history.h>
 #include <string.h> 
 #include <limits.h>
+
+#include <termios.h>
 
 #define ERROR "syntax error near unexpected token\n"
 #define name_length 9
@@ -246,7 +248,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 int  ft_execoshen(t_data *data, t_listenv *head);
 int	ft_strncmp(const char *s1, const char *d2, size_t n);
 char *get_command_path(char *commnd, char **ary_envp);
-char	*ft_strcpy(char *dst, const char *src,int i);
+char	*ft_strcpy(char *dst, const char *src);
 int	ft_isalpha(int c);
 void	ft_lstclear(t_listenv **lst, void (*del)(void*));
 
@@ -265,6 +267,7 @@ void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
 t_listenv *find_variable(t_listenv *head, char *name);
 int find_varble(t_listenv *head, char *name);
 int	ft_lstsize_data(t_data *lst);
+void	*ft_free(char **strs, int count);
 
 // int		ft_strncmp(char *s1, char *s2, int n);/*not use it check before remove it */
 // char	*ft_strndup(char *s, size_t n);/*not use it check before remove it */

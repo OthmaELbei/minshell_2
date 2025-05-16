@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:18:45 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/03 11:31:16 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:02:17 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,22 @@ int ft_tchck_argmo_exat(char *data)
 
 void tchek_only_key(char *data,char **splt_egal , char **splt_plus,t_listenv **head)
 {
+	t_listenv *found =  NULL;
+	
 	if(tcchk_untel_egll(splt_egal[0],*head) ==  1)
 		{
-		t_listenv *found = tcchk_untel_egall(splt_egal[0], *head);
+			found = tcchk_untel_egall(splt_egal[0], *head);
 			free(found->constvrble);
 			found->constvrble = ft_strjoin(splt_egal[0],"=");
 		}
 			else if(tcchk_untel_egll(splt_plus[0],*head) ==  1 && ft_strchr(data,'+'))
 		{
-			t_listenv *found = tcchk_untel_egall(splt_plus[0], *head);
+			found = tcchk_untel_egall(splt_plus[0], *head);
 			free(found->constvrble);
 			found->constvrble = ft_strjoin(splt_plus[0],"=");
+
 		}
+	free_copy_listenv(found);
 }
 
 void free_copy_listenv(t_listenv *head)
@@ -82,6 +86,6 @@ void free_copy_listenv(t_listenv *head)
 		head = head->next;
 		free(head_new->constvrble);
 		free(head_new->pat);
-		free(head_new);
+		// free(head_new);
 	}
 }

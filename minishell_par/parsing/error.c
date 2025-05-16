@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:50:45 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/24 09:12:38 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:30:30 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,16 @@ int	is_invalide(t_token *token, char **value)
 	return (0);
 }
 
-int	check_valid(t_token *current)
-{
-	if (!ft_strcmp(current->value[0], ";")
-		|| !ft_strcmp(current->value[0], "/")
-		|| !ft_strcmp(current->value[0], "\\")
-		|| !ft_strcmp(current->value[0], ")")
-		|| !ft_strcmp(current->value[0], "(")
-		|| !ft_strcmp(current->value[0], ","))
-			return (1);
-	return (0);
-}
+// int	check_valid(t_token *current)
+// {
+// 	if (!ft_strcmp(current->value[0], ";")
+// 		|| !ft_strcmp(current->value[0], "\\")
+// 		|| !ft_strcmp(current->value[0], ")")
+// 		|| !ft_strcmp(current->value[0], "(")
+// 		|| !ft_strcmp(current->value[0], ","))
+// 			return (1);
+// 	return (0);
+// }
 
 int	error(t_token *tokens , t_token *current)
 {
@@ -72,8 +71,8 @@ int	error(t_token *tokens , t_token *current)
 		return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
 	while (current)
 	{
-		if (check_valid(current))
-			return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
+		// if (check_valid(current))
+		// 	return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
 		next = current->next;
 		if (is_pipe(current->type))
 			if (pipe_check(prev, next) || is_invalide(current, current->value))
