@@ -6,13 +6,13 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:37:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/15 19:25:33 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:35:55 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal)
+void pluss_egal(t_data *data, int x, t_listenv *head,char *segal)
 {
     char *name;
     char *value;
@@ -26,23 +26,23 @@ void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal)
     {
         if (findd->pat)
         {
-            char *new_pat = ft_strjoin(findd->pat, splt_egal[1]);
+            char *new_pat = ft_strjoin(findd->pat, segal);
             free(findd->pat);
             findd->pat = new_pat;
         }
         else
-            findd->pat = ft_strdup(splt_egal[1]);
+            findd->pat = ft_strdup(segal);
     }
     free(name);
     free(value);
 }
 
-void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal)
+void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal)
 {
     char *name;
     char *value;
-    t_listenv *findd = NULL;
-   (void )splt_egal;
+    t_listenv *findd;
+
     extract_name_and_value(data->args[x], &name, &value);
     findd = find_variable(*head, name);
     if (!findd)
@@ -51,25 +51,14 @@ void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal
     }
     else 
     {
-		int k = 0;
-		int flags = 0;
-		while (value[k] != '\0')
-		{
-		  if(value[k] == '=')
-		  	flags++;
-		k++;
-		}
-		
-		if(findd->pat)
-       		 free(findd->pat);
-
-        findd->pat = ft_strdup(value);
+       	free(findd->pat);
+        findd->pat = ft_strdup(segal);
     }
     free(name);
     free(value);
 }
 
-void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head)
+void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head)
 {
     char *juny;
     int x = 1;
@@ -80,7 +69,7 @@ void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listen
         juny = ft_strjoin(splt_plus[0], "=");
 
     else if (tchking_egal(data->args[x]))
-        juny = ft_strjoin(splt_egal[0], "=");
+        juny = ft_strjoin(splt_egal, "=");
     joune = head;
     t_listenv *findd = NULL;
     while (joune)
@@ -99,10 +88,10 @@ void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listen
 	}
     else if (flags == 1 && findd)
 	{
-		free(findd->pat);
+		// free(findd->pat);
         findd->pat = ft_strdup("");
 	}
-	free(juny);
+	// free(juny);
 
 }
 
@@ -137,7 +126,7 @@ void extract_name_and_value(char *arg, char **name, char **value)
     ft_strcpy(*value, (arg + i + 1));
 }
 
-void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head)
+void separe_egal_pluss(t_data *data, int x,char *splt_egal,char **splt_plus,char  *segal ,t_listenv **head)
 {
 	t_listenv *joune;
 	int t;
@@ -149,11 +138,11 @@ void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_l
 		if (data->args[x][t] == '=' && data->args[x][t + 1] == '\0')
             ft_egal_pacslash(data, splt_egal, splt_plus, joune, *head);
         else if (t > 0 &&  data->args[x][t - 1] == '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
-            pluss_egal(data, x, *head,splt_egal);
+            pluss_egal(data, x, *head,segal);
         else if (t > 0 && data->args[x][t - 1] != '+' && data->args[x][t] == '=' && data->args[x][t + 1] != '\0')
-            pluss_egal_pacslash(data, x, head,splt_egal);
+            pluss_egal_pacslash(data, x, head,segal);
 		t++;
 	}
-		printf("%s\n",data->args[x]);
+	
 
 }

@@ -6,13 +6,10 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/16 09:22:10 by oelbied          ###   ########.fr       */
-=======
-/*   Updated: 2025/05/14 17:06:52 by sidrissi         ###   ########.fr       */
->>>>>>> fcd360bbacf2565aea75c77d22a022188694f984
+/*   Updated: 2025/05/16 09:51:55 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/minishell.h"
 
@@ -127,7 +124,7 @@ void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
 		if (tokens->value && tokens->type != F_HERDOC
 			&& tokens->value[0] )
 		{
-			printf("tokens->value[0]: %s || q(tokens->value[0]): %d\n", tokens->value[0], q(tokens->value[0]));
+			// printf("tokens->value[0]: %s || q(tokens->value[0]): %d\n", tokens->value[0], q(tokens->value[0]));
 			expanded = expand_string(tokens->value[0], head,
 					&(t_tg){tokens->type, ambigous, q(tokens->value[0])});
 			if (tokens->value)

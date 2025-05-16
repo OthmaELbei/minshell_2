@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/15 10:06:45 by oelbied          ###   ########.fr       */
-=======
-/*   Updated: 2025/05/14 15:21:38 by sidrissi         ###   ########.fr       */
->>>>>>> fcd360bbacf2565aea75c77d22a022188694f984
+/*   Updated: 2025/05/16 17:23:05 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 // MAZAL ERROR F HERDOC TEST:  << "$VAR" || $"$var"$HOME
@@ -28,6 +25,7 @@
 #include <readline/history.h>
 #include <string.h> 
 #include <limits.h>
+#include <sys/stat.h>
 
 #include <termios.h>
 
@@ -249,9 +247,9 @@ t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
 void ft_env(char **env, t_listenv **head);
-int ft_tchc_data(t_data *data,t_listenv **head ,int fd );
+int ft_tchc_data(t_data *data,t_listenv **head  );
 void ft_pwd(t_listenv *head);
-void ft_echo(t_data *data , int fd);
+void ft_echo(t_data *data );
 void ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
 int ft_cd(t_data *data ,t_listenv *head);
@@ -264,27 +262,31 @@ char **ft_ar_env(t_listenv *head);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 int  ft_execoshen(t_data *data, t_listenv *head);
 int	ft_strncmp(const char *s1, const char *d2, size_t n);
-char *get_command_path(char *commnd, char **ary_envp);
+char *get_command_path(char *commnd, char **ary_envp, int *);
 char	*ft_strcpy(char *dst, const char *src);
 int	ft_isalpha(int c);
 void	ft_lstclear(t_listenv **lst, void (*del)(void*));
 
 // export
-
+int is_builtin(t_data *data,t_listenv **head);
 t_listenv *tcchk_untel_egall(char *data,t_listenv *head);
 int tcchk_untel_egll(char *data, t_listenv *head);
 int ft_tchck_argmo_exat(char *data);
-void tchek_only_key(char *data,char **splt_egal , char **splt_plus,t_listenv **head);
+void tchek_only_key(char *data,char *splt_egal , char **splt_plus,t_listenv **head);
 void free_copy_listenv(t_listenv *head);
-void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head);
+// void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head);
+void separe_egal_pluss(t_data *data, int x,char *splt_egal,char **splt_plus,char *segal,t_listenv **head);
 void extract_name_and_value(char *arg, char **name, char **value);
-void ft_egal_pacslash(t_data *data, char **splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head);
-void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char **splt_egal);
-void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
+void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head);
+void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal);
+// void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
+void pluss_egal(t_data *data, int x, t_listenv *head,char *segal);
 t_listenv *find_variable(t_listenv *head, char *name);
 int find_varble(t_listenv *head, char *name);
 int	ft_lstsize_data(t_data *lst);
 void	*ft_free(char **strs, int count);
+int tf_tchee_redercter( t_data *data , t_listenv **head);
+void ft_closse(t_redir *redir, int fd);
 
 // int		ft_strncmp(char *s1, char *s2, int n);/*not use it check before remove it */
 // char	*ft_strndup(char *s, size_t n);/*not use it check before remove it */

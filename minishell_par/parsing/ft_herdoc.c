@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/12 19:30:59 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:24:31 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	helper_function(char *delimter, char *line, int helper_fd, t_listenv *head)
 	}
 	(free(line), free(new_line), free(exp));
 }
+
 
 int	open_herdoc(char *delimter, int helper_fd, int *n, t_listenv *head)
 {

@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 09:22:28 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:51:38 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int ft_check_n_flag(char **args, int *i)
 
     return flag;
 }
-void ft_print_echo_args(char **args, int i, int fd)
+void ft_print_echo_args(char **args, int i)
 {
     while (args[i])
     {
@@ -124,16 +124,16 @@ void ft_print_echo_args(char **args, int i, int fd)
         // }
         // else
         // {
-            ft_putstr_fd(args[i], fd);
+            ft_putstr_fd(args[i], 1);
         // }
         i++;
         if (args[i])
-            ft_putstr_fd(" ", fd);
+            ft_putstr_fd(" ", 1);
     }
 }
 
 
-void ft_echo(t_data *data, int fd)
+void ft_echo(t_data *data)
 {
     int i = 1;
     int flag;
@@ -142,8 +142,8 @@ void ft_echo(t_data *data, int fd)
         return;
 
     flag = ft_check_n_flag(data->args, &i);
-    ft_print_echo_args(data->args, i, fd);
+    ft_print_echo_args(data->args, i);
 
     if (!flag)
-        ft_putstr_fd("\n", fd);
+        ft_putstr_fd("\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:18:45 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/15 16:02:17 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:22:19 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ int ft_tchck_argmo_exat(char *data)
 	return 1;
 }
 
-void tchek_only_key(char *data,char **splt_egal , char **splt_plus,t_listenv **head)
+void tchek_only_key(char *data,char *splt_egal , char **splt_plus,t_listenv **head)
 {
 	t_listenv *found =  NULL;
 	
-	if(tcchk_untel_egll(splt_egal[0],*head) ==  1)
+	if(tcchk_untel_egll(splt_egal,*head) ==  1)
 		{
-			found = tcchk_untel_egall(splt_egal[0], *head);
+			found = tcchk_untel_egall(splt_egal, *head);
 			free(found->constvrble);
-			found->constvrble = ft_strjoin(splt_egal[0],"=");
+			found->constvrble = ft_strjoin(splt_egal,"=");
 		}
 			else if(tcchk_untel_egll(splt_plus[0],*head) ==  1 && ft_strchr(data,'+'))
 		{
