@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 12:58:42 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 13:22:27 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	ft_check(t_data *current, t_token *temp)
 
 	i = 0;
 	while (temp->value[i])
+	{
+		printf("--->: %s\n", temp->value[i]);
 		i++ ;
+	}
 	if (i > 1)
 	{
 		j = 0;
@@ -116,7 +119,8 @@ t_data *parsing(t_token **tokens, t_token *temp)
 		else if (temp->type == CMD)
 		{
 			current->cmd = ft_strdup(temp->value[0]);
-			add_argument(current, temp->value[0]);
+			// add_argument(current, temp->value[0]);
+			ft_check(current, temp);
 		}
 		else if (temp->type == WORD)
 			ft_check(current, temp);

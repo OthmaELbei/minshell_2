@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 10:47:05 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:30:59 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void ft_herdoc(t_token **tokens, t_listenv *head)
 			fd_ = open_herdoc(current->next->value[0], helper_fd, &n, head);
 			if (fd_ != -1)
 				current->next->fd = fd_;
+			else if (fd_ == -1)
+				exit(1);
 		}
 		current = current->next;
 	}

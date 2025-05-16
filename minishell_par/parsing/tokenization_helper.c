@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:57:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 15:23:54 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:14:10 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int sp(char c)
 {
-	return (c == ' ' || c == '>' || c == '<' || c == '|');
+	return (c == ' ' || c == '\t' || c == '>' || c == '<' || c == '|');
 }
 
 void	handle_quotes(t_quote_data *data, t_initalize *init)
