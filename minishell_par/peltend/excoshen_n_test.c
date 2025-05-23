@@ -6,37 +6,37 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:23:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 12:52:00 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:47:17 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void ft_freee(char **arrai)
+void	ft_freee(char **arrai)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	if (!arrai)
-		return;
+		return ;
 	while (arrai[i])
 		free(arrai[i++]);
 	free(arrai);
 }
 
-int is_directory(const char *path)
+int	is_directory(const char *path)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (lstat(path, &st) == -1)
 	{
 		perror("lstat");
-		return 0;
+		return (0);
 	}
-
-	return S_ISDIR(st.st_mode);
+	return (S_ISDIR(st.st_mode));
 }
 
-char *ft_tcheck_path(char *commnd, char *strn_path, int *status)
+char	*ft_tcheck_path(char *commnd, char *strn_path, int *status)
 {
 	if (!commnd)
 		return (NULL);
@@ -62,27 +62,25 @@ char *ft_tcheck_path(char *commnd, char *strn_path, int *status)
 	return (NULL);
 }
 
-char *serch_path(char **envp)
+char	*serch_path(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			return (envp[i] + 5);
 		i++;
 	}
-
 	return (NULL);
 }
 
-char *make_path(char **all_path, char *commnd)
+char	*make_path(char **all_path, char *commnd)
 {
-	char *temp_path;
-	char *full_path;
-	int i;
+	char	*temp_path;
+	char	*full_path;
+	int		i;
 
 	i = 0;
 	while (all_path[i])
@@ -90,7 +88,6 @@ char *make_path(char **all_path, char *commnd)
 		temp_path = ft_strjoin(all_path[i], "/");
 		full_path = ft_strjoin(temp_path, commnd);
 		free(temp_path);
-
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);
@@ -99,11 +96,11 @@ char *make_path(char **all_path, char *commnd)
 	return (NULL);
 }
 
-char *get_command_path(char *commnd, char **ary_envp, int *status)
+char	*get_command_path(char *commnd, char **ary_envp, int *status)
 {
-	char **all_path;
-	char *cmd_path;
-	char *strn_path;
+	char	**all_path;
+	char	*cmd_path;
+	char	*strn_path;
 
 	*status = 0;
 	strn_path = serch_path(ary_envp);

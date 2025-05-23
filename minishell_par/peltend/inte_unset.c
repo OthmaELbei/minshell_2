@@ -1,51 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tchcke_pluss.c                                     :+:      :+:    :+:   */
+/*   inte_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 10:42:53 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/21 12:41:55 by oelbied          ###   ########.fr       */
+/*   Created: 2025/05/21 15:28:20 by oelbied           #+#    #+#             */
+/*   Updated: 2025/05/21 15:33:55 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	thcking_pluss(char *str)
+char	*ft_strdup_unset(char *s)
 {
-	int	i;
+	char	*str;
+	int		len;
+	int		i;
 
 	i = 0;
-	while (str[i] != '\0')
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	str = (char *)malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (i < len && s[i] != '=')
 	{
-		if (str[i] == '+' && str[i + 1] == '=')
-		{
-			return (1);
-		}
-		else if (str[i] == '+' && str[i + 1] != '=')
-		{
-			printf("'%s':not a valid identifier\n", str);
-			return (0);
-		}
+		str[i] = s[i];
 		i++;
 	}
-	return (0);
+	str[i] = '\0';
+	return (str);
 }
 
-int	tchking_egal(char *str)
+int	ft_tchk_value(char *data)
 {
 	int	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
+	if (data[i] == '\0')
+		return (1);
+	if (!ft_isalpha(data[i]) && data[i] != '_')
+		return (1);
+	i++;
+	while (data[i] != '\0')
 	{
-		if (i > 0 && str[i - 1] != '+' && str[i] == '=')
-		{
+		if (!ft_isalnum(data[i]) && data[i] != '_')
 			return (1);
-		}
 		i++;
 	}
 	return (0);

@@ -6,39 +6,60 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:54 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/14 08:43:19 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:18:54 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-int ft_cd(t_data *data ,t_listenv *head)
+int	comend_cd(t_data *data)
 {
-	if((getcwd(NULL, 0) == NULL) && (ft_strcmp(data->args[1],"..") == 0 ))
+	char	*home;
+
+	if (data->args[1])
 	{
-		 perror("cd: error retrieving current directory: getcwd: cannot access parent directories");
-		
-		head->old_pwd = ft_strjoin(head->old_pwd,"/");
-		head->old_pwd = ft_strjoin(head->old_pwd,"..");
-		
-	}else if((getcwd(NULL, 0) == NULL) && (ft_strcmp(data->args[1],".") == 0 ))
-	{
-		head->old_pwd = ft_strjoin(head->old_pwd,"/");
-		head->old_pwd = ft_strjoin(head->old_pwd,".");
-	}
-	if(!ft_strcmp(data->cmd, "cd") && data->args[1] ){
-		if(chdir(data->args[1]) == -1)
+		if (chdir(data->args[1]) == -1)
 		{
-			 printf("%s: No such \n",data->args[1]);	
-			 return 1;
+			perror(data->args[1]);
+			return (1);
 		}
 	}
-	if(!ft_strcmp(data->cmd, "cd") && !data->args[1])
+	else
 	{
-		if(chdir(getenv("HOME")) ==  -1)
-			perror("chdir failed");
-	} 
-    return 0;
+		home = getenv("HOME");
+		if (!home || chdir(home) == -1)
+		{
+			perror("cd");
+			return (1);
+		}
+	}
+	return (0);
 }
 
+int	ft_cd(t_data *data, t_listenv *head)
+{
+	char	*cwd;
+	char	*temp;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL && (ft_strcmp(data->args[1], "..") == 0
+			|| ft_strcmp(data->args[1], ".") == 0))
+	{
+		perror("cd: error retrieving current directory:\
+getcwd: cannot access parent directories");
+		temp = ft_strjoin(head->old_pwd, "/");
+		if (!temp)
+			return (1);
+		free(head->old_pwd);
+		head->old_pwd = ft_strjoin(temp, data->args[1]);
+		free(temp);
+	}
+	else if (cwd != NULL)
+	{
+		free(head->old_pwd);
+		head->old_pwd = ft_strdup(cwd);
+		free(cwd);
+	}
+	comend_cd(data);
+	return (0);
+}
