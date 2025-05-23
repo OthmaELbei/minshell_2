@@ -6,36 +6,36 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:54:18 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/14 11:11:31 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:13:48 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void handle_words(char *line, int *i, char **buffer)
+void	handle_words(char *line, int *i, char **buffer)
 {
-	int	j;
-    char    *new_word;
-    char    *new_buffer;
-	
+	int		j;
+	char	*new_word;
+	char	*new_buffer;
+
 	j = *i;
 	while (line[*i] && !sp(line[*i]) && line[*i] != '\'' && line[*i] != '\"')
 		(*i)++;
-    new_word = ft_substr(line, j, (*i - j));
-    if (!new_word)
-        return ;
-    if (*buffer == NULL)
-        *buffer = new_word;
-    else
-    {
-        new_buffer = ft_strjoin(*buffer, new_word);
-        free(new_word);
-        free(*buffer);
-        *buffer = new_buffer;
-    }
+	new_word = ft_substr(line, j, (*i - j));
+	if (!new_word)
+		return ;
+	if (*buffer == NULL)
+		*buffer = new_word;
+	else
+	{
+		new_buffer = ft_strjoin(*buffer, new_word);
+		free(new_word);
+		free(*buffer);
+		*buffer = new_buffer;
+	}
 }
 
-t_initalize	*ft_initialize()
+t_initalize	*ft_initialize(void)
 {
 	t_initalize	*init;
 
@@ -49,12 +49,12 @@ t_initalize	*ft_initialize()
 	return (init);
 }
 
-void handle_mixed_words(char *line, int *i, t_token **head)
+void	handle_mixed_words(char *line, int *i, t_token **head)
 {
-	char *buffer;
 	t_initalize	*init;
+	char		*buffer;
 
-    buffer = NULL;
+	buffer = NULL;
 	init = ft_initialize();
 	while (line[*i] && !sp(line[*i]))
 	{
@@ -63,21 +63,20 @@ void handle_mixed_words(char *line, int *i, t_token **head)
 		else
 			handle_words(line, i, &buffer);
 	}
-    if (buffer)
+	if (buffer)
 		ft_lstadd_back(head, ft_lstnew(buffer, WORD));
 	free(init);
 }
 
-void handle_special_chars(char *line, int *i, t_token **head)
+void	handle_special_chars(char *line, int *i, t_token **head)
 {
-	char *sp_char;
-	int j;
+	char	*sp_char;
+	int		j;
 
 	j = *i;
 	while (line[*i] && line[*i] == line[j])
 		(*i)++;
 	sp_char = ft_substr(line, j, *i - j);
-
 	if (ft_cmp(sp_char) == PIPE)
 		ft_lstadd_back(head, ft_lstnew(sp_char, PIPE));
 	else if (ft_cmp(sp_char) == PIPES)
@@ -94,14 +93,13 @@ void handle_special_chars(char *line, int *i, t_token **head)
 		free(sp_char);
 }
 
-t_token *tokenization(char *line, int i)
+t_token	*tokenization(char *line, int i)
 {
-	t_token *head;
+	t_token	*head;
 
 	head = ft_lstnew(ft_strdup("."), START);
 	if (!head)
 		return (NULL);
-	ft_memset(head, 0, sizeof(t_token));
 	while (line[i])
 	{
 		if (line[i] == '\'' || line[i] == '\"')

@@ -3,35 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_herdoc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 05:40:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/16 12:24:31 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/20 13:23:17 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	check_delimter(char *delimter)
-{
-	int	i;
-
-	i = 0;
-	while (delimter[i])
-	{
-		if (delimter[i] == '\'' || delimter[i] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	helper_function(char *delimter, char *line, int helper_fd, t_listenv *head)
+void	helper_function(char *delimter, char *line,
+						int helper_fd, t_listenv *head)
 {
 	char	**exp;
 	char	*new_line;
 	int		n;
-	
+
 	new_line = NULL;
 	exp = NULL;
 	n = 1377;
@@ -50,41 +37,42 @@ void	helper_function(char *delimter, char *line, int helper_fd, t_listenv *head)
 	(free(line), free(new_line), free(exp));
 }
 
-
-int	open_herdoc(char *delimter, int helper_fd, int *n, t_listenv *head)
+int	open_herdoc(char *delimter, char *random_name, int *n, t_listenv *head)
 {
-	int 	fd;
-	char 	*line;
+	int		fd[2];
+	char	*line;
 	char	**exp;
 	char	*new_delimter;
 
 	exp = ft_expand_herdoc(delimter, n, head);
 	new_delimter = exp[0];
-	helper_fd = open("/tmp/random_name", O_RDWR | O_CREAT, 0777);
-	fd = open ("/tmp/random_name", O_RDONLY | O_CREAT, 0777);
-	if (unlink("/tmp/random_name") || (helper_fd < 0) || (fd < 0))
-		return (perror("faile"), close(helper_fd), close(fd), -1);
+	random_name = generate_name();
+	fd[0] = open(random_name, O_RDWR | O_CREAT, 0777);
+	fd[1] = open (random_name, O_RDONLY | O_CREAT, 0777);
+	if (unlink(random_name) || (fd[0] < 0) || (fd[1] < 0))
+		return (perror("faile"), close(fd[0]), close(fd[1]), -1);
 	while (1)
 	{
 		line = readline("> ");
 		if ((!line) || ft_strcmp(line, new_delimter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
-		helper_function(delimter, line, helper_fd, head);
+		helper_function(delimter, line, fd[0], head);
 	}
-	return (free(exp), free(new_delimter), close(helper_fd), fd); // should close the return file descriptor
+	return (free(random_name), free(exp), free(new_delimter), close(fd[0]),
+		fd[1]); // should close the return file descriptor
 }
 
-void ft_herdoc(t_token **tokens, t_listenv *head)
+void	ft_herdoc(t_token **tokens, t_listenv *head)
 {
-	t_token *current;
+	t_token	*current;
 	int		fd_;
 	int		n;
-	int		helper_fd;
+	char	*random_name;
 
-	helper_fd = 1;
+	random_name = NULL;
 	n = 10;
 	fd_ = -1;
 	current = *tokens;
@@ -93,11 +81,11 @@ void ft_herdoc(t_token **tokens, t_listenv *head)
 		if (current->type == HERDOC
 			&& current->next && current->next->type == F_HERDOC)
 		{
-			fd_ = open_herdoc(current->next->value[0], helper_fd, &n, head);
+			fd_ = open_herdoc(current->next->value[0], random_name, &n, head);
 			if (fd_ != -1)
 				current->next->fd = fd_;
-			else if (fd_ == -1)
-				exit(1);
+			// else if (fd_ == -1)
+				// exit(1);
 		}
 		current = current->next;
 	}

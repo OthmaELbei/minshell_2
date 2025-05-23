@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/15 22:43:23 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/16 09:51:23 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/20 13:39:43 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	ft_add(t_data *current, t_redir *last, t_redir *new_redir)
 	}
 }
 
-void add_redirection(t_data *current, t_token **tokens)
+void	add_redirection(t_data *current, t_token **tokens)
 {
-	t_redir *new_redir;
-	t_redir *last;
-	t_token *token;
+	t_redir	*new_redir;
+	t_redir	*last;
+	t_token	*token;
 
 	last = NULL;
 	token = *tokens;
@@ -44,18 +44,19 @@ void add_redirection(t_data *current, t_token **tokens)
 	else
 	{
 		new_redir->name = ft_strdup(token->value[0]);
-		new_redir->fd  = -101;
+		new_redir->fd = -101;
+		new_redir->_ambigous = (*tokens)->_ambigous;
 	}
 	new_redir->type = token->type;
 	new_redir->next = NULL;
 	ft_add(current, last, new_redir);
 }
 
-void add_argument(t_data *current, char *arg)
+void	add_argument(t_data *current, char *arg)
 {
-	int count;
-	int i;
-	char **new_args;
+	int		count;
+	int		i;
+	char	**new_args;
 
 	count = 0;
 	i = 0;
@@ -80,14 +81,11 @@ void add_argument(t_data *current, char *arg)
 void	ft_check(t_data *current, t_token *temp)
 {
 	int	j;
-	int i;
+	int	i;
 
 	i = 0;
 	while (temp->value[i])
-	{
-		// printf("--->: %s\n", temp->value[i]);
 		i++ ;
-	}
 	if (i > 1)
 	{
 		j = 0;
@@ -101,10 +99,10 @@ void	ft_check(t_data *current, t_token *temp)
 		add_argument(current, temp->value[0]);
 }
 
-t_data *parsing(t_token **tokens, t_token *temp)
+t_data	*parsing(t_token **tokens, t_token *temp)
 {
-	t_data *lst;
-	t_data *current;
+	t_data	*lst;
+	t_data	*current;
 
 	temp = *tokens;
 	lst = ft_lstnew_p();
@@ -119,7 +117,6 @@ t_data *parsing(t_token **tokens, t_token *temp)
 		else if (temp->type == CMD)
 		{
 			current->cmd = ft_strdup(temp->value[0]);
-			// add_argument(current, temp->value[0]);
 			ft_check(current, temp);
 		}
 		else if (temp->type == WORD)

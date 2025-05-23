@@ -6,13 +6,13 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:57:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/14 11:14:10 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:14:24 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int sp(char c)
+int	sp(char c)
 {
 	return (c == ' ' || c == '\t' || c == '>' || c == '<' || c == '|');
 }

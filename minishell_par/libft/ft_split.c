@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 02:01:21 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/14 20:04:28 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:46:00 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	word_count(char *s, char c)
 	int	words;
 
 	words = 0;
-	// if(NULL == s)
-	// 	return (words);
+	if(NULL == s || s[0] == '\0')
+		return (words);
 	i = 0;
 	while (s[i])
 	{

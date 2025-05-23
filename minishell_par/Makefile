@@ -3,19 +3,19 @@ RM = rm -f
 # FLAGS = -Wall -Wextra -Werror -fsanitize=address
 # FLAGS = -Wall -Wextra -Werror
 READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include #-g -fsanitize=address
 # CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
 LDFLAGS =   $(CFLAGS) -L$(READLINE)/lib -lreadline
 
 SRC = parsing/main.c parsing/tokenization.c parsing/tokenization_helper.c parsing/grabage.c parsing/error.c\
 	parsing/error_helper.c parsing/expand.c parsing/expand_helper1.c parsing/expand_helper2.c\
 	parsing/ft_rename.c parsing/ft_herdoc.c parsing/ft_herdoc_expand.c parsing/ft_herdoc_expand_helper.c\
-	parsing/parsing.c parsing/parsing_helper.c\
+	parsing/parsing.c parsing/parsing_helper.c parsing/fake_herdoc.c parsing/ft_herdoc_get_name.c\
 	libft/ft_putstr_fd.c libft/ft_strlen.c libft/ft_cmp.c libft/ft_strjoin.c\
 	libft/linked_list.c libft/ft_substr.c libft/ft_strdup.c libft/ft_isprint.c\
 	libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_strncmp.c\
 	libft/ft_strndup.c libft/ft_allocate.c libft/ft_strcat.c libft/ft_strncpy.c\
-	libft/ft_memset.c libft/ft_strcmp.c libft/ft_split.c\
+	libft/ft_memset.c libft/ft_strcmp.c libft/ft_split.c libft/ft_itoa.c libft/ft_putchar_fd.c\
 	peltend/env.c libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c libft/ft_lstnew_bonus.c\
 	libft/ft_lstsize_bonus.c peltend/ft_tchc_data.c peltend/pwd.c peltend/echo.c\
 	peltend/unset.c peltend/exit.c peltend/cd.c peltend/export.c peltend/tchcke_pluss.c\

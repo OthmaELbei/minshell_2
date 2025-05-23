@@ -6,16 +6,16 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:00:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 11:58:21 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:32:42 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void append_char_herdoc(t_expand *ex, char c)
+void	append_char_herdoc(t_expand *ex, char c)
 {
-	char *new_res;
-	char tmp[2];
+	char	*new_res;
+	char	tmp[2];
 
 	tmp[0] = c;
 	tmp[1] = '\0';
@@ -24,9 +24,9 @@ void append_char_herdoc(t_expand *ex, char c)
 	ex->res = new_res;
 }
 
-void extract_var_herdoc(t_expand *ex, char *str)
+void	extract_var_herdoc(t_expand *ex, char *str)
 {
-	int start;
+	int	start;
 
 	ex->var_len = 0;
 	start = ex->i;
@@ -57,12 +57,13 @@ char	*ft_getenv_herdoc(char *var_name, t_listenv *head)
 	return (free(new_varname), env_name);
 }
 
-void handle_odd_dollars_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
+void	handle_odd_dollars_herdoc(t_expand *ex, char *str,
+							int *flag, t_listenv *head)
 {
-	(void)flag;
-	char *val;
-	char *new_res;
+	char	*val;
+	char	*new_res;
 
+	*flag = 0;
 	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_') //?
 	{
 		extract_var_herdoc(ex, str);

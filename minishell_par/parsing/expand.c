@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:29:27 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/16 09:51:55 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/20 12:53:10 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-
-void handle_double_quote(t_expand *ex, char *str, t_listenv *head, t_tg *data)
+void	handle_double_quote(t_expand *ex, t_token *tokens,
+							t_listenv *head, t_tg *data)
 {
 	ex->i++;
-	while (str[ex->i] && str[ex->i] != '"')
+	while (tokens->value[0][ex->i] && tokens->value[0][ex->i] != '"')
 	{
-		if (str[ex->i] == '$')
+		if (tokens->value[0][ex->i] == '$')
 		{
-			process_dollar(ex, str, head, data);
+			process_dollar(ex, tokens, head, data);
 		}
 		else
 		{
-			append_char(ex, str[ex->i]);
+			append_char(ex, tokens->value[0][ex->i]);
 			ex->i++;
 		}
 	}
-	if (str[ex->i] == '"')
+	if (tokens->value[0][ex->i] == '"')
 		ex->i++;
 }
 
-char **split(t_expand *ex)
+char	**split(t_expand *ex)
 {
-	char **result;
+	char	**result;
 
 	if (ex->flag == 0)
 	{
@@ -56,7 +55,7 @@ char **split(t_expand *ex)
 	return (result);
 }
 
-char	**expand_string(char *str, t_listenv *head, t_tg *data)
+char	**expand_string(t_token *tokens, t_listenv *head, t_tg *data)
 {
 	t_expand	ex;
 
@@ -64,37 +63,25 @@ char	**expand_string(char *str, t_listenv *head, t_tg *data)
 	ex.res = ft_strdup("");
 	if (!ex.res)
 		return (NULL);
-	while (str[ex.i])
+	while (tokens->value[0][ex.i])
 	{
-		if (str[ex.i] == '\'')
+		if (tokens->value[0][ex.i] == '\'')
 		{
 			ex.flag = 2;
-			handle_single_quote(&ex, str);
+			handle_single_quote(&ex, tokens);
 		}
-		else if (str[ex.i] == '"')
+		else if (tokens->value[0][ex.i] == '"')
 		{
 			ex.flag = 1;
-			handle_double_quote(&ex, str, head, data);
+			handle_double_quote(&ex, tokens, head, data);
 		}
-		else if (str[ex.i] == '$')
-			process_dollar(&ex, str, head, data);
+		else if (tokens->value[0][ex.i] == '$')
+			process_dollar(&ex, tokens, head, data);
 		else
-			(append_char(&ex, str[ex.i]), ex.i++);
+			(append_char(&ex, tokens->value[0][ex.i]), ex.i++);
 	}
 	return (split(&ex));
 }
-
-// int	ft_null(char *s)
-// {
-// 	char	*s_q;
-// 	char	*d_q;
-
-// 	d_q = "\"\"";
-// 	s_q = "\'\'";
-// 	if (!ft_strcmp(s, s_q) || !ft_strcmp(s, d_q))
-// 		return (1);
-// 	return (0);
-// }
 
 int	q(char *s)
 {
@@ -115,18 +102,17 @@ int	q(char *s)
 	return (0);
 }
 
-void ft_expand(t_token *tokens, int i, t_listenv *head, int *ambigous)
+void	ft_expand(t_token *tokens, int i, t_listenv *head)
 {
 	char	**expanded;
 
 	while (tokens)
 	{
 		if (tokens->value && tokens->type != F_HERDOC
-			&& tokens->value[0] )
+			&& tokens->value[0])
 		{
-			// printf("tokens->value[0]: %s || q(tokens->value[0]): %d\n", tokens->value[0], q(tokens->value[0]));
-			expanded = expand_string(tokens->value[0], head,
-					&(t_tg){tokens->type, ambigous, q(tokens->value[0])});
+			expanded = expand_string(tokens, head,
+					&(t_tg){tokens->type, q(tokens->value[0])});
 			if (tokens->value)
 			{
 				i = 0;

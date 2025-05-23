@@ -6,13 +6,14 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:54:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/10 10:48:21 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:25:40 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void process_dollar_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
+void	process_dollar_herdoc(t_expand *ex, char *str,
+							int *flag, t_listenv *head)
 {
 	ex->dollar_count = 0;
 	while (str[ex->i] == '$')
@@ -24,10 +25,11 @@ void process_dollar_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
 		handle_odd_dollars_herdoc(ex, str, flag, head);
 }
 
-void handle_quote_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
+void	handle_quote_herdoc(t_expand *ex, char *str, int *flag,
+							t_listenv *head)
 {
 	if (*flag == 10)
-	{		
+	{
 		ex->i++;
 		while (str[ex->i] && (str[ex->i] != '"' && str[ex->i] != '\''))
 		{
@@ -52,9 +54,9 @@ void handle_quote_herdoc(t_expand *ex, char *str, int *flag, t_listenv *head)
 	}
 }
 
-char **split_herdoc(t_expand *ex, int *flag)
+char	**split_herdoc(t_expand *ex, int *flag)
 {
-	char **result;
+	char	**result;
 
 	if (*flag == 0)
 	{
@@ -75,9 +77,9 @@ char **split_herdoc(t_expand *ex, int *flag)
 	return (result);
 }
 
-char **ft_expand_herdoc(char *str, int *flag, t_listenv *head)
+char	**ft_expand_herdoc(char *str, int *flag, t_listenv *head)
 {
-	t_expand ex;
+	t_expand	ex;
 
 	ft_memset(&ex, 0, sizeof(ex));
 	ex.res = ft_strdup("");

@@ -6,15 +6,17 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:50:21 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/01 12:58:47 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:40:44 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_data *ft_lstnew_p(void)
+t_data	*ft_lstnew_p(void)
 {
-	t_data *new_node = malloc(sizeof(t_data));
+	t_data	*new_node;
+
+	new_node = malloc(sizeof(t_data));
 	if (!new_node)
 		return (NULL);
 	new_node->cmd = NULL;

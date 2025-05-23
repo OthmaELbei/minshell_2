@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:50:45 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/16 09:48:25 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/20 12:51:13 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/minishell.h"
 
@@ -55,21 +54,7 @@ int	is_invalide(t_token *token, char **value)
 	return (0);
 }
 
-// int	check_valid(t_token *current)
-// {
-// 	if (!ft_strcmp(current->value[0], ";")
-
-// 		|| !ft_strcmp(current->value[0], "/")
-
-// 		|| !ft_strcmp(current->value[0], "\\")
-// 		|| !ft_strcmp(current->value[0], ")")
-// 		|| !ft_strcmp(current->value[0], "(")
-// 		|| !ft_strcmp(current->value[0], ","))
-// 			return (1);
-// 	return (0);
-// }
-
-int	error(t_token *tokens , t_token *current)
+int	error(t_token *tokens, t_token *current)
 {
 	t_token	*prev;
 	t_token	*next;
@@ -80,10 +65,6 @@ int	error(t_token *tokens , t_token *current)
 		return (ft_putstr_fd(ERROR, STDERR_FILENO), t_err(&current), 1);
 	while (current)
 	{
-		// if (check_valid(current))
-
-		// 	return (ft_putstr_fd(ERROR, STDERR_FILENO), 1);
-		// 	return (ft_putstr_fd(ERROR, STDERR_FILENO), t_err(&current), 1);
 		next = current->next;
 		if (is_pipe(current->type))
 			if (pipe_check(prev, next) || is_invalide(current, current->value))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/16 19:50:41 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:05:41 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int check_quotes(char *line, int i, int count_quote)
 	return (0);
 }
 
-t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
+t_token *lexing(char *line, int *flag, t_listenv *head)
 {
 	int		i;
 	int		count_quote;
@@ -52,7 +52,6 @@ t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 	count_quote = 0;
 	if (check_quotes(line, i, count_quote))
 		return (ft_putstr_fd("missing quotation\n", 2), NULL);
-
 	tokens = tokenization(line, i);
 	if (tokens == NULL)
 		return (NULL);
@@ -60,105 +59,110 @@ t_token *lexing(char *line, int *flag, t_listenv *head, int *ambigous)
 	current = NULL;
 	if (error(tokens, current))
 	{
+		head->fdd = 258;
 		*flag = 1;
 		return (tokens);
 	}
 	ft_rename(tokens);
-	ft_expand(tokens, i, head, ambigous);
+	ft_expand(tokens, i, head);
 	ft_herdoc(&tokens, head);
 	return (tokens);
 }
 
+void ft_excution(t_data *data)
+{
+	/*		printe cause leaks				*/
+			// PRINT
+			t_data *tmp = data;
+			while (tmp)
+			{
 
+				printf("\n\n");
+				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
 
-// void ft_excution(t_data *data)
-// {
-// 	/*		printe cause leaks				*/
-// 			// PRINT
-// 			t_data *tmp = data;
-// 			while (tmp)
-// 			{
-
-// 				printf("\n\n");
-// 				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
-
-// 				// Print arguments
-// 				printf("Arguments:");
-// 				if (tmp->args)
-// 				{
-// 					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
-// 					for (int i = 0; tmp->args[i]; i++)
-// 						printf(" |%s|", tmp->args[i]);
-// 				}
-// 				//Print files
-// 				printf("\n");
-// 				if (tmp->file)
-// 				{
-// 					while (tmp->file)
-// 					{
-// 						if (tmp->file->type != F_HERDOC)
-// 						{
-// 							printf("[fname: %s | ftype: %d]\n",  (tmp->file->name), tmp->file->type);
-// 							free(tmp->file->name);
-// 						}
-// 						else
-// 						{
-// 							// if (tmp->file->fd < 0)
-// 							// {
-// 							// 	printf("error in fd \n");
-// 							// 	return ;
-// 							// }
-// 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+				// Print arguments
+				printf("Arguments:");
+				if (tmp->args)
+				{
+					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
+					for (int i = 0; tmp->args[i]; i++)
+						printf(" |%s|", tmp->args[i]);
+				}
+				//Print files
+				printf("\n");
+				if (tmp->file)
+				{
+					while (tmp->file)
+					{
+						if (tmp->file->type != F_HERDOC)
+						{
+							printf("[fname: %s | ftype: %d | ambigous: %d]\n", 
+									(tmp->file->name), tmp->file->type, tmp->file->_ambigous);
+							free(tmp->file->name);
+						}
+						else
+						{
+							// if (tmp->file->fd < 0)
+							// {
+							// 	printf("error in fd \n");
+							// 	return ;
+							// }
+							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
-// 								char	buffer[1337];
-// 								int		reads_size;
-// 								if (tmp->file->fd < 0)
-// 									printf("fd is failed\n");
+								char	buffer[1337];
+								int		reads_size;
+								if (tmp->file->fd < 0)
+									printf("fd is failed\n");
 								
 
 
-// 								reads_size = read(tmp->file->fd, buffer, 1337);
-// 								printf("reads_size: %d\n", reads_size);
+								reads_size = read(tmp->file->fd, buffer, 1337);
+								printf("reads_size: %d\n", reads_size);
 								
-// 								buffer[reads_size] = '\0';
+								buffer[reads_size] = '\0';
 								
-// 								printf("buffer: %s\n", buffer);
-// 								if (reads_size <= 0)
-// 									printf("reads_size read nothing\n");
-// 						}
+								printf("buffer: %s\n", buffer);
+								if (reads_size <= 0)
+									printf("reads_size read nothing\n");
+						}
 						
-// 						tmp->file = tmp->file->next;
-// 					}
+						tmp->file = tmp->file->next;
+					}
 					
-// 				}
-// 				tmp = tmp->next;
-// 			}
-// }
+				}
+				tmp = tmp->next;
+			}
+}
 
 
-
-void	helper_main(t_token *tokens, int *flag, t_listenv *head, int *ambigous)
+void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 {
 	t_data	*data;
 	t_token *temp;
-	// t_listenv *head = NULL;
+	int		st;
 
+	// t_listenv *head = NULL;
 
 	temp = NULL;
 	if (*flag == 0)
 	{
 		data = parsing(&tokens, temp);
-		int st = ft_execoshen(data, head);
+
+		ft_excution(data);
+
+		st = ft_execoshen(data, head);
 		head->fdd = st;
-		printf("====%d\n", head->fdd);
+
+		
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		free_data(data);
 		free_tokens(tokens);
-		if (*ambigous) // just for test the execution will print this message
-			printf("ambiguous redirect\n");
 	}
 	else
 	{
+		ft_rename(tokens);
+		temp = tokens; // you can just send the tokens not `temp` cause if send tokens you send just by value not by referense so do it if you need more lines in this function
+		ft_open_herdoc_until_error(temp, head);
 		free_tokens(tokens);
 	}
 }
@@ -181,7 +185,7 @@ void siginl_hendel(int sig)
 	
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1); 
-	rl_replace_line("",0);
+	// rl_replace_line("",0);
 	rl_on_new_line();
 	rl_redisplay();
 	
@@ -189,32 +193,39 @@ void siginl_hendel(int sig)
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	t_token		*tokens;
-	t_listenv 	*head;
-	t_v_main	variable;
+	t_token			*tokens;
+	t_listenv 		*head;
+	t_v_main		variable;
+	
 	// atexit(f);
+	
 	signal(SIGINT, siginl_hendel);
 	signal(SIGQUIT, SIG_IGN);
 	disable_echoctl();
+
+
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
-	
+
+	head->fdd = 0;
+
+	tokens = NULL;
 	while (1)
 	{
-
-		variable.ambigous = 0;
 		variable.flag = 0;
 		variable.line = readline("Minishell: ");
 		if(!variable.line)
 		{
 			printf("exit\n");
+			free(variable.line);
 			exit(head->fdd);
 		}
 		if (variable.line == NULL)
 			break;
-		tokens = lexing(variable.line, &variable.flag, head, &variable.ambigous);
-		helper_main(tokens, &variable.flag, head, &variable.ambigous);
+		tokens = lexing(variable.line, &variable.flag, head);
+		if (tokens != NULL)
+			helper_main(tokens, &variable.flag, head);
 		if (variable.line[0] != '\0')
 			add_history(variable.line);
 		free(variable.line);
