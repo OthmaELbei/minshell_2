@@ -6,13 +6,13 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/19 10:31:20 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:17:50 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void thcke_fd(int fd)
+void	thcke_fd(int fd)
 {
 	if (fd == -1)
 	{
@@ -20,23 +20,25 @@ void thcke_fd(int fd)
 		exit(EXIT_FAILURE);
 	}
 }
-void ft_closse(t_redir *redir, int fd)
-{
-	if (redir->type == FWRITE_OUT || redir->type == FREAD_IN || redir->type == F_APPEND)
-	{
 
+void	ft_closse(t_redir *redir, int fd)
+{
+	if (redir->type == FWRITE_OUT
+		|| redir->type == FREAD_IN || redir->type == F_APPEND)
+	{
 		thcke_fd(fd);
 		close(fd);
 	}
 }
 
-void ft_tchek_herdok(t_redir *redir)
+void	ft_tchek_herdok(t_redir *redir)
 {
 	dup2(redir->fd, STDIN_FILENO);
 	close(redir->fd);
 	redir = redir->next;
 }
-void ft_erorr(char *str)
+
+void	ft_erorr(char *str)
 {
 	perror(str);
 	exit(EXIT_FAILURE);
@@ -68,9 +70,6 @@ int tf_tchee_redercter(t_data *data, t_listenv **head)
 			return (1);
 		}
 		thcke_fd(fd);
-		// ft_echo(current,&head,fd);
-		// (*head)->fdd = fd;
-		// ft_tchc_data(current,&head,head->fdd);
 		if (redir->type == FWRITE_OUT || redir->type == F_APPEND)
 			dup2(fd, STDOUT_FILENO);
 		else if (redir->type == FREAD_IN)
@@ -186,8 +185,8 @@ int ft_execoshen(t_data *data, t_listenv *head)
 	}
 	int status;
 	waitpid(pid, &status, 0);
-	while (wait(NULL) > 0)
-		;
+	while (wait(NULL) > 0);
+	
 	return status_res(status);
 }
 

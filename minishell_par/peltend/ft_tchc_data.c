@@ -6,63 +6,67 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 11:11:41 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:33:43 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int ft_tchc_data(t_data *data,t_listenv **head  )
+int	print_env(t_listenv **head)
 {
-	if(!data || !head || !*head)
-	 return 0;
+	t_listenv	*tamp;
 
-	if(!ft_strcmp(data->cmd,"env"))
+	tamp = *head;
+	while (tamp)
+	{
+		if (ft_strchr(tamp->constvrble, '='))
 		{
-			t_listenv *tamp = *head;
-			while(tamp){
-			if(ft_strchr(tamp->constvrble,'='))
-			{
-				printf("%s",tamp->constvrble);
-				printf("%s\n",tamp->pat);				
-			}
-			tamp =  tamp->next;
+			printf("%s", tamp->constvrble);
+			printf("%s\n", tamp->pat);
 		}
+		tamp = tamp->next;
 	}
-	else if(!ft_strcmp(data->cmd,"pwd"))
-		return (ft_pwd(*head),1);
-	else if(!ft_strcmp(data->cmd,"echo"))
-		return (ft_echo(data), 1);
-	else if(!ft_strcmp(data->cmd,"unset"))
-		return (ft_unset(data,head),1);
-	else if(!ft_strcmp(data->cmd,"exit"))
-		return (ft_exit(data),1);
-	else if(!ft_strcmp(data->cmd,"cd"))
-		return (ft_cd(data,*head),1);
-	else if(!ft_strcmp(data->cmd,"export"))
-		return (ft_export(*head ,data),1);
-	return 0;
+	return (0);
 }
 
-
-int is_builtin(t_data *data,t_listenv **head)
+int	ft_tchc_data(t_data *data, t_listenv **head)
 {
-	if(!data || !head || !*head)
-	 return 0;
+	if (!data || !head || !*head)
+		return (0);
+	if (!ft_strcmp(data->cmd, "env"))
+		return (print_env(head));
+	else if (!ft_strcmp(data->cmd, "pwd"))
+		return (ft_pwd(*head));
+	else if (!ft_strcmp(data->cmd, "echo"))
+		return (ft_echo(data));
+	else if (!ft_strcmp(data->cmd, "unset"))
+		return (ft_unset(data, head));
+	else if (!ft_strcmp(data->cmd, "exit"))
+		return (ft_exit(data));
+	else if (!ft_strcmp(data->cmd, "cd"))
+		return (ft_cd(data, *head));
+	else if (!ft_strcmp(data->cmd, "export"))
+		return (ft_export(*head, data));
+	return (0);
+}
 
-	if(!ft_strcmp(data->cmd,"env"))
+int	is_builtin(t_data *data, t_listenv **head)
+{
+	if (!data || !head || !*head)
+		return (0);
+	if (!ft_strcmp(data->cmd, "env"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"pwd"))
+	else if (!ft_strcmp(data->cmd, "pwd"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"echo"))
+	else if (!ft_strcmp(data->cmd, "echo"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"unset"))
+	else if (!ft_strcmp(data->cmd, "unset"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"exit"))
+	else if (!ft_strcmp(data->cmd, "exit"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"cd"))
+	else if (!ft_strcmp(data->cmd, "cd"))
 		return (1);
-	else if(!ft_strcmp(data->cmd,"export"))
+	else if (!ft_strcmp(data->cmd, "export"))
 		return (1);
-	return 0;
+	return (0);
 }

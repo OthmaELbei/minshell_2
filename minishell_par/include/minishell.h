@@ -6,7 +6,11 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/20 13:31:26 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/22 20:33:11 by oelbied          ###   ########.fr       */
+>>>>>>> c97e028c1ccade44d824fb329705a07186707ba7
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +80,30 @@ typedef struct t_listenv
 // }	t_listexport;
 /*****************************************/
 
+typedef struct s_expcall
+{
+
+	int x;
+	char *splt_egal;
+	char **splt_plus;
+	char *segal;
+
+} t_expcall;
+typedef struct s_exptow
+{
+
+	 char *juny;
+	  char *pats;
+	int found_flag;
+
+} t_exptow;
+typedef struct s_unset
+{
+
+	int flags ;
+	char *data;
+
+} t_unset;
 
 typedef struct s_quote_data
 {
@@ -252,14 +280,14 @@ void	ft_lstadd_back_ex(t_listenv **lst, t_listenv *new);
 t_listenv *ft_lstnew_env(char *content, char *path);
 void	ft_lstdelone(t_listenv *lst, void (*del)(void*));
 int	ft_lstsize(t_listenv *lst);
-void ft_env(char **env, t_listenv **head);
+int  ft_env(char **env, t_listenv **head);
 int ft_tchc_data(t_data *data,t_listenv **head  );
-void ft_pwd(t_listenv *head);
-void ft_echo(t_data *data );
-void ft_unset(t_data *data,t_listenv **head);
+int  ft_pwd(t_listenv *head);
+int  ft_echo(t_data *data );
+int ft_unset(t_data *data,t_listenv **head);
 int  ft_exit(t_data *data);
 int ft_cd(t_data *data ,t_listenv *head);
-void ft_export(t_listenv *head, t_data *data);
+int  ft_export(t_listenv *head, t_data *data);
 int  thcking_pluss(char *str);
 int tchking_egal(char *str);
 char	*ft_strchr(const char *s, int c);
@@ -278,22 +306,34 @@ int is_builtin(t_data *data,t_listenv **head);
 t_listenv *tcchk_untel_egall(char *data,t_listenv *head);
 int tcchk_untel_egll(char *data, t_listenv *head);
 int ft_tchck_argmo_exat(char *data);
-void tchek_only_key(char *data,char *splt_egal , char **splt_plus,t_listenv **head);
+// void tchek_only_key(char *data,char *splt_egal , char **splt_plus,t_listenv **head);
+void tchek_only_key(char *data,t_expcall *call,t_listenv **head);
 void free_copy_listenv(t_listenv *head);
-// void separe_egal_pluss(t_data *data, int x,char **splt_egal,char **splt_plus,t_listenv **head);
-void separe_egal_pluss(t_data *data, int x,char *splt_egal,char **splt_plus,char *segal,t_listenv **head);
+// void separe_egal_pluss(t_data *data, int x,char *splt_egal,char **splt_plus,char  *segal ,t_listenv **head);
+void separe_egal_pluss(t_data *data, t_expcall *call ,t_listenv **head);
+
 void extract_name_and_value(char *arg, char **name, char **value);
-void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head);
-void pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal);
-// void pluss_egal(t_data *data, int x, t_listenv *head, char **splt_egal);
-void pluss_egal(t_data *data, int x, t_listenv *head,char *segal);
+// void ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *joune, t_listenv *head);
+
 t_listenv *find_variable(t_listenv *head, char *name);
 int find_varble(t_listenv *head, char *name);
 int	ft_lstsize_data(t_data *lst);
 void	*ft_free(char **strs, int count);
 int tf_tchee_redercter( t_data *data , t_listenv **head);
 void ft_closse(t_redir *redir, int fd);
-
+void ft_free_ex(char **str);
+void function_call(t_listenv **head, t_data *data);
+void	only_key(char *data, char **splt_plus, t_listenv **head);
+ void	cleanup_memory(char *splt_egal, char **splt_plus, char *segal);
+ void	my_del(void *ptr);
+ char	*ft_strdup_unset(char *s);
+ int	ft_tchk_value(char *data);
+ t_listenv	*copy_listenv(t_listenv *head);
+ void	pluss_egal(t_data *data, int x, t_listenv *head, char *segal);
+ void	extract_name_and_value(char *arg, char **name, char **value);
+ int	ft_strlen_name(int *i, char *arg);
+void	ft_egal_pacslash(t_data *data, char *splt_egal, char **splt_plus, t_listenv *head);
+void	pluss_egal_pacslash(t_data *data, int x, t_listenv **head, char *segal);
 // int		ft_strncmp(char *s1, char *s2, int n);/*not use it check before remove it */
 // char	*ft_strndup(char *s, size_t n);/*not use it check before remove it */
 // char	*ft_allocate(char **res, int len);/*not use it check before remove it */

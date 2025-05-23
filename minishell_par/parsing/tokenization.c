@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:54:18 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 14:13:48 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:16:42 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_token	*tokenization(char *line, int i)
 {
 	t_token	*head;
 
-	head = ft_lstnew(ft_strdup("."), START);
+	head = ft_lstnew(ft_strdup("->"), START);
 	if (!head)
 		return (NULL);
 	while (line[i])

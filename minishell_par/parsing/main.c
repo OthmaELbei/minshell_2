@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/22 20:05:41 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:17:05 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,12 +193,10 @@ void siginl_hendel(int sig)
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	t_token			*tokens;
-	t_listenv 		*head;
-	t_v_main		variable;
-	
+	t_token		*tokens;
+	t_listenv 	*head;
+	t_v_main	variable;
 	// atexit(f);
-	
 	signal(SIGINT, siginl_hendel);
 	signal(SIGQUIT, SIG_IGN);
 	disable_echoctl();
