@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:23:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/21 17:47:17 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:43:19 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,12 @@ char	*make_path(char **all_path, char *commnd)
 		full_path = ft_strjoin(temp_path, commnd);
 		free(temp_path);
 		if (access(full_path, X_OK) == 0)
+		{
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(commnd, 2);
+			ft_putstr_fd(": command not found\n", 2);
 			return (full_path);
+		}
 		free(full_path);
 		i++;
 	}

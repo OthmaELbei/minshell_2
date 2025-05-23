@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/22 20:33:18 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:39:38 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ int main(int ac, char **av, char **env)
 	t_token		*tokens;
 	t_listenv 	*head;
 	t_v_main	variable;
-	atexit(f);
 	signal(SIGINT, siginl_hendel);
 	signal(SIGQUIT, SIG_IGN);
 	disable_echoctl();
