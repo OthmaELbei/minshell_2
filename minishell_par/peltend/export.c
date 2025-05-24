@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/22 20:32:57 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:35:15 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	only_key(char *data, char **splt_plus, t_listenv **head)
 	if (tcchk_untel_egll(splt_plus[0], *head) == 1)
 	{
 		data = splt_plus[0];
-		ft_free_ex(splt_plus);
+		// ft_free_ex(splt_plus);
 		free(strnig);
 		return ;
 	}

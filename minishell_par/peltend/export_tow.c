@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 11:37:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/23 10:36:49 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:44:37 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,11 @@ void	separe_egal_pluss(t_data *data, t_expcall *call, t_listenv **head)
 		if (data->args[call->x][t] == '=')
 			break ;
 	}
-	if (data->args[call->x][t] == '=' && data->args[call->x][t + 1] == '\0')
+	if (data->args[call->x][t - 1] != '+'
+		&& data->args[call->x][t] == '=' && data->args[call->x][t + 1] == '\0')
 		ft_egal_pacslash(data, call->splt_egal, call->splt_plus,*head);
 	else if (t > 0 && data->args[call->x][t - 1] == '+'
-		&& data->args[call->x][t] == '=' && data->args[call->x][t + 1] != '\0')
+		&& data->args[call->x][t] == '=' )
 		pluss_egal(data, call->x, *head, call->segal);
 	else if (t > 0 && data->args[call->x][t - 1] != '+'
 		&& data->args[call->x][t] == '=' && data->args[call->x][t + 1] != '\0')

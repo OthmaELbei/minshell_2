@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/23 14:17:05 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/24 11:15:58 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,70 +69,70 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 	return (tokens);
 }
 
-void ft_excution(t_data *data)
-{
-	/*		printe cause leaks				*/
-			// PRINT
-			t_data *tmp = data;
-			while (tmp)
-			{
+// void ft_excution(t_data *data)
+// {
+// 	/*		printe cause leaks				*/
+// 			// PRINT
+// 			t_data *tmp = data;
+// 			while (tmp)
+// 			{
 
-				printf("\n\n");
-				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
+// 				printf("\n\n");
+// 				printf("Command: %s\n", tmp->cmd ? tmp->cmd : "(no command)");
 
-				// Print arguments
-				printf("Arguments:");
-				if (tmp->args)
-				{
-					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
-					for (int i = 0; tmp->args[i]; i++)
-						printf(" |%s|", tmp->args[i]);
-				}
-				//Print files
-				printf("\n");
-				if (tmp->file)
-				{
-					while (tmp->file)
-					{
-						if (tmp->file->type != F_HERDOC)
-						{
-							printf("[fname: %s | ftype: %d | ambigous: %d]\n", 
-									(tmp->file->name), tmp->file->type, tmp->file->_ambigous);
-							free(tmp->file->name);
-						}
-						else
-						{
-							// if (tmp->file->fd < 0)
-							// {
-							// 	printf("error in fd \n");
-							// 	return ;
-							// }
-							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
+// 				// Print arguments
+// 				printf("Arguments:");
+// 				if (tmp->args)
+// 				{
+// 					// printf("tmp->arg[1]: %s\n", tmp->args[1]);
+// 					for (int i = 0; tmp->args[i]; i++)
+// 						printf(" |%s|", tmp->args[i]);
+// 				}
+// 				//Print files
+// 				printf("\n");
+// 				if (tmp->file)
+// 				{
+// 					while (tmp->file)
+// 					{
+// 						if (tmp->file->type != F_HERDOC)
+// 						{
+// 							printf("[fname: %s | ftype: %d | ambigous: %d]\n", 
+// 									(tmp->file->name), tmp->file->type, tmp->file->_ambigous);
+// 							free(tmp->file->name);
+// 						}
+// 						else
+// 						{
+// 							// if (tmp->file->fd < 0)
+// 							// {
+// 							// 	printf("error in fd \n");
+// 							// 	return ;
+// 							// }
+// 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
 							
-								char	buffer[1337];
-								int		reads_size;
-								if (tmp->file->fd < 0)
-									printf("fd is failed\n");
+// 								char	buffer[1337];
+// 								int		reads_size;
+// 								if (tmp->file->fd < 0)
+// 									printf("fd is failed\n");
 								
 
 
-								reads_size = read(tmp->file->fd, buffer, 1337);
-								printf("reads_size: %d\n", reads_size);
+// 								reads_size = read(tmp->file->fd, buffer, 1337);
+// 								printf("reads_size: %d\n", reads_size);
 								
-								buffer[reads_size] = '\0';
+// 								buffer[reads_size] = '\0';
 								
-								printf("buffer: %s\n", buffer);
-								if (reads_size <= 0)
-									printf("reads_size read nothing\n");
-						}
+// 								printf("buffer: %s\n", buffer);
+// 								if (reads_size <= 0)
+// 									printf("reads_size read nothing\n");
+// 						}
 						
-						tmp->file = tmp->file->next;
-					}
+// 						tmp->file = tmp->file->next;
+// 					}
 					
-				}
-				tmp = tmp->next;
-			}
-}
+// 				}
+// 				tmp = tmp->next;
+// 			}
+// }
 
 
 void	helper_main(t_token *tokens, int *flag, t_listenv *head)
@@ -148,13 +148,14 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 	{
 		data = parsing(&tokens, temp);
 
-		ft_excution(data);
+		// ft_excution(data);
 
 		st = ft_execoshen(data, head);
 		head->fdd = st;
 
 		
 		dup2(STDERR_FILENO, STDOUT_FILENO);
+		dup2(STDERR_FILENO, STDIN_FILENO);
 		free_data(data);
 		free_tokens(tokens);
 	}
@@ -217,7 +218,7 @@ int main(int ac, char **av, char **env)
 		{
 			printf("exit\n");
 			free(variable.line);
-			exit(head->fdd);
+			// exit();
 		}
 		if (variable.line == NULL)
 			break;
