@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 21:40:16 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/03/03 21:42:29 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:11:12 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		len_total;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	if (!s1 && !s2)
 		return (NULL);

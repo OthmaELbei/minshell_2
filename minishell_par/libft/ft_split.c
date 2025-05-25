@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 02:01:21 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/18 10:46:00 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:14:34 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	word_count(char *s, char c)
 	int	words;
 
 	words = 0;
-	if(NULL == s || s[0] == '\0')
+	if (NULL == s || s[0] == '\0')
 		return (words);
 	i = 0;
 	while (s[i])

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 16:50:17 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/19 11:45:37 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:17:47 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 static int	n_digit(int n)
 {
@@ -41,7 +40,6 @@ static char	*ft_fill(char *arr_itoa, long num, int i)
 
 char	*ft_itoa(int n)
 {
-
 	char	*arr_itoa;
 	int		len_itoa;
 	int		i;

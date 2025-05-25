@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/24 21:47:01 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:05:48 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int check_quotes(char *line, int i, int count_quote)
+int	check_quotes(char *line, int i, int count_quote)
 {
-	char quote;
+	char	quote;
 
 	while (line[i])
 	{
@@ -30,7 +30,7 @@ int check_quotes(char *line, int i, int count_quote)
 			if (line[i] == quote)
 				count_quote++;
 			else
-				break;
+				break ;
 			i++;
 		}
 		else
@@ -195,6 +195,7 @@ void siginl_hendel(int sig)
 }
 int main(int ac, char **av, char **env)
 {
+	store_pwd(NULL, 1);
 	(void)ac, (void)av;
 	t_token *tokens;
 	t_listenv *head;
@@ -218,8 +219,9 @@ int main(int ac, char **av, char **env)
 		if (!variable.line)
 		{
 			printf("exit\n");
-			free(variable.line);
-			// exit();
+			// free(variable.line);
+				// free_copy_listenv(head);
+			exit(head->fdd);
 		}
 		if (variable.line == NULL)
 			break;
@@ -245,7 +247,7 @@ int main(int ac, char **av, char **env)
 			add_history(variable.line);
 		free(variable.line);
 	}
-	free_copy_listenv(head);
+		free_copy_listenv(head);
 	return (0);
 }
 

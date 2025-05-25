@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:45:16 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/21 15:33:09 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/24 21:27:38 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	my_del(void *ptr)
 	free(ptr);
 }
 
-void	inte_unset(t_listenv *curr,
+t_listenv	*inte_unset(t_listenv *curr,
 	t_listenv *prev, t_listenv **head, t_unset *pactge)
 {
 	t_listenv	*tmp;
@@ -28,24 +28,21 @@ void	inte_unset(t_listenv *curr,
 	else
 		*head = tmp;
 	ft_lstdelone(curr, my_del);
-	curr = tmp;
 	pactge->flags = 1;
+	return (tmp);
 }
 
 int	swap_unset(t_listenv *curr,
 	t_listenv *prev, t_listenv **head, t_unset *pactge)
 {
-	char	*sss;
 	char	*cope;
 
-	sss = NULL;
 	while (curr)
 	{
 		cope = ft_strdup_unset(curr->constvrble);
 		if (!ft_strcmp(pactge->data, cope))
 		{
-			inte_unset(curr, prev, head, pactge);
-			sss = cope;
+			curr = inte_unset(curr, prev, head, pactge);
 		}
 		else
 		{
