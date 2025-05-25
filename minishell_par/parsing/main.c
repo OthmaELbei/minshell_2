@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/24 11:15:58 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/24 21:47:01 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int check_quotes(char *line, int i, int count_quote)
 
 t_token *lexing(char *line, int *flag, t_listenv *head)
 {
-	int		i;
-	int		count_quote;
-	t_token	*tokens;
-	t_token	*current;
+	int i;
+	int count_quote;
+	t_token *tokens;
+	t_token *current;
 
 	i = 0;
 	count_quote = 0;
@@ -56,6 +56,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 	if (tokens == NULL)
 		return (NULL);
 	tokens->fd = 0;
+	// tokens->herdoc = 0;
 	current = NULL;
 	if (error(tokens, current))
 	{
@@ -63,9 +64,11 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 		*flag = 1;
 		return (tokens);
 	}
+
 	ft_rename(tokens);
 	ft_expand(tokens, i, head);
-	ft_herdoc(&tokens, head);
+	if (ft_herdoc(&tokens, head) == -13)
+		return (tokens->herdoc = -13, tokens);
 	return (tokens);
 }
 
@@ -96,7 +99,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 // 					{
 // 						if (tmp->file->type != F_HERDOC)
 // 						{
-// 							printf("[fname: %s | ftype: %d | ambigous: %d]\n", 
+// 							printf("[fname: %s | ftype: %d | ambigous: %d]\n",
 // 									(tmp->file->name), tmp->file->type, tmp->file->_ambigous);
 // 							free(tmp->file->name);
 // 						}
@@ -108,38 +111,35 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 // 							// 	return ;
 // 							// }
 // 							printf("[fd: %d | ftype: %d]\n",  (tmp->file->fd), tmp->file->type);
-							
+
 // 								char	buffer[1337];
 // 								int		reads_size;
 // 								if (tmp->file->fd < 0)
 // 									printf("fd is failed\n");
-								
-
 
 // 								reads_size = read(tmp->file->fd, buffer, 1337);
 // 								printf("reads_size: %d\n", reads_size);
-								
+
 // 								buffer[reads_size] = '\0';
-								
+
 // 								printf("buffer: %s\n", buffer);
 // 								if (reads_size <= 0)
 // 									printf("reads_size read nothing\n");
 // 						}
-						
+
 // 						tmp->file = tmp->file->next;
 // 					}
-					
+
 // 				}
 // 				tmp = tmp->next;
 // 			}
 // }
 
-
-void	helper_main(t_token *tokens, int *flag, t_listenv *head)
+int helper_main(t_token *tokens, int *flag, t_listenv *head)
 {
-	t_data	*data;
+	t_data *data;
 	t_token *temp;
-	int		st;
+	int st;
 
 	// t_listenv *head = NULL;
 
@@ -148,12 +148,13 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 	{
 		data = parsing(&tokens, temp);
 
+
+
 		// ft_excution(data);
 
 		st = ft_execoshen(data, head);
 		head->fdd = st;
 
-		
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		dup2(STDERR_FILENO, STDIN_FILENO);
 		free_data(data);
@@ -163,12 +164,14 @@ void	helper_main(t_token *tokens, int *flag, t_listenv *head)
 	{
 		ft_rename(tokens);
 		temp = tokens; // you can just send the tokens not `temp` cause if send tokens you send just by value not by referense so do it if you need more lines in this function
-		ft_open_herdoc_until_error(temp, head);
+		if (ft_open_herdoc_until_error(temp, head) == -13)
+			return (free_tokens(tokens), -13);
 		free_tokens(tokens);
 	}
+	return (0);
 }
 
-void	f()
+void f()
 {
 	system("leaks minishell ");
 }
@@ -183,38 +186,36 @@ void disable_echoctl(void)
 
 void siginl_hendel(int sig)
 {
-	
+
 	(void)sig;
-	write(STDOUT_FILENO, "\n", 1); 
+	write(STDOUT_FILENO, "\n", 1);
 	// rl_replace_line("",0);
 	rl_on_new_line();
 	rl_redisplay();
-	
 }
 int main(int ac, char **av, char **env)
 {
 	(void)ac, (void)av;
-	t_token		*tokens;
-	t_listenv 	*head;
-	t_v_main	variable;
+	t_token *tokens;
+	t_listenv *head;
+	t_v_main variable;
 	// atexit(f);
 	signal(SIGINT, siginl_hendel);
 	signal(SIGQUIT, SIG_IGN);
 	disable_echoctl();
 
-
+	tokens = NULL;
 	head = NULL;
 	if (head == NULL)
 		ft_env(env, &head);
 
 	head->fdd = 0;
 
-	tokens = NULL;
 	while (1)
 	{
 		variable.flag = 0;
 		variable.line = readline("Minishell: ");
-		if(!variable.line)
+		if (!variable.line)
 		{
 			printf("exit\n");
 			free(variable.line);
@@ -223,47 +224,30 @@ int main(int ac, char **av, char **env)
 		if (variable.line == NULL)
 			break;
 		tokens = lexing(variable.line, &variable.flag, head);
+		if (tokens == NULL)
+			continue;
+		if (tokens->herdoc == -13)
+		{
+			free_tokens(tokens);
+			// should free ft_env
+			free(variable.line);
+			continue;
+		}
 		if (tokens != NULL)
-			helper_main(tokens, &variable.flag, head);
+		{
+			if ( helper_main(tokens, &variable.flag, head) == -13 )
+			{
+				free(variable.line);
+				continue;
+			}
+		}
 		if (variable.line[0] != '\0')
 			add_history(variable.line);
 		free(variable.line);
 	}
-		free_copy_listenv(head);
+	free_copy_listenv(head);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -306,108 +290,6 @@ int main(int ac, char **av, char **env)
 
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // void	lexing(char *line)
 // {
 // 	int		i;
@@ -449,12 +331,9 @@ int main(int ac, char **av, char **env)
 
 // }
 
-
-
 /*************************************/
-//  handle this cas '' '' '' ''  
+//  handle this cas '' '' '' ''
 // add `command` as argument also, cause execve need it
-
 
 /* problem
 	syntax error ;;
@@ -466,7 +345,7 @@ exept when somethig in single_quote like this => '        .'
 so should fix this issue when i have a space in single quote should keep the space '      '
 */
 
-/* 
+/*
 	problem in herdoc "ok" => khaso irooj bi ok bla ""
 	check this in your bash and compare it with real bash
 */
@@ -477,11 +356,9 @@ check this in your bash and compare it with real bash
 */
 
 /* problem
-	close(fd) => if I close it fd in parsing the executer can't open it again will lose so be carefule and find a solution 
+	close(fd) => if I close it fd in parsing the executer can't open it again will lose so be carefule and find a solution
 */
-
 
 /* problem
 	in expand should handle numberes
 */
-

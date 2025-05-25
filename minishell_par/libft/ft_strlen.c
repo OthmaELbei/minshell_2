@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:02:42 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/02/25 17:04:36 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:23:17 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int ft_strlen(char *s)
     int i;
 
     i = 0;
+    if (NULL == s)
+        return (-1);
     while (s[i])
         i++;
     return (i);
