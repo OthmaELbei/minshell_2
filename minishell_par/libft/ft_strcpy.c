@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:46:26 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/14 14:15:53 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:13:32 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strcpy(char *dst, const char *src)
 {
-	int d;
-	int i;
+	int	d;
+	int	i;
 
 	d = 0;
 	i = 0;

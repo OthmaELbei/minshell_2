@@ -6,23 +6,11 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 10:23:41 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/23 16:43:47 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:05:56 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void	ft_freee(char **arrai)
-{
-	int	i;
-
-	i = 0;
-	if (!arrai)
-		return ;
-	while (arrai[i])
-		free(arrai[i++]);
-	free(arrai);
-}
 
 int	is_directory(const char *path)
 {
@@ -90,9 +78,6 @@ char	*make_path(char **all_path, char *commnd)
 		free(temp_path);
 		if (access(full_path, X_OK) == 0)
 		{
-			// ft_putstr_fd("Minishell: ", 2);
-			// ft_putstr_fd(commnd, 2);
-			// ft_putstr_fd(": command not found\n", 2);
 			return (full_path);
 		}
 		free(full_path);

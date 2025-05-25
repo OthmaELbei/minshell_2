@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/24 10:42:04 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/25 15:04:06 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	is_builtin(t_data *data, t_listenv **head )
 		return (1);
 	else if (!ft_strcmp(data->cmd, "unset"))
 		return (1);
-	else if (!ft_strcmp(data->cmd, "exit") )
+	else if (!ft_strcmp(data->cmd, "exit"))
 		return (1);
 	else if (!ft_strcmp(data->cmd, "cd"))
 		return (1);

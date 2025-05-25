@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 02:06:07 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/03/07 02:07:45 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:12:30 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../include/minishell.h"
 
 int	ft_strncmp(char *s1, char *s2, int n)
 {

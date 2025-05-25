@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:22:34 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/09 16:03:56 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:16:03 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_lstsize(t_listenv *lst)
 {
-	int		cont;
+	int			cont;
 	t_listenv	*pt_nod;
 
 	cont = 0;
@@ -28,6 +28,7 @@ int	ft_lstsize(t_listenv *lst)
 	}
 	return (cont);
 }
+
 int	ft_lstsize_data(t_data *lst)
 {
 	int		cont;
