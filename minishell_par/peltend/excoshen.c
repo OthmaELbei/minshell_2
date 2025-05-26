@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:03:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/25 19:47:25 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/26 10:19:37 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,21 @@ int	tf_tchee_redercter(t_data *data, t_listenv **head)
 	return (0);
 }
 
-void	ft_tchk_not_peltend(t_data *data, char **env_ar, char *cmd_path)
+void	ft_tchk_not_peltend(t_data *data, char **env_ar, char *cmd_path,int	*status)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	if (execve(cmd_path, data->args, env_ar) == -1)
 	{
-		ft_free_ex(env_ar);
-		ft_putstr_fd("Minishell: ", 2);
-		ft_putstr_fd(data->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(1);
+
+		*status = 127;
+		if(data->args[0] != NULL)
+		{
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(data->args[0], 2);
+			ft_putstr_fd(": command not found++\n", 2);
+		}
+		exit(*status);
 	}
 }
 
@@ -102,8 +106,6 @@ int	run_cmd_frist(t_data *current,
 		if (tf_tchee_redercter(current, head) == 1)
 			return (1);
 	}
-	if (is_builtin(current, head) == 1)
-		return (ft_tchc_data(current, head));
 	return (0);
 }
 
@@ -117,6 +119,8 @@ int run_cmd(t_data *current, int prev_fd, int *pipe_fd, t_listenv **head)
 	if (!*head || !head)
 		return (0);
 	run_cmd_frist(current, prev_fd, pipe_fd, head);
+	if (is_builtin(current, head) == 1)
+		return (ft_tchc_data(current, head));
 	pid = fork();
 	if (pid == 0)
 	{
@@ -126,7 +130,7 @@ int run_cmd(t_data *current, int prev_fd, int *pipe_fd, t_listenv **head)
 		cmd_path = get_command_path(current->args[0], env_ar, &status);
 		if (cmd_path == NULL)
 			exit(status);
-		ft_tchk_not_peltend(current, env_ar, cmd_path);
+		ft_tchk_not_peltend(current, env_ar, cmd_path, &status);
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
