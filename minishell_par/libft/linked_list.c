@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 23:11:15 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/04/06 13:08:05 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:15:01 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_token *ft_lstnew(char *content, t_keyword type)
 	}
 	new->value[1] = NULL;
 	new->type = type;
+	new->herdoc = 0;
 	new->next = NULL;
 	return (new);
 }

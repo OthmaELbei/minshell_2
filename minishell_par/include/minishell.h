@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/25 19:42:50 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/25 20:06:01 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ typedef struct s_initalize
 
 typedef struct s_token
 {
-	char **value;
-	int fd;
-	t_keyword type;
-	t_keyword _ambigous;
-	int error;
-	struct s_token *next;
+	char 			**value;
+	int				fd;
+	t_keyword 		type;
+	t_keyword 		_ambigous;
+	int				error;
+	struct s_token 	*next;
 } t_token;
 
 typedef struct s_expand
@@ -219,7 +219,7 @@ void handle_status(t_expand *ex, int status);
 void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
-void ft_herdoc(t_token **tokens, t_listenv *head);
+void	ft_herdoc(t_token **tokens, t_listenv *head);
 char **ft_expand_herdoc(char *str, int *flag, t_listenv *head);
 void handle_odd_dollars_herdoc(t_expand *ex, char *str,
 							   int *flag, t_listenv *head);
@@ -259,7 +259,7 @@ char **ft_split(char *s, char c);
 int word_count(char *s, char c);
 
 /***************fake_herdoc************* */
-void ft_open_herdoc_until_error(t_token *current, t_listenv *head);
+void	ft_open_herdoc_until_error(t_token *current, t_listenv *head);
 
 void ft_ambigous(char *env_name, t_expand *ex, t_tg *data, t_token *tokens);
 
