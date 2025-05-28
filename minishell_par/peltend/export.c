@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 13:53:17 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/24 21:28:14 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:41:11 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ void	print_export(char *consdt, char *pats_cotch)
 		printf("declare -x %s%s\n", consdt, pats_cotch);
 }
 
-int	ft_export(t_listenv *head, t_data *data)
+int	ft_export(t_listenv **head, t_data *data)
 {
 	t_listenv	*sort_head;
 	t_listenv	*copy;
 	char		*consdt;
 	char		*pats_cotch;
 
-	copy = copy_listenv(head);
-	if (!copy)
-		return (0);
+	copy = copy_listenv(*head);
+	// if (!copy)
+	// 	return (0);
 	sort_head = sort_export(copy);
-	function_call(&head, data);
+	function_call(head, data);
 	while (sort_head)
 	{
 		consdt = ft_tchk_cotachen(sort_head->constvrble);

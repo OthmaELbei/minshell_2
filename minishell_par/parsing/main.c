@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:15:46 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/25 20:05:48 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:51:14 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 	current = NULL;
 	if (error(tokens, current))
 	{
-		head->fdd = 258;
+		last_status(258, 0);
 		*flag = 1;
 		return (tokens);
 	}
@@ -135,7 +135,7 @@ t_token *lexing(char *line, int *flag, t_listenv *head)
 // 			}
 // }
 
-int helper_main(t_token *tokens, int *flag, t_listenv *head)
+int helper_main(t_token *tokens, int *flag, t_listenv **head)
 {
 	t_data *data;
 	t_token *temp;
@@ -144,6 +144,11 @@ int helper_main(t_token *tokens, int *flag, t_listenv *head)
 	// t_listenv *head = NULL;
 
 	temp = NULL;
+	if (tokens == NULL || head == NULL)
+	{
+		printf("YES\n");	
+		return (1);
+	}
 	if (*flag == 0)
 	{
 		data = parsing(&tokens, temp);
@@ -153,7 +158,8 @@ int helper_main(t_token *tokens, int *flag, t_listenv *head)
 		// ft_excution(data);
 
 		st = ft_execoshen(data, head);
-		head->fdd = st;
+		
+		last_status(st, 0);
 
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		dup2(STDERR_FILENO, STDIN_FILENO);
@@ -164,7 +170,7 @@ int helper_main(t_token *tokens, int *flag, t_listenv *head)
 	{
 		ft_rename(tokens);
 		temp = tokens; // you can just send the tokens not `temp` cause if send tokens you send just by value not by referense so do it if you need more lines in this function
-		if (ft_open_herdoc_until_error(temp, head) == -13)
+		if (ft_open_herdoc_until_error(temp, *head) == -13)
 			return (free_tokens(tokens), -13);
 		free_tokens(tokens);
 	}
@@ -189,8 +195,8 @@ void siginl_hendel(int sig)
 
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
-	// rl_replace_line("",0);
 	rl_on_new_line();
+	rl_replace_line("",0);
 	rl_redisplay();
 }
 int main(int ac, char **av, char **env)
@@ -207,10 +213,9 @@ int main(int ac, char **av, char **env)
 
 	tokens = NULL;
 	head = NULL;
-	if (head == NULL)
-		ft_env(env, &head);
+	ft_env(env, &head);
 
-	head->fdd = 0;
+	// head->fdd = 0;
 
 	while (1)
 	{
@@ -221,13 +226,13 @@ int main(int ac, char **av, char **env)
 			printf("exit\n");
 			// free(variable.line);
 				// free_copy_listenv(head);
-			exit(head->fdd);
+			exit(last_status(46, 3));
 		}
 		if (variable.line == NULL)
 			break;
 		tokens = lexing(variable.line, &variable.flag, head);
 		if (tokens == NULL)
-			continue;
+			continue; 
 		if (tokens->herdoc == -13)
 		{
 			free_tokens(tokens);
@@ -237,7 +242,7 @@ int main(int ac, char **av, char **env)
 		}
 		if (tokens != NULL)
 		{
-			if ( helper_main(tokens, &variable.flag, head) == -13 )
+			if ( helper_main(tokens, &variable.flag, &head) == -13 )
 			{
 				free(variable.line);
 				continue;
@@ -251,7 +256,16 @@ int main(int ac, char **av, char **env)
 	return (0);
 }
 
+int last_status(int value, int mod)
+{
+	static int i;
 
+	if (mod == 0)
+		i = value;
+	else
+		return i;
+	return 0;
+}
 
 
 

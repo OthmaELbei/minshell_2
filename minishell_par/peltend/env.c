@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/25 13:28:58 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:52:32 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ void	tchick_env(t_listenv **head)
 {
 	t_listenv	*node_env;
 
-	node_env = ft_lstnew_env("PATH=", "/bin:/usr/bin");
+	node_env = ft_lstnew_env("PATH=", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	if (!node_env)
+		return ;
 	ft_lstadd_back_ex(head, node_env);
 	node_env = ft_lstnew_env(
 			"PWD=", "/mnt/homes/oelbied/Desktop/minshell_2/minishell_par");
 	ft_lstadd_back_ex(head, node_env);
 	node_env = ft_lstnew_env("SHLVL=", "1");
 	ft_lstadd_back_ex(head, node_env);
-	node_env = ft_lstnew_env("_=", "/usr/bin/env");
+	node_env = ft_lstnew_env("_=", "/mnt/homes/oelbied/Desktop/minshell_2/minishell_par/./minishell");
 	ft_lstadd_back_ex(head, node_env);
 }
 
@@ -94,7 +96,7 @@ int	ft_env(char **env, t_listenv **head)
 	int	name_len;
 
 	i = 0;
-	if (!env || !env[0])
+	if (!env || !env[0] )
 		tchick_env(head);
 	while (env[i])
 	{

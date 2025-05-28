@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:32:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 12:42:57 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:00:25 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ char	*ft_strchr(const char *s, int c)
 {
 	int		i;
 	char	d;
+
+	// if (NULL == s || 0 == c)
+	// 	return (NULL);
 
 	i = 0;
 	d = (char )c;
