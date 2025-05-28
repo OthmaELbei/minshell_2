@@ -6,55 +6,59 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:50:44 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/24 15:41:42 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:57:09 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	open_herdoc_error(char *delimter, int *n, t_listenv *head)
+static int	handle_child_process(char *delimiter)
 {
 	char	*line;
+
+	signal(SIGINT, SIG_DFL);
+	while (1)
+	{
+		line = readline("> ");
+		if ((!line) || ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+	}
+	exit(0);
+}
+
+static int	handle_parent_process(pid_t pid)
+{
+	int	status;
+
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+		return (write(1, "\n", 1), -13);
+	return (0);
+}
+
+int	open_herdoc_error(char *delimter, int *n, t_listenv *head)
+{
 	char	**exp;
 	char	*new_delimter;
-	int		status;
+	int		result;
+	pid_t	pid;
 
-	status = 0;
+	pid = 0;
+	result = 0;
 	exp = ft_expand_herdoc(delimter, n, head);
 	new_delimter = exp[0];
-	// while (1)
-	// {
-	// 	line = readline("> ");
-	// 	if ((!line) || ft_strcmp(line, new_delimter) == 0)
-	// 	{
-	// 		free(line);
-	// 		break ;
-	// 	}
-	// }
-	int pid = fork();
-	if(pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		while (1)
-		{
-			line = readline("> ");
-			if ((!line) || ft_strcmp(line, new_delimter) == 0)
-			{
-				free(line);
-				break ;
-			}
-			// helper_function(delimter, line, fd[0], head);
-		}
-		exit(0);
-	}
+	pid = fork();
+	if (pid == 0)
+		handle_child_process(new_delimter);
 	else
-	{
-		signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		if(WIFSIGNALED(status))
-			return (write(1, "\n", 1), -13);
-	}
-	return (free(exp), free(new_delimter), 0);
+		result = handle_parent_process(pid);
+	free(exp);
+	free(new_delimter);
+	return (result);
 }
 
 int	ft_open_herdoc_until_error(t_token *current, t_listenv *head)

@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:35:54 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 13:07:27 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 22:51:32 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	handle_num(t_expand *ex, t_token *tokens)
 	free(ex->res);
 	free(ex->var_name);
 	ex->res = new_res;
-	// free(new_res); //============> hadi ka SEGV
 }
 
 void	handle_status(t_expand *ex, int status)
@@ -61,6 +60,5 @@ void	handle_status(t_expand *ex, int status)
 	new_res = ft_strjoin(ex->res, stat);
 	free(ex->res);
 	free(stat);
-	// free(new_res); //============> hadi ka SEGV ========> heap-use-after-free on address
 	ex->res = new_res;
 }

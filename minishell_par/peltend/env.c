@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 23:24:15 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/25 13:28:58 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/28 09:44:30 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ int	ft_env(char **env, t_listenv **head)
 {
 	int	i;
 	int	name_len;
+
+
+
+	// printf("head: %s\n", head);
 
 	i = 0;
 	if (!env || !env[0])

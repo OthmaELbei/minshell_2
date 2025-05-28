@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 13:05:47 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:02:34 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	extract_var(t_expand *ex, char *str)
 
 	ex->var_len = 0;
 	start = ex->i;
-	while (ft_isalnum(str[ex->i]) || str[ex->i] == '_') // || ?
+	while (ft_isalnum(str[ex->i]) || str[ex->i] == '_')
 	{
 		ex->i++;
 		ex->var_len++;
@@ -54,7 +54,7 @@ void	handle_odd_dollars(t_expand *ex, t_token *tokens,
 
 	if (data->type != F_HERDOC && ft_isdigit(tokens->value[0][ex->i]))
 		handle_num(ex, tokens);
-	else if (tokens->value[0][ex->i] == '?')
+	else if (head && tokens->value[0][ex->i] == '?')
 		handle_status(ex, head->fdd);
 	else if (data->type != F_HERDOC && (ft_isalnum(tokens->value[0][ex->i])
 		|| tokens->value[0][ex->i] == '_'

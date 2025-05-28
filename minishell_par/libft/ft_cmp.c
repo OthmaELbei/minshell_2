@@ -6,16 +6,16 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:05:38 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/02/28 12:17:15 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:49:38 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int ft_cmp(char *word)
+int	ft_cmp(char *word)
 {
-	int i;
-	char shape;
+	char	shape;
+	int		i;
 
 	shape = word[0];
 	i = 0;

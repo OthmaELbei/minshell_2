@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:00:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 13:32:42 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:18:14 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	handle_odd_dollars_herdoc(t_expand *ex, char *str,
 	char	*new_res;
 
 	*flag = 0;
-	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_') //?
+	if (ft_isalnum(str[ex->i]) || str[ex->i] == '_')
 	{
 		extract_var_herdoc(ex, str);
 		val = ft_getenv_herdoc(ex->var_name, head);

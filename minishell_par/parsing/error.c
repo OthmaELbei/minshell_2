@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 20:50:45 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 12:51:13 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:26:56 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,23 @@ void	t_err(t_token **current)
 	(*current)->error = -1;
 }
 
+int	check( t_keyword ptype, t_keyword ctype, t_keyword ntype)
+{
+	if (ptype == WORD && ctype == WRITE_OUT && ntype == PIPE)
+		return (1);
+	return (0);
+}
+
 int	redierct_check(t_token *prev, t_token *current, t_token *next)
 {
 	if (!next)
 		return (1);
-	if (current->type == HERDOC && next->type == WRITE_OUT)
+	if (prev && check(prev->type, current->type, next->type))
+		return (1);
+	else if (current->type == HERDOC && next->type == WRITE_OUT)
+		return (1);
+	else if ((prev && prev->type == FWRITE_OUT)
+		&& current->type == PIPE && next->type == WORD)
 		return (1);
 	else if (!(current->type >= WRITE_OUT && current->type <= APPEND))
 	{
@@ -76,7 +88,7 @@ int	error(t_token *tokens, t_token *current)
 		prev = current;
 		current = next;
 	}
-	if (prev && (is_redirect(prev->type) || is_pipe(prev->type))) // > |
+	if (prev && (is_redirect(prev->type) || is_pipe(prev->type)))
 		return (ft_putstr_fd(ERROR, STDERR_FILENO), t_err(&current), 1);
 	return (0);
 }

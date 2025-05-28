@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 21:22:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/25 20:06:01 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:51:43 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
+
+#include <readline/readline.h>
+#include <readline/history.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -121,6 +124,7 @@ typedef struct s_token
 	t_keyword 		type;
 	t_keyword 		_ambigous;
 	int				error;
+	int				herdoc;
 	struct s_token 	*next;
 } t_token;
 
@@ -188,6 +192,7 @@ typedef struct s_var_data
 /*main.c*/
 int check_quotes(char *line, int i, int count_quote);
 t_token *lexing(char *line, int *flag, t_listenv *head);
+int	helper_main(t_token *tokens, int *flag, t_listenv *head);
 // void lexing(char *line);
 
 /*---------------tokenization---------------*/
@@ -219,7 +224,7 @@ void handle_status(t_expand *ex, int status);
 void ft_rename(t_token *tokens);
 
 /*-------------ft_herdoc--------------*/
-void	ft_herdoc(t_token **tokens, t_listenv *head);
+int	ft_herdoc(t_token **tokens, t_listenv *head);
 char **ft_expand_herdoc(char *str, int *flag, t_listenv *head);
 void handle_odd_dollars_herdoc(t_expand *ex, char *str,
 							   int *flag, t_listenv *head);
@@ -259,7 +264,7 @@ char **ft_split(char *s, char c);
 int word_count(char *s, char c);
 
 /***************fake_herdoc************* */
-void	ft_open_herdoc_until_error(t_token *current, t_listenv *head);
+int	ft_open_herdoc_until_error(t_token *current, t_listenv *head);
 
 void ft_ambigous(char *env_name, t_expand *ex, t_tg *data, t_token *tokens);
 

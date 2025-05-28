@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:57:56 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 14:14:24 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:51:21 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_quotes(t_quote_data *data, t_initalize *init)
 			return ;
 		if (init->j == 0)
 		{
-			free(*(data-> buffer));
+			free(*(data->buffer));
 			*(data->buffer) = init->res;
 		}
 		else

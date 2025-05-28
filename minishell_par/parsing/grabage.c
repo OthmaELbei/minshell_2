@@ -6,7 +6,7 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 23:58:28 by sidrissi          #+#    #+#             */
-/*   Updated: 2025/05/20 13:38:25 by sidrissi         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:20:27 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	free_data(t_data *data)
 		while (d_var.redir)
 		{
 			d_var.next_redir = d_var.redir->next;
+			if (d_var.redir->type == F_HERDOC)
+				close(d_var.redir->fd);
 			(free(d_var.redir->name), free(d_var.redir));
 			d_var.redir = d_var.next_redir;
 		}

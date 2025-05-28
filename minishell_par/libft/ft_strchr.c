@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:32:24 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/16 12:42:57 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:20:19 by sidrissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strchr(const char *s, int c)
 	int		i;
 	char	d;
 
+	if (NULL == s || 0 == c)
+		return (NULL);
 	i = 0;
 	d = (char )c;
 	while (s[i] != '\0')
