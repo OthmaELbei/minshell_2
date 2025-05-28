@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 19:05:12 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/25 19:22:58 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:19:45 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	ft_closse(t_redir *redir, int fd)
 	}
 }
 
-void	ft_tchek_herdok(t_redir *redir)
+void	ft_tchek_herdok(t_redir **redir)
 {
-	dup2(redir->fd, STDIN_FILENO);
-	close(redir->fd);
-	redir = redir->next;
+	dup2((*redir)->fd, STDIN_FILENO);
+	close((*redir)->fd);
+	(*redir)->fd = -1;
+	// unlink((*redir)->name);
+	// *redir = (*redir)->next;
 }
 
 void	ft_erorr(char *str)

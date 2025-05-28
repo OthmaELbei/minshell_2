@@ -6,7 +6,11 @@
 #    By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/24 20:29:40 by oelbied           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/05/28 09:45:53 by sidrissi         ###   ########.fr        #
+=======
+#    Updated: 2025/05/28 11:52:50 by oelbied          ###   ########.fr        #
+>>>>>>> 4989a159ff5b68e0f418d102a2ac2aa750f09dca
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +19,7 @@ RM = rm -f
 # FLAGS = -Wall -Wextra -Werror -fsanitize=address
 # FLAGS = -Wall -Wextra -Werror
 READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include  #-fsanitize=address
 # CFLAGS = -Wall -Wextra -Werror  -fsanitize=address
 LDFLAGS =   $(CFLAGS) -L$(READLINE)/lib -lreadline
 
@@ -35,7 +39,7 @@ SRC = parsing/main.c parsing/tokenization.c parsing/tokenization_helper.c parsin
 	peltend/ft_thchk_cotchen.c libft/ft_strchr.c peltend/are_env.c libft/ft_strlcpy.c\
 	peltend/excoshen.c peltend/excoshen_n_test.c libft/ft_strcpy.c libft/ft_lstclear_bonus.c \
 	peltend/export_one.c peltend/export_tow.c peltend/expoert_three.c  peltend/export_call.c \
-	peltend/inte_unset.c peltend/inte_export_tow.c peltend/inte_excoshen.c
+	peltend/inte_unset.c peltend/inte_export_tow.c peltend/inte_excoshen.c peltend/excoshen_tows.c
 
 OBJ = $(SRC:.c=.o)
 

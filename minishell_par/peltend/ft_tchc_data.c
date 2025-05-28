@@ -6,22 +6,27 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 09:41:42 by oelbied           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/28 10:20:11 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/28 11:40:27 by oelbied          ###   ########.fr       */
+>>>>>>> 4989a159ff5b68e0f418d102a2ac2aa750f09dca
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	print_env(t_listenv **head)
+int	print_env(t_listenv *head)
 {
 	t_listenv	*tamp;
-
-	tamp = *head;
+	// printf("%s",->constvrble);
+	tamp = head;
 	while (tamp)
 	{
 		if (ft_strchr(tamp->constvrble, '='))
 		{
 			printf("%s", tamp->constvrble);
+
 			printf("%s\n", tamp->pat);
 		}
 		tamp = tamp->next;
@@ -31,10 +36,10 @@ int	print_env(t_listenv **head)
 
 int	ft_tchc_data(t_data *data, t_listenv **head)
 {
-	if (!data || !head || !*head)
+	if (!data)
 		return (0);
 	if (!ft_strcmp(data->cmd, "env"))
-		return (print_env(head));
+		return (print_env(*head));
 	else if (!ft_strcmp(data->cmd, "pwd"))
 		return (ft_pwd(*head));
 	else if (!ft_strcmp(data->cmd, "echo"))
@@ -46,13 +51,14 @@ int	ft_tchc_data(t_data *data, t_listenv **head)
 	else if (!ft_strcmp(data->cmd, "cd"))
 		return (ft_cd(data, *head));
 	else if (!ft_strcmp(data->cmd, "export"))
-		return (ft_export(*head, data));
+		return (ft_export(head, data));
 	return (0);
 }
 
 int	is_builtin(t_data *data, t_listenv **head )
 {
-	if (!data || !head || !*head)
+	(void)head;
+	if (!data)
 		return (0);
 	if (!ft_strcmp(data->cmd, "env"))
 		return (1);

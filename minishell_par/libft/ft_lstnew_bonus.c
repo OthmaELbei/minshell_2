@@ -6,7 +6,7 @@
 /*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:54:22 by oelbied           #+#    #+#             */
-/*   Updated: 2025/05/25 19:10:02 by oelbied          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:20:37 by oelbied          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ t_listenv	*ft_lstnew_env(char *content, char *path)
 	new->constvrble = ft_strdup(content);
 	new->pat = ft_strdup(path);
 	new->next = NULL;
+	new->valid = 1;
 	return (new);
 }

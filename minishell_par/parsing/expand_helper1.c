@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helper1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oelbied <oelbied@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 09:32:53 by sidrissi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/28 11:02:34 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/28 11:11:33 by oelbied          ###   ########.fr       */
+>>>>>>> 4989a159ff5b68e0f418d102a2ac2aa750f09dca
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +58,13 @@ void	handle_odd_dollars(t_expand *ex, t_token *tokens,
 
 	if (data->type != F_HERDOC && ft_isdigit(tokens->value[0][ex->i]))
 		handle_num(ex, tokens);
+<<<<<<< HEAD
 	else if (head && tokens->value[0][ex->i] == '?')
 		handle_status(ex, head->fdd);
+=======
+	else if (tokens->value[0][ex->i] == '?')
+		handle_status(ex, last_status( 22, 3));
+>>>>>>> 4989a159ff5b68e0f418d102a2ac2aa750f09dca
 	else if (data->type != F_HERDOC && (ft_isalnum(tokens->value[0][ex->i])
 		|| tokens->value[0][ex->i] == '_'
 		|| tokens->value[0][ex->i] == '?'))

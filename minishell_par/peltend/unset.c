@@ -6,7 +6,11 @@
 /*   By: sidrissi <sidrissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 10:45:16 by oelbied           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/28 10:21:42 by sidrissi         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/28 11:15:10 by oelbied          ###   ########.fr       */
+>>>>>>> 4989a159ff5b68e0f418d102a2ac2aa750f09dca
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +25,16 @@ t_listenv	*inte_unset(t_listenv *curr,
 	t_listenv *prev, t_listenv **head, t_unset *pactge)
 {
 	t_listenv	*tmp;
-
 	tmp = curr->next;
 	if (prev != NULL)
 		prev->next = tmp;
 	else
-		*head = tmp;
+	{
+		printf("if hear\n");
+		// printf("%s\n",tmp->constvrble);
+		// printf("%s\n",(*head)->constvrble);
+		(*head) = tmp;
+	}
 	ft_lstdelone(curr, my_del);
 	pactge->flags = 1;
 	return (tmp);
@@ -40,6 +48,8 @@ int	swap_unset(t_listenv *curr,
 	while (curr)
 	{
 		cope = ft_strdup_unset(curr->constvrble);
+		if(!cope)
+			return(0);
 		if (!ft_strcmp(pactge->data, cope))
 		{
 			curr = inte_unset(curr, prev, head, pactge);
@@ -48,8 +58,9 @@ int	swap_unset(t_listenv *curr,
 		{
 			prev = curr;
 			curr = curr->next;
+			// free(cope);
 		}
-		if (cope)
+		// if (cope)
 			free(cope);
 	}
 	return (pactge->flags);
@@ -78,5 +89,6 @@ int	ft_unset(t_data *data, t_listenv **head)
 		i++;
 		flags = 0;
 	}
+				printf("hola amgos\n");
 	return (0);
 }
